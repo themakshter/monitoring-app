@@ -1,6 +1,4 @@
 rootProject.name = 'ventilatorgui'
-include ':react-native-serialport'
-project(':react-native-serialport').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-serialport/android')
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()
