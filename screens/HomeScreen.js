@@ -16,7 +16,7 @@ import { MonoText } from "../components/StyledText";
 import PeepPressure from "../components/PeepPressure.js";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import Graphs from "../components/Graphs";
-import { PressureDisplay } from "../components/StyledText";
+import MetricDisplay from "../components/MetricDisplay";
 import { RNSerialport, definitions, actions } from "react-native-serialport";
 // import Colors from "../constants/Colors";
 
@@ -184,42 +184,42 @@ export default function HomeScreen(props) {
       </View>
       <View style={styles.valuesandgraphs}>
         <View style={styles.configuredvalues}>
-          <PressureDisplay
+          <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"Patient Rate"}
             value={PatientRate}
             unit={"BPM"}
-          ></PressureDisplay>
-          <PressureDisplay
+          ></MetricDisplay>
+          <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"Plateau Press."}
             value={PlateauPressure}
             unit={""}
-          ></PressureDisplay>
-          <PressureDisplay
+          ></MetricDisplay>
+          <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"VTe"}
             value={VTe}
             unit={"ml"}
-          ></PressureDisplay>
-          <PressureDisplay
+          ></MetricDisplay>
+          <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"I-Time"}
             value={ITime}
             unit={"sec"}
-          ></PressureDisplay>
-          <PressureDisplay
+          ></MetricDisplay>
+          <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"I:E Ratio"}
             value={IERatio}
             unit={""}
-          ></PressureDisplay>
-          <PressureDisplay
+          ></MetricDisplay>
+          <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"Oxygen"}
             value={Oxygen}
             unit={""}
-          ></PressureDisplay>
+          ></MetricDisplay>
         </View>
         <View style={styles.graphs}>
           <View style={{ height: "50%", paddingTop: 5, paddingBottom: 0 }}>

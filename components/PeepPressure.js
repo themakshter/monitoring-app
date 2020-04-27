@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, ShadowPropTypesIOS } from "react-native";
 import { BarChart, Grid, YAxis } from "react-native-svg-charts";
-import { PressureDisplay } from "../components/StyledText";
+import  MetricDisplay from "../components/MetricDisplay";
 import Colors from "../constants/Colors";
 import { useState, useEffect } from "react";
 
@@ -16,11 +16,11 @@ export default function PeepPressure(props) {
   return (
     <View style={{ color: "grey:", maxHeight: "82%" }}>
       {/* <Text style={{ color: "grey", alignSelf: "center" }}>Peak Pressure</Text> */}
-      <PressureDisplay
+      <MetricDisplay
         value={PeakPressure}
         title={"Peak Pressure"}
         unit={"cmH2O"}
-      ></PressureDisplay>
+      ></MetricDisplay>
       <View>
         <View style={styles.peepgaugewithaxis}>
           <YAxis
@@ -53,11 +53,11 @@ export default function PeepPressure(props) {
           ----------------------------
         </Text>
         {/* <Text style={{ alignSelf: "center", color: "grey" }}>PEEP</Text> */}
-        <PressureDisplay
+        <MetricDisplay
           value={5}
           title={"PEEP"}
           unit={"cmH20"}
-        ></PressureDisplay>
+        ></MetricDisplay>
       </View>
     </View>
 
