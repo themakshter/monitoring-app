@@ -17,6 +17,7 @@ import PeepPressure from "../components/PeepPressure.js";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import Graphs from "../components/Graphs";
 import MetricDisplay from "../components/MetricDisplay";
+import AlarmMetricDisplay from "../components/AlarmMetricDisplay";
 import { RNSerialport, definitions, actions } from "react-native-serialport";
 // import Colors from "../constants/Colors";
 
@@ -177,6 +178,7 @@ export default function HomeScreen(props) {
     // }
     // alert("somehting");
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.peakpressure}>
@@ -184,12 +186,14 @@ export default function HomeScreen(props) {
       </View>
       <View style={styles.valuesandgraphs}>
         <View style={styles.configuredvalues}>
-          <MetricDisplay
+          <AlarmMetricDisplay
             style={styles.configuredvaluedisplay}
             title={"Patient Rate"}
             value={PatientRate}
             unit={"BPM"}
-          ></MetricDisplay>
+            lowerLimit={30}
+            upperLimit={50}
+          ></AlarmMetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={"Plateau Press."}
