@@ -12,8 +12,7 @@ import {
   DeviceEventEmitter,
   NativeModules,
 } from "react-native";
-import * as Font from "expo-font";
-import Icon from 'react-native-vector-icons/Ionicons';
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -148,11 +147,6 @@ export default function App(props) {
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
 
-        // Load fonts
-        await Font.loadAsync({
-          ...Icon.font,
-          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
-        });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
