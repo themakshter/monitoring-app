@@ -12,7 +12,6 @@ import {
   DeviceEventEmitter,
   NativeModules,
 } from "react-native";
-import { SplashScreen } from "expo";
 import * as Font from "expo-font";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from "@react-navigation/native";
@@ -146,8 +145,6 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide();
-
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
 
@@ -161,7 +158,6 @@ export default function App(props) {
         console.warn(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hide();
       }
     }
 
