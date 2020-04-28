@@ -1,4 +1,4 @@
-import { useLinking } from "@react-navigation/native";
+import { useLinking } from '@react-navigation/native';
 
 export default function (SerialData) {
   if (SerialData != null) {

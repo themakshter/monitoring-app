@@ -1,25 +1,27 @@
-import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { LineChart, AreaChart, Grid, YAxis } from "react-native-svg-charts";
-import Colors from "../constants/Colors";
-import * as shape from "d3-shape";
-import { useState, useEffect } from "react";
+import * as React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { LineChart, AreaChart, Grid, YAxis } from 'react-native-svg-charts';
+import Colors from '../constants/Colors';
+import * as shape from 'd3-shape';
+import { useState, useEffect } from 'react';
 
 export default function Graphs(props) {
   const contentInset = { top: 20, bottom: 20 };
   const [Data, setData] = useState(props.data);
+
   useEffect(() => {
     setData(props.data);
   });
+
   return (
-    <View style={{ color: "grey:" }}>
+    <View style={{ color: 'grey:' }}>
       <View>
         <View style={styles.graphwithaxis}>
           <YAxis
             data={[props.yMin, props.yMax]}
             contentInset={{ top: 10, bottom: 10 }}
             svg={{
-              fill: "grey",
+              fill: 'grey',
               fontSize: 10,
             }}
             numberOfTicks={props.numberOfTicks}
@@ -36,8 +38,7 @@ export default function Graphs(props) {
             // animate={true}
             // curve={shape.curveNatural}
             showGrid={true}
-            numberOfTicks={props.numberOfTicks}
-          >
+            numberOfTicks={props.numberOfTicks}>
             <Grid numberOfTicks={2}></Grid>
           </AreaChart>
         </View>
@@ -54,11 +55,11 @@ export default function Graphs(props) {
 }
 const styles = StyleSheet.create({
   graphwithaxis: {
-    flexDirection: "row",
+    flexDirection: 'row',
     flexGrow: 1,
-    height: "100%",
+    height: '100%',
   },
   graph: {
-    width: "95%",
+    width: '95%',
   },
 });

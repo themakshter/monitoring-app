@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Platform,
   StatusBar,
@@ -11,17 +11,17 @@ import {
   Alert,
   DeviceEventEmitter,
   NativeModules,
-} from "react-native";
+} from 'react-native';
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from "./navigation/BottomTabNavigator";
-import useLinking from "./navigation/useLinking";
+import BottomTabNavigator from './navigation/BottomTabNavigator';
+import useLinking from './navigation/useLinking';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { RNSerialport } from "react-native-serialport";
+import { RNSerialport } from 'react-native-serialport';
 // import { DeviceEventEmitter } from "react-native";
 
 const Stack = createStackNavigator();
@@ -56,24 +56,24 @@ const definitions = {
     HEXSTRING: 2,
   },
   DRIVER_TYPES: {
-    AUTO: "AUTO",
-    CDC: "cdc",
-    CH34x: "ch34x",
-    CP210x: "cp210x",
-    FTDI: "ftdi",
-    PL2303: "pl2303",
+    AUTO: 'AUTO',
+    CDC: 'cdc',
+    CH34x: 'ch34x',
+    CP210x: 'cp210x',
+    FTDI: 'ftdi',
+    PL2303: 'pl2303',
   },
 };
 
 const actions = {
-  ON_SERVICE_STARTED: "onServiceStarted",
-  ON_SERVICE_STOPPED: "onServiceStopped",
-  ON_DEVICE_ATTACHED: "onDeviceAttached",
-  ON_DEVICE_DETACHED: "onDeviceDetached",
-  ON_ERROR: "onError",
-  ON_CONNECTED: "onConnected",
-  ON_DISCONNECTED: "onDisconnected",
-  ON_READ_DATA: "onReadDataFromPort",
+  ON_SERVICE_STARTED: 'onServiceStarted',
+  ON_SERVICE_STOPPED: 'onServiceStopped',
+  ON_DEVICE_ATTACHED: 'onDeviceAttached',
+  ON_DEVICE_DETACHED: 'onDeviceDetached',
+  ON_ERROR: 'onError',
+  ON_CONNECTED: 'onConnected',
+  ON_DISCONNECTED: 'onDisconnected',
+  ON_READ_DATA: 'onReadDataFromPort',
 };
 
 export default function App(props) {
@@ -86,10 +86,10 @@ export default function App(props) {
     servisStarted: false,
     connected: false,
     usbAttached: false,
-    output: "",
+    output: '',
     outputArray: [],
-    baudRate: "115200",
-    interface: "-1",
+    baudRate: '115200',
+    interface: '-1',
     // sendText: "HELLO",
     returnedDataType: definitions.RETURNED_DATA_TYPES.INTARRAY,
   });
@@ -118,10 +118,10 @@ export default function App(props) {
   function onReadData(data) {
     if (state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       if (
-        data.payload[0] == "$" &&
-        data.payload[1] == "O" &&
-        data.payload[2] == "V" &&
-        data.payload[3] == "P"
+        data.payload[0] == '$' &&
+        data.payload[1] == 'O' &&
+        data.payload[2] == 'V' &&
+        data.payload[3] == 'P'
       ) {
         setSerialData(data.paylaod);
       }
@@ -146,7 +146,6 @@ export default function App(props) {
       try {
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
-
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
@@ -159,29 +158,29 @@ export default function App(props) {
       DeviceEventEmitter.addListener(
         actions.ON_SERVICE_STARTED,
         onServiceStarted,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(
         actions.ON_SERVICE_STOPPED,
         onServiceStopped,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(
         actions.ON_DEVICE_ATTACHED,
         onDeviceAttached,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(
         actions.ON_DEVICE_DETACHED,
         onDeviceDetached,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(actions.ON_ERROR, onError, this);
       DeviceEventEmitter.addListener(actions.ON_CONNECTED, onConnected, this);
       DeviceEventEmitter.addListener(
         actions.ON_DISCONNECTED,
         onDisconnected,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(actions.ON_READ_DATA, onReadData, this);
       RNSerialport.setReturnedDataType(state.returnedDataType);
@@ -194,7 +193,7 @@ export default function App(props) {
       DeviceEventEmitter.removeAllListeners();
       const isOpen = await RNSerialport.isOpen();
       if (isOpen) {
-        Alert.alert("isOpen", isOpen);
+        Alert.alert('isOpen', isOpen);
         RNSerialport.disconnect();
       }
       RNSerialport.stopUsbService();
@@ -211,11 +210,10 @@ export default function App(props) {
     // alert("app started");
     return (
       <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
         <NavigationContainer
           ref={containerRef}
-          initialState={initialNavigationState}
-        >
+          initialState={initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen
               name="Main"
@@ -232,6 +230,6 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
 });

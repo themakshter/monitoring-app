@@ -1,14 +1,14 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import * as React from "react";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as React from 'react';
 
-import TabBarIcon from "../components/TabBarIcon";
-import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
-import ParametersScreen from "../screens/ParametersScreen";
-import { propsKeywords } from "json-schema-traverse";
+import TabBarIcon from '../components/TabBarIcon';
+import HomeScreen from '../screens/HomeScreen';
+import LinksScreen from '../screens/LinksScreen';
+import ParametersScreen from '../screens/ParametersScreen';
+import { propsKeywords } from 'json-schema-traverse';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = "Main";
+const INITIAL_ROUTE_NAME = 'Main';
 
 export default function BottomTabNavigator({
   navigation,
@@ -27,7 +27,7 @@ export default function BottomTabNavigator({
         component={HomeScreen}
         params={route.params}
         options={{
-          title: "Main",
+          title: 'Main',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-code-working" />
           ),
@@ -37,7 +37,7 @@ export default function BottomTabNavigator({
         name="Parameters"
         component={ParametersScreen}
         options={{
-          title: "Parameters",
+          title: 'Parameters',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -47,7 +47,7 @@ export default function BottomTabNavigator({
         name="Alarms"
         component={LinksScreen}
         options={{
-          title: "Alarms",
+          title: 'Alarms',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -57,7 +57,7 @@ export default function BottomTabNavigator({
         name="Monitoring"
         component={LinksScreen}
         options={{
-          title: "Monitoring",
+          title: 'Monitoring',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -67,7 +67,7 @@ export default function BottomTabNavigator({
         name="LungMechanics"
         component={LinksScreen}
         options={{
-          title: "Lung Mechanics",
+          title: 'Lung Mechanics',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -77,7 +77,7 @@ export default function BottomTabNavigator({
         name="Graphs"
         component={LinksScreen}
         options={{
-          title: "Graphs",
+          title: 'Graphs',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -92,17 +92,17 @@ function getHeaderTitle(route) {
     route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case "Main":
-      return "Main Display";
-    case "Parameters":
-      return "Parameters";
-    case "Alarms":
-      return "Alarms";
-    case "Monitoring":
-      return "Monitoring";
-    case "LungMechanics":
-      return "Lung Mechanics";
-    case "Graphs":
-      return "Graphs";
+    case 'Main':
+      return 'Main Display';
+    case 'Parameters':
+      return 'Parameters';
+    case 'Alarms':
+      return 'Alarms';
+    case 'Monitoring':
+      return 'Monitoring';
+    case 'LungMechanics':
+      return 'Lung Mechanics';
+    case 'Graphs':
+      return 'Graphs';
   }
 }

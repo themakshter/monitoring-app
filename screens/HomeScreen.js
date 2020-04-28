@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -8,16 +8,16 @@ import {
   TouchableOpacity,
   View,
   DeviceEventEmitter,
-} from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
-import { MonoText } from "../components/StyledText";
-import PeepPressure from "../components/PeepPressure.js";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import Graphs from "../components/Graphs";
-import MetricDisplay from "../components/MetricDisplay";
-import AlarmMetricDisplay from "../components/AlarmMetricDisplay";
-import { RNSerialport, definitions, actions } from "react-native-serialport";
+import { MonoText } from '../components/StyledText';
+import PeepPressure from '../components/PeepPressure.js';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Graphs from '../components/Graphs';
+import MetricDisplay from '../components/MetricDisplay';
+import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
+import { RNSerialport, definitions, actions } from 'react-native-serialport';
 // import Colors from "../constants/Colors";
 
 export default function HomeScreen(props) {
@@ -25,9 +25,9 @@ export default function HomeScreen(props) {
   const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
   const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
   const [PatientRate, setPatientRate] = useState(0);
-  const [ITime, setITime] = useState("1.0");
+  const [ITime, setITime] = useState('1.0');
   const [VTe, setVTe] = useState(0);
-  const [IERatio, setIERatio] = useState("1:2.0");
+  const [IERatio, setIERatio] = useState('1:2.0');
   const [Oxygen, setOxygen] = useState(21);
   const [PlateauPressure, setPlateauPressure] = useState(21);
   const [Peep, setPeep] = useState(5);
@@ -37,10 +37,10 @@ export default function HomeScreen(props) {
     servisStarted: false,
     connected: false,
     usbAttached: false,
-    output: "",
+    output: '',
     outputArray: [],
-    baudRate: "115200",
-    interface: "-1",
+    baudRate: '115200',
+    interface: '-1',
     // sendText: "HELLO",
     returnedDataType: definitions.RETURNED_DATA_TYPES.INTARRAY,
   });
@@ -73,32 +73,32 @@ export default function HomeScreen(props) {
   function onReadData(data) {
     if (state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       if (
-        data.payload[0] == "$" &&
-        data.payload[1] == "O" &&
-        data.payload[2] == "V" &&
-        data.payload[3] == "P"
+        data.payload[0] == '$' &&
+        data.payload[1] == 'O' &&
+        data.payload[2] == 'V' &&
+        data.payload[3] == 'P'
       ) {
         setPeakPressure(
-          ((data.payload[10] + data.payload[11] * 256) * 90) / 65535 - 30
+          ((data.payload[10] + data.payload[11] * 256) * 90) / 65535 - 30,
         );
         setPeep(
-          etWordFloat(data.payload[14], data.payload[15], 40 / 65535, -10)
+          etWordFloat(data.payload[14], data.payload[15], 40 / 65535, -10),
         );
         setPatientRate(data.payload[23]);
         setVTe(
-          getWordFloat(data.payload[8], data.payload[9], 4000 / 65535, -2000)
+          getWordFloat(data.payload[8], data.payload[9], 4000 / 65535, -2000),
         );
         setOxygen(data.payload[25]);
         GraphPressure.splice(0, 1);
         setGraphPressure(
           GraphPressure.concat([
             getWordFloat(data.payload[10], data.payload[11], 90 / 65535, -30),
-          ])
+          ]),
         );
         setGraphVolume(
           GraphVolume.concat([
             getWordFloat(data.payload[12], data.payload[13], 400 / 65535, -200),
-          ])
+          ]),
         );
       }
       // const payload = RNSerialport.intArrayToUtf16(data.payload);
@@ -121,29 +121,29 @@ export default function HomeScreen(props) {
       DeviceEventEmitter.addListener(
         actions.ON_SERVICE_STARTED,
         onServiceStarted,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(
         actions.ON_SERVICE_STOPPED,
         onServiceStopped,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(
         actions.ON_DEVICE_ATTACHED,
         onDeviceAttached,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(
         actions.ON_DEVICE_DETACHED,
         onDeviceDetached,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(actions.ON_ERROR, onError, this);
       DeviceEventEmitter.addListener(actions.ON_CONNECTED, onConnected, this);
       DeviceEventEmitter.addListener(
         actions.ON_DISCONNECTED,
         onDisconnected,
-        this
+        this,
       );
       DeviceEventEmitter.addListener(actions.ON_READ_DATA, onReadData, this);
       RNSerialport.setReturnedDataType(state.returnedDataType);
@@ -156,7 +156,7 @@ export default function HomeScreen(props) {
       DeviceEventEmitter.removeAllListeners();
       const isOpen = await RNSerialport.isOpen();
       if (isOpen) {
-        Alert.alert("isOpen", isOpen);
+        Alert.alert('isOpen', isOpen);
         RNSerialport.disconnect();
       }
       RNSerialport.stopUsbService();
@@ -187,53 +187,46 @@ export default function HomeScreen(props) {
         <View style={styles.configuredvalues}>
           <AlarmMetricDisplay
             style={styles.configuredvaluedisplay}
-            title={"Patient Rate"}
+            title={'Patient Rate'}
             value={PatientRate}
-            unit={"BPM"}
+            unit={'BPM'}
             lowerLimit={30}
-            upperLimit={50}
-          ></AlarmMetricDisplay>
+            upperLimit={50}></AlarmMetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
-            title={"Plateau Press."}
+            title={'Plateau Press.'}
             value={PlateauPressure}
-            unit={""}
-          ></MetricDisplay>
+            unit={''}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
-            title={"VTe"}
+            title={'VTe'}
             value={VTe}
-            unit={"ml"}
-          ></MetricDisplay>
+            unit={'ml'}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
-            title={"I-Time"}
+            title={'I-Time'}
             value={ITime}
-            unit={"sec"}
-          ></MetricDisplay>
+            unit={'sec'}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
-            title={"I:E Ratio"}
+            title={'I:E Ratio'}
             value={IERatio}
-            unit={""}
-          ></MetricDisplay>
+            unit={''}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
-            title={"Oxygen"}
+            title={'Oxygen'}
             value={Oxygen}
-            unit={""}
-          ></MetricDisplay>
+            unit={''}></MetricDisplay>
         </View>
         <View style={styles.graphs}>
-          <View style={{ height: "50%", paddingTop: 5, paddingBottom: 0 }}>
+          <View style={{ height: '50%', paddingTop: 5, paddingBottom: 0 }}>
             <Graphs
               data={GraphPressure}
               yMin={-100}
               yMax={100}
-              numberOfTicks={4}
-            ></Graphs>
+              numberOfTicks={4}></Graphs>
           </View>
-          <View style={{ height: "50%", paddingTop: 0, paddingBottom: 0 }}>
+          <View style={{ height: '50%', paddingTop: 0, paddingBottom: 0 }}>
             <Graphs
               data={GraphVolume}
               yMin={-10}
@@ -277,29 +270,29 @@ function DevelopmentModeNotice() {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
     flex: 1,
-    flexDirection: "row",
-    alignItems: "stretch",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    backgroundColor: '#fff',
     padding: 2,
   },
   peakpressure: {
     flex: 1,
-    height: "100%",
-    backgroundColor: "#fff",
-    flexDirection: "column",
+    height: '100%',
+    backgroundColor: '#fff',
+    flexDirection: 'column',
     borderWidth: 2,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderColor: "grey",
+    borderColor: 'grey',
   },
   valuesandgraphs: {
     flex: 5,
-    height: "100%",
-    backgroundColor: "white",
+    height: '100%',
+    backgroundColor: 'white',
     padding: 2,
   },
   configuredvalues: {
@@ -308,10 +301,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderColor: "grey",
+    borderColor: 'grey',
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     padding: 2,
 
     // width: "100%",
@@ -321,69 +314,69 @@ const styles = StyleSheet.create({
   },
   graphs: {
     flex: 4,
-    flexDirection: "column",
-    justifyContent: "space-around",
+    flexDirection: 'column',
+    justifyContent: 'space-around',
     borderWidth: 2,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderColor: "grey",
-    height: "100%",
+    borderColor: 'grey',
+    height: '100%',
     // justifyContent: "space-around",
     // flexGrow: 1,
   },
   developmentModeText: {
     marginBottom: 20,
-    color: "rgba(0,0,0,0.4)",
+    color: 'rgba(0,0,0,0.4)',
     fontSize: 14,
     lineHeight: 19,
-    textAlign: "center",
+    textAlign: 'center',
   },
   contentContainer: {
     paddingTop: 30,
   },
   welcomeContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,
   },
   welcomeImage: {
     width: 100,
     height: 80,
-    resizeMode: "contain",
+    resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
   },
   getStartedContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginHorizontal: 50,
   },
   homeScreenFilename: {
     marginVertical: 7,
   },
   codeHighlightText: {
-    color: "rgba(96,100,109, 0.8)",
+    color: 'rgba(96,100,109, 0.8)',
   },
   codeHighlightContainer: {
-    backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: 'rgba(0,0,0,0.05)',
     borderRadius: 3,
     paddingHorizontal: 4,
   },
   getStartedText: {
     fontSize: 17,
-    color: "rgba(96,100,109, 1)",
+    color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
-    textAlign: "center",
+    textAlign: 'center',
   },
   tabBarInfoContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: "black",
+        shadowColor: 'black',
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -392,27 +385,27 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: "center",
-    backgroundColor: "#fbfbfb",
+    alignItems: 'center',
+    backgroundColor: '#fbfbfb',
     paddingVertical: 20,
   },
   tabBarInfoText: {
     fontSize: 17,
-    color: "rgba(96,100,109, 1)",
-    textAlign: "center",
+    color: 'rgba(96,100,109, 1)',
+    textAlign: 'center',
   },
   navigationFilename: {
     marginTop: 5,
   },
   helpContainer: {
     marginTop: 15,
-    alignItems: "center",
+    alignItems: 'center',
   },
   helpLink: {
     paddingVertical: 15,
   },
   helpLinkText: {
     fontSize: 14,
-    color: "#2e78b7",
+    color: '#2e78b7',
   },
 });

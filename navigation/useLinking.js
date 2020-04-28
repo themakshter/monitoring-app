@@ -1,14 +1,14 @@
-import { useLinking } from "@react-navigation/native";
+import { useLinking } from '@react-navigation/native';
 
 export default function (containerRef) {
   return useLinking(containerRef, {
-    prefixes: "myapp://",
+    prefixes: 'myapp://',
     config: {
       Root: {
-        path: "root",
+        path: 'root',
         screens: {
-          Main: "Main",
-          Parameters: "Parameters",
+          Main: 'Main',
+          Parameters: 'Parameters',
         },
       },
     },

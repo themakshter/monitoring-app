@@ -1,15 +1,18 @@
-import * as React from "react";
+import * as React from 'react';
 import MetricDisplay from './MetricDisplay';
 import Toast from 'react-native-simple-toast';
 import RNBeep from 'react-native-a-beep';
 
 export default function AlarmMetricDisplay(props) {
-
   const state = getStateFromValue(props.value);
-  
-  function getStateFromValue(value){
-    if(value < props.lowerLimit || value > props.upperLimit){
-      Toast.show('The patient rate has gone out of the allowed bounds!', Toast.LONG, Toast.TOP);
+
+  function getStateFromValue(value) {
+    if (value < props.lowerLimit || value > props.upperLimit) {
+      Toast.show(
+        'The patient rate has gone out of the allowed bounds!',
+        Toast.LONG,
+        Toast.TOP,
+      );
       RNBeep.beep(false);
       return 'alarm';
     }
@@ -17,6 +20,11 @@ export default function AlarmMetricDisplay(props) {
   }
 
   return (
-    <MetricDisplay title={props.title} value={props.value} unit={props.unit} state={state} />
+    <MetricDisplay
+      title={props.title}
+      value={props.value}
+      unit={props.unit}
+      state={state}
+    />
   );
 }
