@@ -1,27 +1,4 @@
 {
-  "expo": {
-    "name": "ventilator-gui",
-    "slug": "ventilator-gui",
-    "platforms": ["android", "web"],
-    "version": "1.0.0",
-    "orientation": "landscape",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    // "splash": {
-    //   "image": "./assets/images/splash.png",
-    //   "resizeMode": "contain",
-    //   "backgroundColor": "#ffffff"
-    // },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "bundleIdentifier": "openvent.pk"
-    },
-    "android": {
-      "package": "openvent.pk"
-    },
-    "entryPoint": "node_modules/expo/AppEntry.js"
-  }
+  "name": "openventpkVentilatorApp",
+  "displayName": "openventpkVentilatorApp"
 }
