@@ -2,17 +2,34 @@ import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
 import MetricDisplay from './MetricDisplay';
-import Toast from 'react-native-simple-toast';
-import RNBeep from 'react-native-a-beep';
 import Colors from '../constants/Colors';
 
 export default function DetailedAlarmMetricDisplay(props) {
+  const colour = getColourFromValue(props.value);
+  const state = getStateFromValue(props.value);
+
+  function getColourFromValue(value) {
+    if (value < props.lowerLimit || value > props.upperLimit) {
+      return Colors.errorText;
+    }
+    return Colors.graphcolor;
+  }
+
+  function getStateFromValue(value) {
+    if (value < props.lowerLimit || value > props.upperLimit) {
+      return 'alarm';
+    }
+    return 'normal';
+  }
+
   return (
-    <View style={{ color: 'grey:', padding: 5 }}>
+    <View style={{ color: colour, padding: 5 }}>
       <MetricDisplay
         value={props.value}
         title={props.title}
-        unit={props.unit}></MetricDisplay>
+        unit={props.unit}
+        state={state}
+      />
       <View>
         <View style={styles.peepgaugewithaxis}>
           <YAxis
@@ -32,7 +49,7 @@ export default function DetailedAlarmMetricDisplay(props) {
             yMin={props.lowerLimit}
             yMax={props.upperLimit}
             data={[props.value]}
-            svg={{ fill: Colors.graphcolor }}
+            svg={{ fill: colour }}
             showGrid={true}
             numberOfTicks={6}>
             <Grid></Grid>
