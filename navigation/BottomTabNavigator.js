@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import ParametersScreen from '../screens/ParametersScreen';
 import { propsKeywords } from 'json-schema-traverse';
+import AlarmsScreen from '../screens/AlarmsScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Main';
@@ -45,11 +46,11 @@ export default function BottomTabNavigator({
       />
       <BottomTab.Screen
         name="Alarms"
-        component={LinksScreen}
+        component={AlarmsScreen}
         options={{
           title: 'Alarms',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" />
+            <TabBarIcon focused={focused} name="md-alert" />
           ),
         }}
       />
