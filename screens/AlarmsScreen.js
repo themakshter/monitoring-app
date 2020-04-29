@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import OptionButton from '../components/OptionButton';
 import DetailedAlarmMetricDisplay from '../components/DetailedAlarmMetricDisplay';
+import Layout from '../constants/Layout';
 
 export default function AlarmsScreen() {
   return (
@@ -10,7 +11,13 @@ export default function AlarmsScreen() {
       style={styles.container}
       contentContainerStyle={styles.contentContainer}>
       <OptionButton icon="md-school" label="Read the Parameters" />
-      <View style={{ flexDirection: 'row' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          width: Layout.window.width,
+          justifyContent: 'space-evenly',
+        }}>
         <DetailedAlarmMetricDisplay
           title={'Patient Rate'}
           value={0}
@@ -21,6 +28,20 @@ export default function AlarmsScreen() {
         <DetailedAlarmMetricDisplay
           title={'Patient Rate'}
           value={80}
+          unit={'BPM'}
+          lowerLimit={30}
+          upperLimit={50}
+        />
+        <DetailedAlarmMetricDisplay
+          title={'Patient Rate'}
+          value={40}
+          unit={'BPM'}
+          lowerLimit={30}
+          upperLimit={50}
+        />
+        <DetailedAlarmMetricDisplay
+          title={'Patient Rate'}
+          value={40}
           unit={'BPM'}
           lowerLimit={30}
           upperLimit={50}
