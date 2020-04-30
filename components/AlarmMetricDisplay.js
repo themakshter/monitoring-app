@@ -8,12 +8,6 @@ export default function AlarmMetricDisplay(props) {
 
   function getStateFromValue(value) {
     if (value < props.lowerLimit || value > props.upperLimit) {
-      Toast.show(
-        'The patient rate has gone out of the allowed bounds!',
-        Toast.LONG,
-        Toast.TOP,
-      );
-      RNBeep.beep(false);
       return 'alarm';
     }
     return 'normal';

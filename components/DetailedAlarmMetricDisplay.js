@@ -39,7 +39,7 @@ export default function DetailedAlarmMetricDisplay(props) {
               fill: 'grey',
               fontSize: 10,
             }}
-            numberOfTicks={10}
+            numberOfTicks={5}
             style={{ flex: 1 }}
           />
 
@@ -51,7 +51,7 @@ export default function DetailedAlarmMetricDisplay(props) {
             data={[props.value]}
             svg={{ fill: colour }}
             showGrid={true}
-            numberOfTicks={6}>
+            numberOfTicks={5}>
             <Grid></Grid>
           </BarChart>
         </View>
