@@ -18,9 +18,11 @@ import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
 import { RNSerialport, definitions, actions } from 'react-native-serialport';
+import DummyDataGenerator from '../logic/DummyDataGenerator';
 // import Colors from "../constants/Colors";
 
 export default function HomeScreen(props) {
+  const dummyGenerator = DummyDataGenerator(setReadings);
   const [PeakPress, setPeakPressure] = useState(10);
   const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
   const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
@@ -32,151 +34,22 @@ export default function HomeScreen(props) {
   const [PlateauPressure, setPlateauPressure] = useState(21);
   const [Peep, setPeep] = useState(5);
 
-  const [SerialData, setSerialData] = React.useState([2]);
-  const [state, setState] = React.useState({
-    servisStarted: false,
-    connected: false,
-    usbAttached: false,
-    output: '',
-    outputArray: [],
-    baudRate: '115200',
-    interface: '-1',
-    // sendText: "HELLO",
-    returnedDataType: definitions.RETURNED_DATA_TYPES.INTARRAY,
-  });
-
-  function getWordFloat(ByteH, ByteL, multiplier, offset) {
-    return (ByteL + ByteH * 256) * multiplier + offset;
-  }
-
-  function onServiceStarted(response) {
-    setState({ servisStarted: true });
-    if (response.deviceAttached) {
-      onDeviceAttached();
-    }
-  }
-  function onServiceStopped() {
-    setState({ servisStarted: false });
-  }
-  function onDeviceAttached() {
-    setState({ usbAttached: true });
-  }
-  function onDeviceDetached() {
-    setState({ usbAttached: false });
-  }
-  function onConnected() {
-    setState({ connected: true });
-  }
-  function onDisconnected() {
-    setState({ connected: false });
-  }
-  function onReadData(data) {
-    if (state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
-      if (
-        data.payload[0] == '$' &&
-        data.payload[1] == 'O' &&
-        data.payload[2] == 'V' &&
-        data.payload[3] == 'P'
-      ) {
-        setPeakPressure(
-          ((data.payload[10] + data.payload[11] * 256) * 90) / 65535 - 30,
-        );
-        setPeep(
-          etWordFloat(data.payload[14], data.payload[15], 40 / 65535, -10),
-        );
-        setPatientRate(data.payload[23]);
-        setVTe(
-          getWordFloat(data.payload[8], data.payload[9], 4000 / 65535, -2000),
-        );
-        setOxygen(data.payload[25]);
-        GraphPressure.splice(0, 1);
-        setGraphPressure(
-          GraphPressure.concat([
-            getWordFloat(data.payload[10], data.payload[11], 90 / 65535, -30),
-          ]),
-        );
-        setGraphVolume(
-          GraphVolume.concat([
-            getWordFloat(data.payload[12], data.payload[13], 400 / 65535, -200),
-          ]),
-        );
-      }
-      // const payload = RNSerialport.intArrayToUtf16(data.payload);
-      // setState({ output: this.state.output + payload });
-    }
-    // } else if (
-    //   state.returnedDataType === definitions.RETURNED_DATA_TYPES.HEXSTRING
-    // ) {
-    //   const payload = RNSerialport.hexToUtf16(data.payload);
-    //   setState({ output: this.state.output + payload });
-    // }
-  }
-
-  function onError(error) {
-    console.error(error);
+  function setReadings(newReadings) {
+    setPeakPressure(newReadings.peakpressure);
+    setPeep(newReadings.peep);
+    setOxygen(newReadings.oxygen);
+    setVTe(newReadings.vte);
+    setIERatio(`${newReadings.inspiratoryTime}:${newReadings.expiratoryTime}`);
+    setPatientRate(newReadings.patientRate);
   }
 
   useEffect(() => {
-    async function startUsbListener() {
-      DeviceEventEmitter.addListener(
-        actions.ON_SERVICE_STARTED,
-        onServiceStarted,
-        this,
-      );
-      DeviceEventEmitter.addListener(
-        actions.ON_SERVICE_STOPPED,
-        onServiceStopped,
-        this,
-      );
-      DeviceEventEmitter.addListener(
-        actions.ON_DEVICE_ATTACHED,
-        onDeviceAttached,
-        this,
-      );
-      DeviceEventEmitter.addListener(
-        actions.ON_DEVICE_DETACHED,
-        onDeviceDetached,
-        this,
-      );
-      DeviceEventEmitter.addListener(actions.ON_ERROR, onError, this);
-      DeviceEventEmitter.addListener(actions.ON_CONNECTED, onConnected, this);
-      DeviceEventEmitter.addListener(
-        actions.ON_DISCONNECTED,
-        onDisconnected,
-        this,
-      );
-      DeviceEventEmitter.addListener(actions.ON_READ_DATA, onReadData, this);
-      RNSerialport.setReturnedDataType(state.returnedDataType);
-      RNSerialport.setAutoConnectBaudRate(parseInt(state.baudRate, 10));
-      RNSerialport.setInterface(parseInt(state.interface, 10));
-      RNSerialport.setAutoConnect(true);
-      RNSerialport.startUsbService();
-    }
-    async function stopUsbListener() {
-      DeviceEventEmitter.removeAllListeners();
-      const isOpen = await RNSerialport.isOpen();
-      if (isOpen) {
-        Alert.alert('isOpen', isOpen);
-        RNSerialport.disconnect();
-      }
-      RNSerialport.stopUsbService();
-    }
+    dummyGenerator.startGenerating();
 
-    startUsbListener();
-    return stopUsbListener();
-
-    //Got the string from the serial port
+    return () => {
+      dummyGenerator.stopGenerating();
+    };
   });
-  function _touched() {
-    // setPeakPressure(PeakPress + 1);
-    // if (GraphPressure.length > 10) {
-    //   GraphPressure.splice(0, 1);
-    //   setGraphPressure(GraphPressure.concat([(Math.random() - 0.5) * 100]));
-    // } else {
-    //   setGraphPressure(GraphPressure.concat([(Math.random() - 0.5) * 100]));
-    // }
-    // alert("somehting");
-  }
 
   return (
     <View style={styles.container}>
@@ -190,8 +63,8 @@ export default function HomeScreen(props) {
             title={'Patient Rate'}
             value={PatientRate}
             unit={'BPM'}
-            lowerLimit={30}
-            upperLimit={50}></AlarmMetricDisplay>
+            lowerLimit={20}
+            upperLimit={150}></AlarmMetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'Plateau Press.'}
