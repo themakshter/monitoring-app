@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, ShadowPropTypesIOS } from 'react-native';
 import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
 import MetricDisplay from '../components/MetricDisplay';
-import Colors from '../src/constants/Colors';
+import Colors from '../constants/Colors';
 import { useState, useEffect } from 'react';
 
 export default function PeepPressure(props) {

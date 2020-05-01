@@ -1,4 +1,7 @@
-export default function dummyDataGenerator(updateReadingStateFunction) {
+export default function dummyDataGenerator(
+  updateReadingStateFunction,
+  intervalFrequency,
+) {
   let intervalFunction;
 
   function getRandomValue(range, valueToSubtract = 0) {
@@ -22,7 +25,7 @@ export default function dummyDataGenerator(updateReadingStateFunction) {
     intervalFunction = setInterval(() => {
       const newReadings = generateDummyReadings();
       updateReadingStateFunction(newReadings);
-    });
+    }, intervalFrequency);
   }
 
   function stopGenerating() {

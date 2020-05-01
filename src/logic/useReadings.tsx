@@ -7,9 +7,9 @@ const readingContext = createContext<any>(null);
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
 export function ProvideReading({ children }: any) {
-  const readings = useProvideReading();
+  const reading = useProvideReading();
   return (
-    <readingContext.Provider value={readings}>
+    <readingContext.Provider value={reading}>
       {children}
     </readingContext.Provider>
   );
@@ -23,8 +23,8 @@ export const useReading = () => {
 
 // Provider hook that creates auth object and handles state
 function useProvideReading() {
-  const [reading, setReading] = useState<any>(null);
-  const dummyGenerator = DummyDataGenerator(setReading);
+  const [reading, setReading] = useState<any>({});
+  const dummyGenerator = DummyDataGenerator(setReading, 1000);
 
   // Subscribe to user on mount
   // Because this sets state in the callback it will cause any ...
@@ -39,6 +39,6 @@ function useProvideReading() {
 
   // Return the user object and auth methods
   return {
-    reading,
+    values: reading,
   };
 }

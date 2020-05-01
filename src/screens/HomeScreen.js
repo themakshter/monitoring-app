@@ -1,28 +1,15 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  DeviceEventEmitter,
-} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-
-import { MonoText } from '../components/StyledText';
+import { useState } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import PeepPressure from '../components/PeepPressure.js';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
-import { RNSerialport, definitions, actions } from 'react-native-serialport';
-import DummyDataGenerator from '../logic/DummyDataGenerator';
-// import Colors from "../constants/Colors";
+import { useReading } from '../logic/useReadings';
 
 export default function HomeScreen(props) {
-  const dummyGenerator = DummyDataGenerator(setReadings);
+  const reading = useReading();
+  const readingValues = reading.values;
   const [PeakPress, setPeakPressure] = useState(10);
   const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
   const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
@@ -34,22 +21,7 @@ export default function HomeScreen(props) {
   const [PlateauPressure, setPlateauPressure] = useState(21);
   const [Peep, setPeep] = useState(5);
 
-  function setReadings(newReadings) {
-    setPeakPressure(newReadings.peakpressure);
-    setPeep(newReadings.peep);
-    setOxygen(newReadings.oxygen);
-    setVTe(newReadings.vte);
-    setIERatio(`${newReadings.inspiratoryTime}:${newReadings.expiratoryTime}`);
-    setPatientRate(newReadings.patientRate);
-  }
 
-  useEffect(() => {
-    dummyGenerator.startGenerating();
-
-    return () => {
-      dummyGenerator.stopGenerating();
-    };
-  });
 
   return (
     <View style={styles.container}>
@@ -61,7 +33,7 @@ export default function HomeScreen(props) {
           <AlarmMetricDisplay
             style={styles.configuredvaluedisplay}
             title={'Patient Rate'}
-            value={PatientRate}
+            value={readingValues.patientRate}
             unit={'BPM'}
             lowerLimit={20}
             upperLimit={150}></AlarmMetricDisplay>
@@ -117,29 +89,6 @@ export default function HomeScreen(props) {
 HomeScreen.navigationOptions = {
   header: null,
 };
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
 
 const styles = StyleSheet.create({
   container: {

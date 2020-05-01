@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
+import { ProvideReading } from './logic/useReadings';
 
 const Stack = createStackNavigator();
 
@@ -12,15 +13,17 @@ export default function App(props) {
   return (
     <View style={styles.container}>
       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Main"
-            component={BottomTabNavigator}
-            initialParams={[34, 45]}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ProvideReading>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Main"
+              component={BottomTabNavigator}
+              initialParams={[34, 45]}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ProvideReading>
     </View>
   );
 }
