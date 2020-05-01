@@ -5,7 +5,7 @@ import PeepPressure from '../components/PeepPressure.js';
 import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
-import { useReading } from '../logic/useReadings';
+import { useReading } from '../logic/useReading';
 
 export default function HomeScreen(props) {
   const reading = useReading();

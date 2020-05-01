@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import { ProvideReading } from './logic/useReadings';
+import { ProvideReading } from './logic/useReading';
 
 const Stack = createStackNavigator();
 
