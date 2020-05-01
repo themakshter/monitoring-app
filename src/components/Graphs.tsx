@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewPropTypes } from 'react-native';
 import { AreaChart, Grid, YAxis } from 'react-native-svg-charts';
 import Colors from '../constants/Colors';
 
 export default function Graphs(props: any) {
-
   return (
     <View style={{ color: 'grey:' }}>
       <View>
@@ -18,7 +17,7 @@ export default function Graphs(props: any) {
             }}
             numberOfTicks={props.numberOfTicks}
             formatLabel={(value: number) => `${value}`}
-          // style={{ flex: 0.3 }}
+            // style={{ flex: 0.3 }}
           />
           <AreaChart
             // contentInset={contentInset}
@@ -29,7 +28,7 @@ export default function Graphs(props: any) {
             svg={{ fill: Colors.graphcolor }}
             // animate={true}
             // curve={shape.curveNatural}
-            showGrid={true}
+            // showGrid={true}
             numberOfTicks={props.numberOfTicks}>
             <Grid numberOfTicks={2}></Grid>
           </AreaChart>

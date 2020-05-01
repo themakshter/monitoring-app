@@ -12,7 +12,9 @@ export default function dummyDataGenerator(
     return {
       peep: getRandomValue(10),
       peakPressure: getRandomValue(100, 100),
-      patientRate: getRandomValue(220),
+      // patientRate: getRandomValue(220),
+      plateauPressure: getRandomValue(20),
+      patientRate: 80,
       vte: getRandomValue(700),
       inspiratoryTime: getRandomValue(3),
       expiratoryTime: getRandomValue(5).toFixed(1),

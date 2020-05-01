@@ -13,20 +13,21 @@ export default function HomeScreen(props: any) {
   const [PeakPress, setPeakPressure] = useState(10);
   const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
   const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
-  const [PatientRate, setPatientRate] = useState(0);
-  const [ITime, setITime] = useState('1.0');
-  const [VTe, setVTe] = useState(0);
-  const [IERatio, setIERatio] = useState('1:2.0');
-  const [Oxygen, setOxygen] = useState(21);
-  const [PlateauPressure, setPlateauPressure] = useState(21);
+  // const [PatientRate, setPatientRate] = useState(0);
+  // const [ITime, setITime] = useState('1.0');
+  // const [VTe, setVTe] = useState(0);
+  // const [IERatio, setIERatio] = useState('1:2.0');
+  // const [Oxygen, setOxygen] = useState(21);
+  // const [PlateauPressure, setPlateauPressure] = useState(21);
   const [Peep, setPeep] = useState(5);
 
-
-
+  // console.log('homescreen');
   return (
     <View style={styles.container}>
       <View style={styles.peakpressure}>
-        <PeepPressure PeakPressure={PeakPress} Peep={Peep}></PeepPressure>
+        <PeepPressure
+          PeakPressure={readingValues.peakPressure}
+          Peep={Peep}></PeepPressure>
       </View>
       <View style={styles.valuesandgraphs}>
         <View style={styles.configuredvalues}>
@@ -40,40 +41,40 @@ export default function HomeScreen(props: any) {
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'Plateau Press.'}
-            value={PlateauPressure}
+            value={readingValues.plateauPressure}
             unit={''}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'VTe'}
-            value={VTe}
+            value={readingValues.vte}
             unit={'ml'}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'I-Time'}
-            value={ITime}
+            value={readingValues.inspiratoryTime}
             unit={'sec'}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'I:E Ratio'}
-            value={IERatio}
+            value={'1:2.0'}
             unit={''}></MetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'Oxygen'}
-            value={Oxygen}
+            value={readingValues.oxygen}
             unit={''}></MetricDisplay>
         </View>
         <View style={styles.graphs}>
           <View style={{ height: '50%', paddingTop: 5, paddingBottom: 0 }}>
             <Graphs
-              data={GraphPressure}
+              data={readingValues.graphPressure}
               yMin={-100}
               yMax={100}
               numberOfTicks={4}></Graphs>
           </View>
           <View style={{ height: '50%', paddingTop: 0, paddingBottom: 0 }}>
             <Graphs
-              data={GraphVolume}
+              data={readingValues.graphVolume}
               yMin={-10}
               yMax={30}
               numberOfTicks={4}
