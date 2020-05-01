@@ -20,7 +20,7 @@ export default function SerialDataHandler(
 
   // let serialParameters: any;
   //to get values from two bytes
-  const [state, setState] = React.useState({
+  let state = {
     servisStarted: false,
     connected: false,
     usbAttached: false,
@@ -31,7 +31,7 @@ export default function SerialDataHandler(
     returnedDataType: <ReturnedDataTypes>(
       definitions.RETURNED_DATA_TYPES.INTARRAY
     ),
-  });
+  };
   function getWordFloat(
     ByteL: number,
     ByteH: number,
@@ -42,7 +42,7 @@ export default function SerialDataHandler(
   }
   function onServiceStarted(response: any) {
     state.servisStarted = true;
-    setState(state);
+    // setState(state);
     // console.warn('on service start');
     if (response.deviceAttached) {
       onDeviceAttached();
@@ -50,25 +50,25 @@ export default function SerialDataHandler(
   }
   function onServiceStopped() {
     state.servisStarted = false;
-    setState(state);
+    // setState(state);
   }
   function onDeviceAttached() {
     console.warn('Device attached');
     state.usbAttached = true;
-    setState(state);
+    // setState(state);
   }
   function onDeviceDetached() {
     state.usbAttached = false;
-    setState(state);
+    // setState(state);
   }
   function onConnected() {
     // console.warn('connected');
     state.connected = true;
-    setState(state);
+    // setState(state);
   }
   function onDisconnected() {
     state.connected = false;
-    setState(state);
+    // setState(state);
   }
   function onError(error: any) {
     console.error(error);
