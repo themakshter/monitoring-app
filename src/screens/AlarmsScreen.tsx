@@ -4,8 +4,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import OptionButton from '../components/OptionButton';
 import DetailedAlarmMetricDisplay from '../components/DetailedAlarmMetricDisplay';
 import Layout from '../constants/Layout';
+import { useReading } from '../logic/useReading';
 
 export default function AlarmsScreen() {
+  const reading = useReading();
+
   return (
     <ScrollView
       style={styles.container}
@@ -20,7 +23,7 @@ export default function AlarmsScreen() {
         }}>
         <DetailedAlarmMetricDisplay
           title={'Patient Rate'}
-          value={0}
+          value={reading.values.patientRate}
           unit={'BPM'}
           lowerLimit={30}
           upperLimit={50}

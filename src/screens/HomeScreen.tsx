@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import PeepPressure from '../components/PeepPressure.js';
+import { Platform, StyleSheet, View } from 'react-native';
+import PeepPressure from '../components/PeepPressure';
 import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
 import { useReading } from '../logic/useReading';
 
-export default function HomeScreen(props) {
+export default function HomeScreen(props: any) {
   const reading = useReading();
   const readingValues = reading.values;
   const [PeakPress, setPeakPressure] = useState(10);

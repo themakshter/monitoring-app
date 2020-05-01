@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import Colors from '../constants/Colors';
 
-export default function MetricDisplay(props) {
+export default function MetricDisplay(props: any) {
   const colour = getStateColour(props.state);
 
-  function getStateColour(state) {
+  function getStateColour(state: string) {
     switch (state) {
       case 'warning':
         return Colors.warningText;

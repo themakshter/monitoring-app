@@ -9,7 +9,7 @@ import { ProvideReading } from './logic/useReading';
 
 const Stack = createStackNavigator();
 
-export default function App(props) {
+export default function App() {
   return (
     <View style={styles.container}>
       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}

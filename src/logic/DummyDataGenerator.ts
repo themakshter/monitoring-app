@@ -1,10 +1,10 @@
 export default function dummyDataGenerator(
-  updateReadingStateFunction,
-  intervalFrequency,
+  updateReadingStateFunction: (value: any) => void,
+  intervalFrequency: number,
 ) {
-  let intervalFunction;
+  let intervalFunction: number;
 
-  function getRandomValue(range, valueToSubtract = 0) {
+  function getRandomValue(range: number, valueToSubtract = 0) {
     return Math.round(Math.random() * range - valueToSubtract);
   }
 

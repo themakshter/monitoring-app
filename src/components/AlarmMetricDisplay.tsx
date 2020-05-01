@@ -1,12 +1,10 @@
 import * as React from 'react';
 import MetricDisplay from './MetricDisplay';
-import Toast from 'react-native-simple-toast';
-import RNBeep from 'react-native-a-beep';
 
-export default function AlarmMetricDisplay(props) {
+export default function AlarmMetricDisplay(props: any) {
   const state = getStateFromValue(props.value);
 
-  function getStateFromValue(value) {
+  function getStateFromValue(value: number) {
     if (value < props.lowerLimit || value > props.upperLimit) {
       return 'alarm';
     }

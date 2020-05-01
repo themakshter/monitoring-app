@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
 import MetricDisplay from './MetricDisplay';
 import Colors from '../constants/Colors';
 
-export default function DetailedAlarmMetricDisplay(props) {
+export default function DetailedAlarmMetricDisplay(props: any) {
   const colour = getColourFromValue(props.value);
   const state = getStateFromValue(props.value);
 
-  function getColourFromValue(value) {
+  function getColourFromValue(value: number) {
     if (value < props.lowerLimit || value > props.upperLimit) {
       return Colors.errorText;
     }
     return Colors.graphcolor;
   }
 
-  function getStateFromValue(value) {
+  function getStateFromValue(value: any) {
     if (value < props.lowerLimit || value > props.upperLimit) {
       return 'alarm';
     }

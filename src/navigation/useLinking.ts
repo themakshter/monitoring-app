@@ -1,8 +1,8 @@
 import { useLinking } from '@react-navigation/native';
 
-export default function (containerRef) {
+export default function (containerRef: any) {
   return useLinking(containerRef, {
-    prefixes: 'myapp://',
+    prefixes: ['myapp://'],
     config: {
       Root: {
         path: 'root',

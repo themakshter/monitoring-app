@@ -1,25 +1,16 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, ShadowPropTypesIOS } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
-import MetricDisplay from '../components/MetricDisplay';
+import MetricDisplay from './MetricDisplay';
 import Colors from '../constants/Colors';
-import { useState, useEffect } from 'react';
 
-export default function PeepPressure(props) {
-  const data = [98];
-  const fill = 'rgb(134, 65, 244)';
-  const contentInset = { top: 20, bottom: 20 };
-  const [PeakPressure, setPeakPressure] = useState(props.PeakPressure);
-
-  useEffect(() => {
-    setPeakPressure(props.PeakPressure);
-  });
+export default function PeepPressure(props: any) {
 
   return (
     <View style={{ color: 'grey:', maxHeight: '82%' }}>
       {/* <Text style={{ color: "grey", alignSelf: "center" }}>Peak Pressure</Text> */}
       <MetricDisplay
-        value={PeakPressure}
+        value={props.PeakPressure}
         title={'Peak Pressure'}
         unit={'cmH2O'}></MetricDisplay>
       <View>
@@ -32,7 +23,7 @@ export default function PeepPressure(props) {
               fontSize: 10,
             }}
             numberOfTicks={6}
-            formatLabel={(value) => `${value}`}
+            formatLabel={(value: number) => `${value}`}
             style={{ flex: 0.3 }}
           />
 
@@ -41,7 +32,7 @@ export default function PeepPressure(props) {
             style={styles.peepgauge}
             yMin={0}
             yMax={120}
-            data={[PeakPressure]}
+            data={[props.PeakPressure]}
             svg={{ fill: Colors.graphcolor }}
             animate={true}
             showGrid={true}

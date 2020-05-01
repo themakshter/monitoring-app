@@ -5,7 +5,6 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import ParametersScreen from '../screens/ParametersScreen';
-import { propsKeywords } from 'json-schema-traverse';
 import AlarmsScreen from '../screens/AlarmsScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -88,7 +87,7 @@ export default function BottomTabNavigator({
   );
 }
 
-function getHeaderTitle(route) {
+function getHeaderTitle(route: any) {
   const routeName =
     route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
