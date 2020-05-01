@@ -10,14 +10,14 @@ export default function Graphs(props: any) {
         <View style={styles.graphwithaxis}>
           <YAxis
             data={[props.yMin, props.yMax]}
-            contentInset={{ top: 10, bottom: 10 }}
+            contentInset={{ top: 5, bottom: 5 }}
             svg={{
               fill: 'grey',
               fontSize: 10,
             }}
             numberOfTicks={props.numberOfTicks}
             formatLabel={(value: number) => `${value}`}
-            // style={{ flex: 0.3 }}
+            style={{ width: '7%' }}
           />
           <AreaChart
             // contentInset={contentInset}
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   graph: {
-    width: '95%',
+    // paddingRight: ,
+    width: '92%',
   },
 });

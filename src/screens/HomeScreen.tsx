@@ -6,6 +6,7 @@ import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
 import { useReading } from '../logic/useReading';
+import { MetricDisplayString } from '../components/MetricDisplay';
 
 export default function HomeScreen(props: any) {
   const reading = useReading();
@@ -27,7 +28,7 @@ export default function HomeScreen(props: any) {
       <View style={styles.peakpressure}>
         <PeepPressure
           PeakPressure={readingValues.peakPressure}
-          Peep={Peep}></PeepPressure>
+          Peep={readingValues.peep}></PeepPressure>
       </View>
       <View style={styles.valuesandgraphs}>
         <View style={styles.configuredvalues}>
@@ -53,11 +54,11 @@ export default function HomeScreen(props: any) {
             title={'I-Time'}
             value={readingValues.inspiratoryTime}
             unit={'sec'}></MetricDisplay>
-          <MetricDisplay
+          <MetricDisplayString
             style={styles.configuredvaluedisplay}
             title={'I:E Ratio'}
-            value={'1:2.0'}
-            unit={''}></MetricDisplay>
+            value={readingValues.ieRatio}
+            unit={''}></MetricDisplayString>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'Oxygen'}
@@ -68,15 +69,15 @@ export default function HomeScreen(props: any) {
           <View style={{ height: '50%', paddingTop: 5, paddingBottom: 0 }}>
             <Graphs
               data={readingValues.graphPressure}
-              yMin={-100}
-              yMax={100}
+              yMin={-30}
+              yMax={60}
               numberOfTicks={4}></Graphs>
           </View>
           <View style={{ height: '50%', paddingTop: 0, paddingBottom: 0 }}>
             <Graphs
               data={readingValues.graphVolume}
-              yMin={-10}
-              yMax={30}
+              yMin={-2000}
+              yMax={2000}
               numberOfTicks={4}
               // style={{ maxheight: "50%" }}
             ></Graphs>

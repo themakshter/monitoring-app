@@ -5,7 +5,6 @@ import MetricDisplay from './MetricDisplay';
 import Colors from '../constants/Colors';
 
 export default function PeepPressure(props: any) {
-
   return (
     <View style={{ color: 'grey:', maxHeight: '82%' }}>
       {/* <Text style={{ color: "grey", alignSelf: "center" }}>Peak Pressure</Text> */}
@@ -40,11 +39,11 @@ export default function PeepPressure(props: any) {
             <Grid></Grid>
           </BarChart>
         </View>
-        <Text style={{ alignSelf: 'center', color: 'grey' }}>
-          ----------------------------
-        </Text>
         {/* <Text style={{ alignSelf: "center", color: "grey" }}>PEEP</Text> */}
-        <MetricDisplay value={5} title={'PEEP'} unit={'cmH20'}></MetricDisplay>
+        <MetricDisplay
+          value={props.Peep}
+          title={'PEEP'}
+          unit={'cmH20'}></MetricDisplay>
       </View>
     </View>
 
