@@ -16,6 +16,8 @@ export default function SerialDataHandler(
   let dummydata2 = new Array(0);
   let GraphPressure = new Array(Constants.GraphLength).fill(0);
   let GraphVolume = new Array(Constants.GraphLength).fill(0);
+  let TotalPacket = 0;
+  let FailedPacket = 0;
   // let intervalFunction: number;
 
   // let serialParameters: any;
@@ -121,36 +123,54 @@ export default function SerialDataHandler(
     }
   }
 
+  function processIntegrityCheck(Data: any): boolean {
+    if (Data.length > Constants.TotalPacketLength) {
+      return false;
+    }
+    let crc = 0;
+    for (let i = 0; i < Data.length - 2; i++) {
+      crc = (crc ^ Data[i]) & 0xff;
+    }
+    if (crc == Data[Data.length - 1]) return true;
+    return false;
+  }
+
   function processSerialData(Data: any) {
-    dummydata1 = dummydata1.concat([
-      getWordFloat(Data[10], Data[11], 90 / 65535, -30),
-    ]);
-    dummydata2 = dummydata2.concat([
-      getWordFloat(Data[8], Data[9], 4000 / 65535, -2000),
-    ]);
-    // console.log(dummydata1.length);
-    if (dummydata1.length > Constants.UpdateInterval) {
-      GraphPressure.splice(0, dummydata1.length);
-      GraphPressure = GraphPressure.concat(dummydata1);
-      GraphVolume.splice(0, dummydata2.length);
-      GraphVolume = GraphVolume.concat(dummydata2);
-      dummydata1 = [];
-      dummydata2 = [];
-      updateReadingStateFunction({
-        peep: Data[26] - 30,
-        peakPressure: ((Data[10] + Data[11] * 256) * 90) / 65535 - 30,
-        // patientRate: getRandomValue(220),
-        plateauPressure: getWordFloat(Data[16], Data[17], 90 / 65535, -30),
-        patientRate: Data[23], //23
-        vte: getWordFloat(Data[20], Data[21], 1, 0),
-        ieRatio: (Data[24] & 0x0f) + ':' + (Data[24] & 0xf0) / 16,
-        inspiratoryTime: 1,
-        expiratoryTime: 5,
-        oxygen: Data[25], //25
-        flow: 23,
-        graphPressure: GraphPressure,
-        graphVolume: GraphVolume,
-      });
+    TotalPacket++;
+    if (processIntegrityCheck(Data)) {
+      dummydata1 = dummydata1.concat([
+        getWordFloat(Data[10], Data[11], 90 / 65535, -30),
+      ]);
+      dummydata2 = dummydata2.concat([
+        getWordFloat(Data[8], Data[9], 4000 / 65535, -2000),
+      ]);
+      // console.log(dummydata1.length);
+      if (dummydata1.length > Constants.UpdateInterval) {
+        GraphPressure.splice(0, dummydata1.length);
+        GraphPressure = GraphPressure.concat(dummydata1);
+        GraphVolume.splice(0, dummydata2.length);
+        GraphVolume = GraphVolume.concat(dummydata2);
+        dummydata1 = [];
+        dummydata2 = [];
+        updateReadingStateFunction({
+          peep: Data[26] - 30,
+          peakPressure: ((Data[10] + Data[11] * 256) * 90) / 65535 - 30,
+          // patientRate: getRandomValue(220),
+          plateauPressure: getWordFloat(Data[16], Data[17], 90 / 65535, -30),
+          patientRate: Data[23], //23
+          vte: getWordFloat(Data[20], Data[21], 1, 0),
+          ieRatio: (Data[24] & 0x0f) + ':' + (Data[24] & 0xf0) / 16,
+          // ieRatio: FailedPacket + '/' + TotalPacket,
+          inspiratoryTime: 1,
+          expiratoryTime: 5,
+          oxygen: Data[25], //25
+          flow: 23,
+          graphPressure: GraphPressure,
+          graphVolume: GraphVolume,
+        });
+      }
+    } else {
+      FailedPacket++;
     }
   }
 

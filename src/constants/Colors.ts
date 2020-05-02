@@ -11,5 +11,5 @@ export default {
   warningText: '#fc9303',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  graphcolor: 'rgba(47, 149, 220, 0.8)',
+  graphcolor: 'rgba(47, 149, 220, 0.7)',
 };
