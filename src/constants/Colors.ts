@@ -12,4 +12,7 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
   graphcolor: 'rgba(47, 149, 220, 0.7)',
+  Borders: 'grey',
+  PaddingWidth: 5,
+  BorderWidth: 2,
 };

@@ -159,8 +159,8 @@ export default function SerialDataHandler(
           plateauPressure: getWordFloat(Data[16], Data[17], 90 / 65535, -30),
           patientRate: Data[23], //23
           vte: getWordFloat(Data[20], Data[21], 1, 0),
-          ieRatio: (Data[24] & 0x0f) + ':' + (Data[24] & 0xf0) / 16,
-          // ieRatio: FailedPacket + '/' + TotalPacket,
+          //ieRatio: (Data[24] & 0x0f) + ':' + (Data[24] & 0xf0) / 16,
+          ieRatio: FailedPacket + '/' + TotalPacket,
           inspiratoryTime: 1,
           expiratoryTime: 5,
           oxygen: Data[25], //25
