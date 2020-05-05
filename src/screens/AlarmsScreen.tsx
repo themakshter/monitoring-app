@@ -1,72 +1,53 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import OptionButton from '../components/OptionButton';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import DetailedAlarmMetricDisplay from '../components/DetailedAlarmMetricDisplay';
-import Layout from '../constants/Layout';
-import { useReading } from '../logic/useReading';
+import { convertArrayToMatrix } from '../utils/helpers';
+import { alarmsMetrics } from '../../sample-data/data';
+import { Parameter } from '../Interfaces/Parameter';
 
 export default function AlarmsScreen() {
-  const reading = useReading();
+  const metrics = convertArrayToMatrix<Parameter>(alarmsMetrics, 4);
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}>
-      <OptionButton icon="md-school" label="Read the Parameters" />
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          width: Layout.window.width,
-          justifyContent: 'space-evenly',
-        }}>
-        <DetailedAlarmMetricDisplay
-          title={'Patient Rate'}
-          value={reading.values.patientRate}
-          unit={'BPM'}
-          lowerLimit={30}
-          upperLimit={50}
-        />
-        <DetailedAlarmMetricDisplay
-          title={'Patient Rate'}
-          value={80}
-          unit={'BPM'}
-          lowerLimit={30}
-          upperLimit={50}
-        />
-        <DetailedAlarmMetricDisplay
-          title={'Patient Rate'}
-          value={40}
-          unit={'BPM'}
-          lowerLimit={30}
-          upperLimit={50}
-        />
-        <DetailedAlarmMetricDisplay
-          title={'Patient Rate'}
-          value={40}
-          unit={'BPM'}
-          lowerLimit={30}
-          upperLimit={50}
-        />
-        <DetailedAlarmMetricDisplay
-          title={'Patient Rate'}
-          value={40}
-          unit={'BPM'}
-          lowerLimit={30}
-          upperLimit={50}
-        />
-      </View>
-    </ScrollView>
+    <View style={styles.gaugeContainer}>
+      <ScrollView>
+        {metrics.map((row) => {
+          return (
+            <View style={styles.gaugeRow}>
+              {row.map((metricToDisplay) => {
+                return (
+                  <DetailedAlarmMetricDisplay
+                    title={metricToDisplay.title}
+                    value={metricToDisplay.value}
+                    unit={metricToDisplay.unit}
+                    lowerLimit={metricToDisplay.lowerLimit}
+                    upperLimit={metricToDisplay.upperLimit}
+                  />
+                );
+              })}
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gaugeRow: {
+    flexDirection: 'row',
     flex: 1,
-    backgroundColor: '#fafafa',
+    borderColor: '#CEC3C0',
+    borderWidth: 1,
+    marginTop: 3,
+    marginBottom: 3,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '95%',
+    justifyContent: 'space-around',
   },
-  contentContainer: {
-    paddingTop: 15,
+  gaugeContainer: {
+    marginBottom: 15,
+    width: '100%',
   },
 });

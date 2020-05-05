@@ -23,38 +23,43 @@ export default function DetailedAlarmMetricDisplay(props: any) {
   }
 
   return (
-    <View style={{ color: colour, padding: 5 }}>
+    <View
+      style={{
+        color: colour,
+        ...styles.gaugeRowItem,
+      }}>
       <MetricDisplay
         value={props.value}
         title={props.title}
         unit={props.unit}
         state={state}
       />
-      <View>
-        <View style={styles.peepgaugewithaxis}>
-          <YAxis
-            data={[props.lowerLimit, props.upperLimit]}
-            contentInset={{ top: 4, bottom: 3 }}
-            svg={{
-              fill: 'grey',
-              fontSize: 10,
-            }}
-            numberOfTicks={5}
-            style={{ flex: 1 }}
-          />
+      <View style={styles.peepgaugewithaxis}>
+        <YAxis
+          data={[props.lowerLimit, props.upperLimit]}
+          contentInset={{ top: 4, bottom: 3 }}
+          svg={{
+            fill: 'grey',
+            fontSize: 10,
+          }}
+          style={{
+            marginRight: 5,
+          }}
+          numberOfTicks={5}
+        />
 
-          <BarChart
-            // contentInset={contentInset}
-            style={styles.peepgauge}
-            yMin={props.lowerLimit}
-            yMax={props.upperLimit}
-            data={[props.value]}
-            svg={{ fill: colour }}
-            showGrid={true}
-            numberOfTicks={5}>
-            <Grid></Grid>
-          </BarChart>
-        </View>
+        <BarChart
+          // contentInset={contentInset}
+          style={styles.peepgauge}
+          yMin={props.lowerLimit}
+          yMax={props.upperLimit}
+          contentInset={{ top: 30, bottom: 30 }}
+          data={[props.value]}
+          svg={{ fill: colour }}
+          showGrid={true}
+          numberOfTicks={5}>
+          <Grid />
+        </BarChart>
       </View>
     </View>
 
@@ -68,13 +73,25 @@ export default function DetailedAlarmMetricDisplay(props: any) {
 }
 
 const styles = StyleSheet.create({
-  peepgaugewithaxis: { flexDirection: 'row', height: '80%', padding: 5 },
+  peepgaugewithaxis: {
+    margin: 5,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flexDirection: 'row',
+    flex: 1,
+    width: '40%',
+  },
   peepgauge: {
-    // padding: 5,
     borderWidth: 2,
     borderColor: 'grey',
     flex: 1,
-    // width: "50%",
-    // alignSelf: "center",
+  },
+  gaugeRowItem: {
+    padding: 5,
+    // flex: 1,
+    width: '25%',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    height: 250,
   },
 });
