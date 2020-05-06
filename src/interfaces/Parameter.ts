@@ -1,7 +1,7 @@
 export interface Parameter {
-  title: string;
+  name: string;
   value: number;
   unit: string;
-  lowerLimit: number;
   upperLimit: number;
+  lowerLimit: number;
 }

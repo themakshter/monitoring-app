@@ -7,6 +7,8 @@ import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
 import { useReading } from '../logic/useReading';
 import { MetricDisplayString } from '../components/MetricDisplay';
+import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
+import SetParameter from 'src/interfaces/SetParameter';
 
 export default function HomeScreen(props: any) {
   const reading = useReading();
@@ -21,6 +23,8 @@ export default function HomeScreen(props: any) {
   // const [Oxygen, setOxygen] = useState(21);
   // const [PlateauPressure, setPlateauPressure] = useState(21);
   const [Peep, setPeep] = useState(5);
+  const ventilatorConfig = initalVentilatorConfiguration;
+  const patientRate : SetParameter = ventilatorConfig.respiratoryRate;
 
   // console.log('homescreen');
   return (
@@ -34,11 +38,11 @@ export default function HomeScreen(props: any) {
         <View style={styles.configuredvalues}>
           <AlarmMetricDisplay
             style={styles.configuredvaluedisplay}
-            title={'Patient Rate'}
+            title={patientRate.name}
             value={readingValues.patientRate}
-            unit={'BPM'}
-            lowerLimit={20}
-            upperLimit={150}></AlarmMetricDisplay>
+            unit={patientRate.unit}
+            lowerLimit={patientRate.lowerLimit}
+            upperLimit={patientRate.upperLimit}></AlarmMetricDisplay>
           <MetricDisplay
             style={styles.configuredvaluedisplay}
             title={'Plateau Press.'}
