@@ -8,7 +8,12 @@ export default function LinksScreen() {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}>
-      <OptionButton icon="md-school" label="TODO" />
+      <OptionButton
+        icon="md-school"
+        label="Configurations"
+        isLastOption={() => {}}
+        onPress={() => {}}
+      />
     </ScrollView>
   );
 }

@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import LinksScreen from '../screens/ConfigurationScreen';
 import AlarmsScreen from '../screens/AlarmsScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -52,6 +52,16 @@ export default function BottomTabNavigator({
           ),
         }}
       />
+      <BottomTab.Screen
+        name="Configuration"
+        component={LinksScreen}
+        options={{
+          title: 'Configuration',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name="md-settings" />
+          ),
+        }}
+      />
     </BottomTab.Navigator>
   );
 }
@@ -73,5 +83,7 @@ function getHeaderTitle(route: any) {
       return 'Lung Mechanics';
     case 'Graphs':
       return 'Graphs';
+    case 'Configuration':
+      return 'Configuration';
   }
 }
