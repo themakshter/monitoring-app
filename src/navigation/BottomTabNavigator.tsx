@@ -4,7 +4,6 @@ import * as React from 'react';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
-import ParametersScreen from '../screens/ParametersScreen';
 import AlarmsScreen from '../screens/AlarmsScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -34,16 +33,6 @@ export default function BottomTabNavigator({
         }}
       />
       <BottomTab.Screen
-        name="Parameters"
-        component={ParametersScreen}
-        options={{
-          title: 'Parameters',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" />
-          ),
-        }}
-      />
-      <BottomTab.Screen
         name="Alarms"
         component={AlarmsScreen}
         options={{
@@ -58,26 +47,6 @@ export default function BottomTabNavigator({
         component={LinksScreen}
         options={{
           title: 'Monitoring',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="LungMechanics"
-        component={LinksScreen}
-        options={{
-          title: 'Lung Mechanics',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="Graphs"
-        component={LinksScreen}
-        options={{
-          title: 'Graphs',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
