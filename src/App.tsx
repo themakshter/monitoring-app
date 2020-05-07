@@ -6,6 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import { ProvideReading } from './logic/useReading';
+import FlashMessage from 'react-native-flash-message';
+import AlarmsBanner from './components/AlarmsBanner';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +17,7 @@ export default function App() {
     <View style={styles.container}>
       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
       <ProvideReading>
+        <AlarmsBanner />
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
@@ -24,6 +27,7 @@ export default function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
+        <FlashMessage />
       </ProvideReading>
     </View>
   );
