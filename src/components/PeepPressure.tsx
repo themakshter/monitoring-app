@@ -18,12 +18,12 @@ export default function PeepPressure(props: any) {
             data={[0, 120]}
             contentInset={{ top: 4, bottom: 3 }}
             svg={{
-              fill: 'grey',
+              fill: Colors.TextColor,
               fontSize: 10,
             }}
             numberOfTicks={6}
             formatLabel={(value: number) => `${value}`}
-            style={{ flex: 0.3 }}
+            style={{ flex: 1 }}
           />
 
           <BarChart
@@ -32,15 +32,15 @@ export default function PeepPressure(props: any) {
             yMin={0}
             yMax={120}
             data={[props.PeakPressure]}
-            svg={{ fill: Colors.graphcolor }}
+            svg={{ fill: Colors.BarColor }}
             animate={true}
             showGrid={true}
             numberOfTicks={6}>
-            <Grid></Grid>
+            <Grid svg={{ stroke: Colors.GridLines }}></Grid>
           </BarChart>
-          <View></View>
+          <View style={{ flex: 1 }}></View>
         </View>
-        {/* <Text style={{ alignSelf: "center", color: "grey" }}>PEEP</Text> */}
+        {/* <Text style={{ aligscgnSelf: "center", color: "grey" }}>PEEP</Text> */}
         <MetricDisplay
           style={styles.peep}
           value={props.Peep}
@@ -60,10 +60,15 @@ export default function PeepPressure(props: any) {
 const styles = StyleSheet.create({
   peepgaugewithaxis: {
     flexDirection: 'row',
-    height: '62%',
+    height: '80%',
+    paddingTop: 10,
+    paddingBottom: 20,
     padding: 5,
     // alignItems:
     flexGrow: 1,
+    borderWidth: 2,
+    borderColor: Colors.GeneralBackGround,
+    borderBottomColor: Colors.Borders,
     // alignItems: 'stretch',
     justifyContent: 'space-around',
   },
@@ -71,10 +76,10 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     borderWidth: 2,
-    borderColor: 'grey',
+    borderColor: Colors.Borders,
     // width: '30%',
     // flexGrow: 1,
-    flex: 0.4,
+    flex: 1,
     // alignItems: 'center',
     // width: '50%',
     // width: 1,
@@ -82,12 +87,13 @@ const styles = StyleSheet.create({
     // alignSelf: "center",
   },
   peep: {
-    borderWidth: 2,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    // margin: 5,
+    // borderWidth: 2,
+    // borderTopLeftRadius: 20,
+    // borderTopRightRadius: 20,
+    // borderBottomRightRadius: 20,
+    // borderBottomLeftRadius: 20,
     // borderWidth: 5,
-    borderTopWidth: 2,
+    // borderTopWidth: 2,
   },
 });

@@ -1,23 +1,27 @@
 import * as React from 'react';
-import { View, StyleSheet, ViewPropTypes } from 'react-native';
+import { Text, View, StyleSheet, ViewPropTypes } from 'react-native';
 import { AreaChart, Grid, YAxis } from 'react-native-svg-charts';
 import Colors from '../constants/Colors';
+import { RotationGestureHandler } from 'react-native-gesture-handler';
 
 export default function Graphs(props: any) {
   return (
     <View style={{ color: 'grey:' }}>
       <View>
         <View style={styles.graphwithaxis}>
+          {/* <View style={{ flex: 3 }}> */}
+
+          {/* </View> */}
           <YAxis
             data={[props.yMin, props.yMax]}
             contentInset={{ top: 5, bottom: 5 }}
             svg={{
-              fill: 'grey',
+              fill: Colors.GridLines,
               fontSize: 10,
             }}
             numberOfTicks={props.numberOfTicks}
             formatLabel={(value: number) => `${value}`}
-            style={{ width: '7%' }}
+            style={{ flex: 2 }}
           />
           <AreaChart
             // contentInset={contentInset}
@@ -25,12 +29,12 @@ export default function Graphs(props: any) {
             yMin={props.yMin}
             yMax={props.yMax}
             data={props.data}
-            svg={{ fill: Colors.graphcolor }}
+            svg={{ fill: Colors.graphcolor, stroke: Colors.StrokeColor }}
             // animate={true}
             // curve={shape.curveNatural}
             // showGrid={true}
             numberOfTicks={props.numberOfTicks}>
-            <Grid numberOfTicks={2}></Grid>
+            <Grid numberOfTicks={2} svg={{ stroke: Colors.GridLines }}></Grid>
           </AreaChart>
         </View>
       </View>
@@ -52,6 +56,7 @@ const styles = StyleSheet.create({
   },
   graph: {
     // paddingRight: ,
-    width: '92%',
+    // width: '89%',
+    flex: 80,
   },
 });

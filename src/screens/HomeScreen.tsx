@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View, Text } from 'react-native';
 import PeepPressure from '../components/PeepPressure';
 import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
@@ -10,12 +10,14 @@ import { MetricDisplayString } from '../components/MetricDisplay';
 import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
 import SetParameter from 'src/interfaces/SetParameter';
 
+// import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Colors from '../constants/Colors';
 export default function HomeScreen(props: any) {
   const reading = useReading();
   const readingValues = reading.values;
-  const [PeakPress, setPeakPressure] = useState(10);
-  const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
-  const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
+  // const [PeakPress, setPeakPressure] = useState(10);
+  // const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
+  // const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
   // const [PatientRate, setPatientRate] = useState(0);
   // const [ITime, setITime] = useState('1.0');
   // const [VTe, setVTe] = useState(0);
@@ -34,60 +36,82 @@ export default function HomeScreen(props: any) {
           PeakPressure={readingValues.peakPressure}
           Peep={readingValues.peep}></PeepPressure>
       </View>
-      <View style={styles.valuesandgraphs}>
-        <View style={styles.configuredvalues}>
-          <AlarmMetricDisplay
-            style={styles.configuredvaluedisplay}
-            title={patientRate.name}
-            value={readingValues.patientRate}
-            unit={patientRate.unit}
-            lowerLimit={patientRate.lowerLimit}
-            upperLimit={patientRate.upperLimit}></AlarmMetricDisplay>
-          <MetricDisplay
-            style={styles.configuredvaluedisplay}
-            title={'Plateau Press.'}
-            value={readingValues.plateauPressure}
-            unit={''}></MetricDisplay>
-          <MetricDisplay
-            style={styles.configuredvaluedisplay}
-            title={'VTe'}
-            value={readingValues.vte}
-            unit={'ml'}></MetricDisplay>
-          <MetricDisplay
-            style={styles.configuredvaluedisplay}
-            title={'I-Time'}
-            value={readingValues.inspiratoryTime}
-            unit={'sec'}></MetricDisplay>
-          <MetricDisplayString
-            style={styles.configuredvaluedisplay}
-            title={'I:E Ratio'}
-            value={readingValues.ieRatio}
-            unit={''}></MetricDisplayString>
-          <MetricDisplay
-            style={styles.configuredvaluedisplay}
-            title={'Oxygen'}
-            value={readingValues.oxygen}
-            unit={''}></MetricDisplay>
+      {/* <View style={styles.valuesandgraphs}> */}
+      <View style={styles.graphs}>
+        <Text style={styles.graphTitle}>Pressure [cmH20]</Text>
+        <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
+          <Graphs
+            data={readingValues.graphPressure}
+            yMin={-30}
+            yMax={60}
+            numberOfTicks={4}></Graphs>
         </View>
-        <View style={styles.graphs}>
-          <View style={{ height: '50%', paddingTop: 5, paddingBottom: 0 }}>
-            <Graphs
-              data={readingValues.graphPressure}
-              yMin={-30}
-              yMax={60}
-              numberOfTicks={4}></Graphs>
-          </View>
-          <View style={{ height: '50%', paddingTop: 0, paddingBottom: 0 }}>
-            <Graphs
-              data={readingValues.graphVolume}
-              yMin={-2000}
-              yMax={2000}
-              numberOfTicks={4}
-              // style={{ maxheight: "50%" }}
-            ></Graphs>
-          </View>
+        <Text style={styles.graphTitle}>Tidal Volume [ml]</Text>
+        <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
+          <Graphs
+            data={readingValues.graphVolume}
+            yMin={0}
+            yMax={1000}
+            numberOfTicks={4}
+            // style={{ maxheight: "50%" }}
+          ></Graphs>
+        </View>
+        <Text style={styles.graphTitle}>Flow Rate [ml/S]</Text>
+        <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
+          <Graphs
+            data={readingValues.graphFlow}
+            yMin={-100}
+            yMax={100}
+            numberOfTicks={4}
+            // style={{ maxheight: "50%" }}
+          ></Graphs>
         </View>
       </View>
+      <View style={styles.configuredvalues}>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'Patient Rate'}
+          value={readingValues.patientRate}
+          unit={'BPM'}
+          lowerLimit={20}
+          upperLimit={150}></MetricDisplay>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'Plateau Press.'}
+          value={readingValues.plateauPressure}
+          unit={''}></MetricDisplay>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'VTe'}
+          value={readingValues.vte}
+          unit={'ml'}></MetricDisplay>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'I-Time'}
+          value={readingValues.inspiratoryTime}
+          unit={'sec'}></MetricDisplay>
+        <MetricDisplayString
+          style={styles.configuredvaluedisplay}
+          title={'I:E Ratio'}
+          value={readingValues.ieRatio}
+          unit={''}></MetricDisplayString>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'Oxygen'}
+          value={readingValues.oxygen}
+          unit={''}></MetricDisplay>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'Flow Rate'}
+          value={readingValues.flowrate}
+          unit={''}></MetricDisplay>
+        <MetricDisplayString
+          style={styles.configuredvaluedisplay}
+          title={'Mode'}
+          value={readingValues.mode}
+          unit={''}></MetricDisplayString>
+      </View>
+      {/* </View> */}
     </View>
   );
 }
@@ -102,26 +126,28 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.GeneralBackGround,
     padding: 2,
   },
   peakpressure: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.GeneralBackGround,
     flexDirection: 'column',
     borderWidth: 2,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderColor: 'grey',
+    borderColor: Colors.Borders,
+    margin: 1,
   },
   valuesandgraphs: {
-    flex: 5,
-    height: '100%',
-    backgroundColor: 'white',
-    padding: 2,
+    flex: 10,
+    // height: '100%',
+    backgroundColor: Colors.GeneralBackGround,
+    // padding: 2,
+    flexDirection: 'row',
   },
   configuredvalues: {
     borderWidth: 2,
@@ -129,19 +155,23 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderColor: 'grey',
+    borderColor: Colors.Borders,
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-around',
-    padding: 2,
-
+    margin: 1,
+    height: '100%',
     // width: "100%",
   },
   configuredvaluedisplay: {
     flex: 0.2,
   },
+  graphTitle: {
+    color: Colors.TextColor,
+    textAlign: 'center',
+  },
   graphs: {
-    flex: 4,
+    flex: 8,
     flexDirection: 'column',
     justifyContent: 'space-around',
     borderWidth: 2,
@@ -149,8 +179,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    borderColor: 'grey',
+    borderColor: Colors.Borders,
     height: '100%',
+    margin: 1,
     // justifyContent: "space-around",
     // flexGrow: 1,
   },

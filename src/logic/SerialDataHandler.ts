@@ -7,17 +7,13 @@ import {
   ReturnedDataTypes,
 } from 'react-native-serialport';
 import Constants from '../constants/Constants';
+import { processSerialData } from './SerialParser';
 export default function SerialDataHandler(
   serialParameters: any,
   updateReadingStateFunction: (value: any) => void,
 ) {
   let SerialBuffer = new Array(0);
-  let dummydata1 = new Array(0);
-  let dummydata2 = new Array(0);
-  let GraphPressure = new Array(Constants.GraphLength).fill(0);
-  let GraphVolume = new Array(Constants.GraphLength).fill(0);
-  let TotalPacket = 0;
-  let FailedPacket = 0;
+
   // let intervalFunction: number;
 
   // let serialParameters: any;
@@ -34,14 +30,7 @@ export default function SerialDataHandler(
       definitions.RETURNED_DATA_TYPES.INTARRAY
     ),
   };
-  function getWordFloat(
-    ByteL: number,
-    ByteH: number,
-    multiplier: number,
-    offset: number,
-  ): number {
-    return (ByteL + ByteH * 256) * multiplier + offset;
-  }
+
   function onServiceStarted(response: any) {
     state.servisStarted = true;
     // setState(state);
@@ -78,8 +67,21 @@ export default function SerialDataHandler(
 
   function onReadData(data: any) {
     let RemainingData = 0;
+
+    // var RNFS = require('react-native-fs');
+
+    // // create a path you want to write to
+    // // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
+    // // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
+    // var path = RNFS.DocumentDirectoryPath + '/logs.txt';
+
+    // // write the file
+    // RNFS.writeFile(path, data.payload, 'ascii').catch((err) => {
+    //   console.log(err.message);
+    // });
     if (state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       if (SerialBuffer.length > 0) {
+        console.log('length ' + SerialBuffer.length);
         if (
           data.payload.length >=
           Constants.TotalPacketLength - SerialBuffer.length
@@ -90,7 +92,7 @@ export default function SerialDataHandler(
           );
 
           SerialBuffer = SerialBuffer.concat(RemainingData);
-          processSerialData(SerialBuffer);
+          processSerialData(SerialBuffer, updateReadingStateFunction);
           SerialBuffer = [];
         } else {
           SerialBuffer = SerialBuffer.concat(data.payload);
@@ -104,73 +106,26 @@ export default function SerialDataHandler(
             data.payload[3] == 0x50
           ) {
             if (data.payload.length >= Constants.TotalPacketLength) {
+              console.log('len' + data.payload.length);
               RemainingData = data.payload.splice(
                 0,
                 Constants.TotalPacketLength,
               );
               SerialBuffer = SerialBuffer.concat(RemainingData);
-              processSerialData(SerialBuffer);
+              processSerialData(SerialBuffer, updateReadingStateFunction);
               SerialBuffer = [];
             } else {
+              // console.log('concat partial data' + data.payload.length);
+              // RemainingData = data.payload.splice();
               SerialBuffer = SerialBuffer.concat(RemainingData);
               data.payload = [];
             }
           } else {
+            console.log('no head');
             data.payload.splice(0, 1);
           }
         }
       }
-    }
-  }
-
-  function processIntegrityCheck(Data: any): boolean {
-    if (Data.length > Constants.TotalPacketLength) {
-      return false;
-    }
-    let crc = 0;
-    for (let i = 0; i < Data.length - 2; i++) {
-      crc = (crc ^ Data[i]) & 0xff;
-    }
-    if (crc == Data[Data.length - 1]) return true;
-    return false;
-  }
-
-  function processSerialData(Data: any) {
-    TotalPacket++;
-    if (processIntegrityCheck(Data)) {
-      dummydata1 = dummydata1.concat([
-        getWordFloat(Data[10], Data[11], 90 / 65535, -30),
-      ]);
-      dummydata2 = dummydata2.concat([
-        getWordFloat(Data[8], Data[9], 4000 / 65535, -2000),
-      ]);
-      // console.log(dummydata1.length);
-      if (dummydata1.length > Constants.UpdateInterval) {
-        GraphPressure.splice(0, dummydata1.length);
-        GraphPressure = GraphPressure.concat(dummydata1);
-        GraphVolume.splice(0, dummydata2.length);
-        GraphVolume = GraphVolume.concat(dummydata2);
-        dummydata1 = [];
-        dummydata2 = [];
-        updateReadingStateFunction({
-          peep: Data[26] - 30,
-          peakPressure: ((Data[10] + Data[11] * 256) * 90) / 65535 - 30,
-          // patientRate: getRandomValue(220),
-          plateauPressure: getWordFloat(Data[16], Data[17], 90 / 65535, -30),
-          patientRate: Data[23], //23
-          vte: getWordFloat(Data[20], Data[21], 1, 0),
-          //ieRatio: (Data[24] & 0x0f) + ':' + (Data[24] & 0xf0) / 16,
-          ieRatio: FailedPacket + '/' + TotalPacket,
-          inspiratoryTime: 1,
-          expiratoryTime: 5,
-          oxygen: Data[25], //25
-          flow: 23,
-          graphPressure: GraphPressure,
-          graphVolume: GraphVolume,
-        });
-      }
-    } else {
-      FailedPacket++;
     }
   }
 

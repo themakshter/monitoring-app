@@ -1,5 +1,5 @@
 export default {
-  TotalPacketLength: 48,
-  UpdateInterval: 5,
-  GraphLength: 250,
+  TotalPacketLength: 49,
+  UpdateInterval: 4,
+  GraphLength: 125,
 };

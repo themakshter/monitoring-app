@@ -1,8 +1,9 @@
 // Hook (use-auth.js)
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import DummyDataGenerator from './DummyDataGenerator';
-import SerialDataHandler from './SerialDataHandler';
+// import SerialDataHandler from './SerialDataHandler';
 import Constants from '../constants/Constants';
+import dummyDataGenerator from './DummyDataGenerator';
 
 const readingContext = createContext<any>(null);
 
@@ -27,7 +28,7 @@ export const useReading = () => {
 function useProvideReading() {
   const [reading, setReading] = useState({
     peep: 5,
-    peakPressure: 10,
+    peakPressure: 25,
     // patientRate: getRandomValue(220),
     plateauPressure: 20,
     patientRate: 10,
@@ -36,27 +37,30 @@ function useProvideReading() {
     expiratoryTime: 5,
     oxygen: 21,
     flow: 23,
-    graphPressure: new Array(Constants.GraphLength).fill(0),
-    graphVolume: new Array(Constants.GraphLength).fill(0),
+    graphPressure: new Array(Constants.GraphLength).fill(40),
+    graphVolume: new Array(Constants.GraphLength).fill(200),
+    graphFlow: new Array(Constants.GraphLength).fill(150),
   });
-  // const dummyGenerator = DummyDataGenerator(setReading, 1000);
-  const serialDataHandler = SerialDataHandler({ baudRate: 115200 }, setReading);
+  const dummyGenerator = DummyDataGenerator(setReading, 10);
+  // const serialDataHandler = SerialDataHandler({ baudRate: 115200 }, setReading);
 
   // Subscribe to user on mount
   // Because this sets state in the callback it will cause any ...
   // ... component that utilizes this hook to re-render with the ...
   // ... latest auth object.
   useEffect(() => {
-    serialDataHandler.startUsbListener();
-    // dummyGenerator.startGenerating();
+    // serialDataHandler.startUsbListener();
+    console.log('starting generator');
+    dummyGenerator.startGenerating();
     // Cleanup subscription on unmount
-    return () => {
-      async function stopUSBListener() {
-        await serialDataHandler.stopUsbListener();
-      }
-    };
-    // return () => dummyGenerator.stopGenerating();
-  }, [serialDataHandler.state.connected]);
+    // return () => {
+    //   async function stopUSBListener() {
+    //     await serialDataHandler.stopUsbListener();
+    //   }
+    // };
+    return () => dummyGenerator.stopGenerating();
+  }, []);
+  //[serialDataHandler.state.connected]);
 
   // Return the user object and auth methods
   return {
