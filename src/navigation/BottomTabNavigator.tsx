@@ -12,12 +12,18 @@ const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Main';
 
 function LogoTitle(props: any) {
+  //const screenName = getHeaderTitle(props.route);
   return (
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={require('../img/openventpk.png')}></Image>
+    <View style={{ flex: 1, flexDirection: 'row', }}>
+      {/* <Text style={{ color: 'white', fontSize: 20, textAlignVertical: "center", padding: 10 }}>{screenName}</Text> */}
+      <Image
+        style={{ width: 150, height: 150 }}
+        source={require('../img/transparent-logo-transparent-adjusted.png')}
+      />
+    </View>
   );
 }
+
 export default function BottomTabNavigator({
   navigation,
   route,
@@ -27,7 +33,7 @@ export default function BottomTabNavigator({
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({
-    headerTitle: getHeaderTitle(route),
+    headerTitle: (props: any) => <LogoTitle route={route} {...props} />,
     // headerTitle: <LogoTitle></LogoTitle>,
     headerTintColor: Colors.TextColor,
     headerStyle: {
