@@ -26,7 +26,7 @@ export default function HomeScreen(props: any) {
   // const [PlateauPressure, setPlateauPressure] = useState(21);
   const [Peep, setPeep] = useState(5);
   const ventilatorConfig = initalVentilatorConfiguration;
-  const patientRate : SetParameter = ventilatorConfig.respiratoryRate;
+  const patientRate: SetParameter = ventilatorConfig.respiratoryRate;
 
   // console.log('homescreen');
   return (
@@ -34,7 +34,8 @@ export default function HomeScreen(props: any) {
       <View style={styles.peakpressure}>
         <PeepPressure
           PeakPressure={readingValues.peakPressure}
-          Peep={readingValues.peep}></PeepPressure>
+          Peep={readingValues.peep}
+          Pip={readingValues.PIP}></PeepPressure>
       </View>
       {/* <View style={styles.valuesandgraphs}> */}
       <View style={styles.graphs}>
@@ -44,25 +45,31 @@ export default function HomeScreen(props: any) {
             data={readingValues.graphPressure}
             yMin={-30}
             yMax={60}
-            numberOfTicks={4}></Graphs>
+            numberOfTicks={4}
+            fillColor={Colors.graphPressure}
+            strokeColor={Colors.graphPressureStrokeColor}></Graphs>
         </View>
         <Text style={styles.graphTitle}>Tidal Volume [ml]</Text>
         <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
           <Graphs
             data={readingValues.graphVolume}
             yMin={0}
-            yMax={1000}
+            yMax={800}
             numberOfTicks={4}
+            fillColor={Colors.graphVolume}
+            strokeColor={Colors.graphVolumeStrokeColor}
             // style={{ maxheight: "50%" }}
           ></Graphs>
         </View>
-        <Text style={styles.graphTitle}>Flow Rate [ml/S]</Text>
+        <Text style={styles.graphTitle}>Flow Rate [lpm]</Text>
         <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
           <Graphs
             data={readingValues.graphFlow}
             yMin={-100}
             yMax={100}
             numberOfTicks={4}
+            fillColor={Colors.graphFlow}
+            strokeColor={Colors.graphFlowStrokeColor}
             // style={{ maxheight: "50%" }}
           ></Graphs>
         </View>
@@ -70,16 +77,36 @@ export default function HomeScreen(props: any) {
       <View style={styles.configuredvalues}>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
+          title={'FiO2'}
+          value={readingValues.oxygen}
+          unit={'%'}></MetricDisplay>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
           title={'Patient Rate'}
           value={readingValues.patientRate}
-          unit={'BPM'}
-          lowerLimit={20}
-          upperLimit={150}></MetricDisplay>
+          unit={'BPM'}></MetricDisplay>
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'Tidal Vol'}
+          value={readingValues.tidalVolume}
+          unit={'ml'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
           title={'Plateau Press.'}
           value={readingValues.plateauPressure}
           unit={''}></MetricDisplay>
+
+        <MetricDisplayString
+          style={styles.configuredvaluedisplay}
+          title={'I:E Ratio'}
+          value={readingValues.ieRatio}
+          unit={''}></MetricDisplayString>
+
+        <MetricDisplay
+          style={styles.configuredvaluedisplay}
+          title={'VTi'}
+          value={readingValues.vti}
+          unit={'ml'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
           title={'VTe'}
@@ -87,24 +114,9 @@ export default function HomeScreen(props: any) {
           unit={'ml'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
-          title={'I-Time'}
-          value={readingValues.inspiratoryTime}
-          unit={'sec'}></MetricDisplay>
-        <MetricDisplayString
-          style={styles.configuredvaluedisplay}
-          title={'I:E Ratio'}
-          value={readingValues.ieRatio}
-          unit={''}></MetricDisplayString>
-        <MetricDisplay
-          style={styles.configuredvaluedisplay}
-          title={'Oxygen'}
-          value={readingValues.oxygen}
-          unit={''}></MetricDisplay>
-        <MetricDisplay
-          style={styles.configuredvaluedisplay}
-          title={'Flow Rate'}
-          value={readingValues.flowrate}
-          unit={''}></MetricDisplay>
+          title={'Minute Vent'}
+          value={readingValues.minuteVentilation}
+          unit={'slm'}></MetricDisplay>
         <MetricDisplayString
           style={styles.configuredvaluedisplay}
           title={'Mode'}

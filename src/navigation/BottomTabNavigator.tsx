@@ -8,14 +8,31 @@ import LinksScreen from '../screens/ConfigurationScreen';
 import AlarmsScreen from '../screens/AlarmsScreen';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Colors from '../constants/Colors';
+import { Dimensions } from 'react-native';
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Main';
 
 function LogoTitle(props: any) {
-  //const screenName = getHeaderTitle(props.route);
+  const screenName = getHeaderTitle(props.route.name);
+  console.log('title' + screenName);
+  const screenwidth = Dimensions.get('window').width - 30;
   return (
-    <View style={{ flex: 1, flexDirection: 'row', }}>
-      {/* <Text style={{ color: 'white', fontSize: 20, textAlignVertical: "center", padding: 10 }}>{screenName}</Text> */}
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: screenwidth,
+      }}>
+      <Text
+        style={{
+          color: Colors.TextColor,
+          fontSize: 20,
+          textAlignVertical: 'center',
+          padding: 10,
+        }}>
+        {screenName}
+      </Text>
       <Image
         style={{ width: 150, height: 150 }}
         source={require('../img/transparent-logo-transparent-adjusted.png')}
@@ -40,7 +57,7 @@ export default function BottomTabNavigator({
       backgroundColor: Colors.GeneralBackGround,
     },
   });
-  console.log(JSON.stringify(route));
+  // console.log(JSON.stringify(route));
   return (
     <BottomTab.Navigator
       initialRouteName={INITIAL_ROUTE_NAME}

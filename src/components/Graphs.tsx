@@ -29,7 +29,7 @@ export default function Graphs(props: any) {
             yMin={props.yMin}
             yMax={props.yMax}
             data={props.data}
-            svg={{ fill: Colors.graphcolor, stroke: Colors.StrokeColor }}
+            svg={{ fill: props.fillColor, stroke: props.strokeColor }}
             // animate={true}
             // curve={shape.curveNatural}
             // showGrid={true}

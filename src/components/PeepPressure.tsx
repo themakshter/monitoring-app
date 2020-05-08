@@ -10,12 +10,12 @@ export default function PeepPressure(props: any) {
       {/* <Text style={{ color: "grey", alignSelf: "center" }}>Peak Pressure</Text> */}
       <MetricDisplay
         value={props.PeakPressure}
-        title={'Peak Pressure'}
+        title={'Pressure'}
         unit={'cmH2O'}></MetricDisplay>
       <View style={{}}>
         <View style={styles.peepgaugewithaxis}>
           <YAxis
-            data={[0, 120]}
+            data={[0, 100]}
             contentInset={{ top: 4, bottom: 3 }}
             svg={{
               fill: Colors.TextColor,
@@ -30,7 +30,7 @@ export default function PeepPressure(props: any) {
             // contentInset={contentInset}
             style={styles.peepgauge}
             yMin={0}
-            yMax={120}
+            yMax={100}
             data={[props.PeakPressure]}
             svg={{ fill: Colors.BarColor }}
             animate={true}
@@ -41,11 +41,23 @@ export default function PeepPressure(props: any) {
           <View style={{ flex: 1 }}></View>
         </View>
         {/* <Text style={{ aligscgnSelf: "center", color: "grey" }}>PEEP</Text> */}
-        <MetricDisplay
-          style={styles.peep}
-          value={props.Peep}
-          title={'PEEP'}
-          unit={'cmH20'}></MetricDisplay>
+        <View
+          style={{
+            // flex: 0.5,
+            justifyContent: 'space-around',
+            flexDirection: 'column',
+          }}>
+          <MetricDisplay
+            style={styles.peep}
+            value={props.Pip}
+            title={'PIP'}
+            unit={'cmH20'}></MetricDisplay>
+          <MetricDisplay
+            style={styles.peep}
+            value={props.Peep}
+            title={'PEEP'}
+            unit={'cmH20'}></MetricDisplay>
+        </View>
       </View>
     </View>
 
@@ -60,7 +72,7 @@ export default function PeepPressure(props: any) {
 const styles = StyleSheet.create({
   peepgaugewithaxis: {
     flexDirection: 'row',
-    height: '80%',
+    height: '67%',
     paddingTop: 10,
     paddingBottom: 20,
     padding: 5,
@@ -87,6 +99,7 @@ const styles = StyleSheet.create({
     // alignSelf: "center",
   },
   peep: {
+    flex: 1,
     // margin: 5,
     // borderWidth: 2,
     // borderTopLeftRadius: 20,

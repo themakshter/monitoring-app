@@ -81,7 +81,7 @@ export default function SerialDataHandler(
     // });
     if (state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       if (SerialBuffer.length > 0) {
-        console.log('length ' + SerialBuffer.length);
+        // console.log('length ' + SerialBuffer.length);
         if (
           data.payload.length >=
           Constants.TotalPacketLength - SerialBuffer.length
@@ -106,7 +106,7 @@ export default function SerialDataHandler(
             data.payload[3] == 0x50
           ) {
             if (data.payload.length >= Constants.TotalPacketLength) {
-              console.log('len' + data.payload.length);
+              // console.log('len' + data.payload.length);
               RemainingData = data.payload.splice(
                 0,
                 Constants.TotalPacketLength,
@@ -121,7 +121,7 @@ export default function SerialDataHandler(
               data.payload = [];
             }
           } else {
-            console.log('no head');
+            // console.log('no head');
             data.payload.splice(0, 1);
           }
         }
@@ -155,7 +155,7 @@ export default function SerialDataHandler(
     RNSerialport.setInterface(parseInt(state.interface, 10));
     RNSerialport.setAutoConnect(true);
     RNSerialport.startUsbService();
-    console.log('started usb service');
+    // console.log('started usb service');
   }
   async function stopUsbListener() {
     DeviceEventEmitter.removeAllListeners();

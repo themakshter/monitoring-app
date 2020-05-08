@@ -36,11 +36,14 @@ export default function dummyDataGenerator(
     // console.log(readings);
     // return readings;
     let Data = new Array(49);
-    for (let i = 0; i < 49; i++) {
-      Data[i] = data.substring(Counter, Counter + 1).charCodeAt(0);
-      Counter++;
+    if (Counter < data.length) {
+      for (let i = 0; i < 49; i++) {
+        Data[i] = data.substring(Counter, Counter + 1).charCodeAt(0);
+        Counter++;
+      }
+
+      processSerialData(Data, updateReadingStateFunction);
     }
-    processSerialData(Data, updateReadingStateFunction);
   }
 
   function startGenerating() {
