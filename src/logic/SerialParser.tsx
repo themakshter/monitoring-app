@@ -1,4 +1,5 @@
 import Constants from '../constants/Constants';
+import Alarms from '../constants/Alarms';
 
 let dummydata1 = new Array(0);
 let dummydata2 = new Array(0);
@@ -85,6 +86,7 @@ export const processSerialData = (
       //   }
       // }
 
+      //console.log(Data);
       dummydata1 = [];
       dummydata2 = [];
       var ControlMode = '';
@@ -94,6 +96,9 @@ export const processSerialData = (
       if ((Data[29] & 0x04) > 0) {
         ControlMode = ControlMode + 'PCV';
       } else ControlMode = ControlMode + 'VCV';
+
+      let currentAlarms = getAlarmValues(Data);
+
       // console.log('updateing');
       updateReadingStateFunction({
         peep: Data[26] - 30,
@@ -117,6 +122,7 @@ export const processSerialData = (
         graphPressure: GraphPressure,
         graphVolume: GraphVolume,
         graphFlow: GraphFlow,
+        alarms: currentAlarms,
       });
     }
   } else {
@@ -150,4 +156,30 @@ function getWordFloat(
   offset: number,
 ): number {
   return (ByteL + ByteH * 256) * multiplier + offset;
+}
+
+function getAlarmValues(serialData: Array<number>): Array<string> {
+  let alarms: Array<string> = [];
+  var bits = 8;
+  var alarmIndices = [27, 41, 42];
+  for (
+    let alarmIndex = 0;
+    alarmIndex < bits * alarmIndices.length;
+    alarmIndex++
+  ) {
+    let alarmIndexToCheck = Math.floor(alarmIndex / bits);
+    let valueByteToCheckIndex = alarmIndices[alarmIndexToCheck];
+    let valueToCheck = serialData[valueByteToCheckIndex];
+    let bitIndexToCheck = alarmIndex % bits;
+    let isAlarmActive = getValueOfBit(valueToCheck, bitIndexToCheck);
+    if (isAlarmActive) {
+      alarms.push(Alarms[alarmIndex]);
+    }
+  }
+  return alarms;
+}
+
+function getValueOfBit(valueToParse: number, bitIndex: number) {
+  const bitIndexNumberForFindingValue = [1, 2, 4, 8, 16, 32, 64, 128];
+  return valueToParse & bitIndexNumberForFindingValue[bitIndex];
 }
