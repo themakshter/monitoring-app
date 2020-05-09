@@ -1,6 +1,8 @@
 // alarm metrics
 
-export const alarmsMetrics = [
+import { Parameter } from 'src/interfaces/Parameter';
+
+export const alarmsMetrics: Parameter[] = [
   {
     title: 'Patient Rate',
     value: 60,

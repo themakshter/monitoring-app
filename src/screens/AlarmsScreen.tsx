@@ -1,53 +1,62 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import DetailedAlarmMetricDisplay from '../components/DetailedAlarmMetricDisplay';
 import { convertArrayToMatrix } from '../utils/helpers';
-import { alarmsMetrics } from '../../sample-data/data';
-import { Parameter } from '../Interfaces/Parameter';
+import { Row } from '../components/Globals/Row';
+import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
+import SetParameter from 'src/interfaces/SetParameter';
 
 export default function AlarmsScreen() {
-  const metrics = convertArrayToMatrix<Parameter>(alarmsMetrics, 4);
+  const [metrics, setMetrics] = useState<SetParameter[][] | null>(null);
+
+  useEffect(() => {
+    const setParameters: SetParameter[] = Object.values(
+      initalVentilatorConfiguration,
+    ).filter((item: SetParameter) => item.name !== undefined);
+
+    setMetrics(() => {
+      return convertArrayToMatrix<SetParameter>(setParameters, 4);
+    });
+  }, []);
 
   return (
     <View style={styles.gaugeContainer}>
-      <ScrollView>
-        {metrics.map((row) => {
-          return (
-            <View style={styles.gaugeRow}>
-              {row.map((metricToDisplay) => {
-                return (
-                  <DetailedAlarmMetricDisplay
-                    title={metricToDisplay.title}
-                    value={metricToDisplay.value}
-                    unit={metricToDisplay.unit}
-                    lowerLimit={metricToDisplay.lowerLimit}
-                    upperLimit={metricToDisplay.upperLimit}
-                  />
-                );
-              })}
-            </View>
-          );
-        })}
+      <ScrollView
+        style={{
+          flexGrow: 1,
+        }}>
+        {metrics &&
+          metrics?.map((row, index) => {
+            return (
+              <Row key={row[index]?.name || ''}>
+                {row.map((metricToDisplay) => {
+                  console.log(metricToDisplay);
+                  // check if type is SetParameter
+                  if (metricToDisplay.name) {
+                    return (
+                      <DetailedAlarmMetricDisplay
+                        key={metricToDisplay.name}
+                        metric={metricToDisplay}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </Row>
+            );
+          })}
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  gaugeRow: {
-    flexDirection: 'row',
-    flex: 1,
-    borderColor: '#CEC3C0',
-    borderWidth: 1,
-    marginTop: 3,
-    marginBottom: 3,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '95%',
-    justifyContent: 'space-around',
-  },
   gaugeContainer: {
     marginBottom: 15,
+    marginTop: 15,
+    flex: 1,
+    justifyContent: 'center',
     width: '100%',
+    alignSelf: 'center',
   },
 });
