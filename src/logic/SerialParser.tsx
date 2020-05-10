@@ -1,6 +1,7 @@
 import Constants from '../constants/Constants';
 import Alarms from '../constants/Alarms';
 import VentilationModes from '../constants/VentilationModes';
+import SetParameter from '../interfaces/SetParameter';
 
 let pressureGraph = new Array(Constants.GraphLength).fill(0);
 let volumeGraph = new Array(Constants.GraphLength).fill(0);
@@ -20,13 +21,22 @@ export const processSerialData = (
     if (interval > Constants.UpdateInterval) {
       interval = 0;
 
-      const measuredVolume = getWordFloat(
+      const setTidalVolme = getWordFloat(packet[20], packet[21], 1, 0);
+      const measuredTidalVolume = getWordFloat(
         packet[8],
         packet[9],
         4000 / 65535,
         -2000,
       );
-      addValueToGraph(measuredVolume, volumeGraph, counterForGraphs);
+      addValueToGraph(measuredTidalVolume, volumeGraph, counterForGraphs);
+      const tidalVolumeParameter: SetParameter = {
+        name: 'Tidal Volume',
+        unit: 'ml',
+        setValue: setTidalVolme,
+        value: measuredTidalVolume,
+        lowerLimit: setTidalVolme - (0.15 * setTidalVolme),
+        upperLimit: setTidalVolme + (0.15 * setTidalVolme),
+      };
 
       const measuredFlowRate = getWordFloat(
         packet[12],
@@ -49,25 +59,102 @@ export const processSerialData = (
         counterForGraphs = 0;
       }
 
+      const setPeep = packet[26] - 30;
+      const measuredPeep = getWordFloat(
+        packet[14],
+        packet[15],
+        40 / 65535,
+        -10,
+      );
+      const peepParameter: SetParameter = {
+        name: 'PEEP',
+        unit: 'cmH2O',
+        setValue: setPeep,
+        value: measuredPeep,
+        lowerLimit: 4,
+        upperLimit: 21,
+      };
+
+      const setInspiratoryPressure = packet[22] - 30;
+
+      const measuredPip = packet[40] - 30;
+      const pipParameter: SetParameter = {
+        name: 'PIP',
+        unit: 'cmH20',
+        setValue: setInspiratoryPressure,
+        value: measuredPip,
+        lowerLimit: setInspiratoryPressure + 5,
+        upperLimit: setInspiratoryPressure - 5,
+      };
+
+      const measuredPlateauPressure = getWordFloat(
+        packet[16],
+        packet[17],
+        90 / 65535,
+        -30,
+      );
+
+      const plateauPressureParameter: SetParameter = {
+        name: 'Plateau Pressure',
+        unit: 'cmH2O',
+        setValue: setInspiratoryPressure,
+        value: measuredPlateauPressure,
+        lowerLimit: setInspiratoryPressure - 1,
+        upperLimit: setInspiratoryPressure + 1,
+      };
+
       const ventilationMode = getVentilationMode(packet[29]);
 
       let currentAlarms = getAlarmValues(packet);
 
+      const setFiO2 = packet[25];
+      const measuredFiO2 = getWordFloat(packet[18], packet[19], 100 / 65535, 0);
+      const fiO2Parameter: SetParameter = {
+        name: 'FiO2',
+        unit: '%',
+        setValue: setFiO2,
+        value: measuredFiO2,
+        lowerLimit: setFiO2 - 10,
+        upperLimit: setFiO2 + 10,
+      };
+
+      const setRespiratoryRate = packet[23];
+      const measuredRespiratoryRate = packet[39];
+      const respiratoryRateParameter: SetParameter = {
+        name: 'Patient Rate',
+        unit: 'BPM',
+        setValue: setRespiratoryRate,
+        value: measuredRespiratoryRate,
+        lowerLimit: setRespiratoryRate - 1,
+        upperLimit: setRespiratoryRate + 1,
+      };
+
+      const setMinuteVentilation = setTidalVolme * setRespiratoryRate;
+      const measuredMinuteVentilation = getWordFloat(packet[34], packet[35], 40 / 65535, 0);
+      const minuteVentilationParameter: SetParameter = {
+        name: 'Minute Ventilation',
+        unit: 'lpm',
+        setValue: setMinuteVentilation,
+        value: measuredMinuteVentilation,
+        lowerLimit: setMinuteVentilation - (0.10 * setMinuteVentilation),
+        upperLimit: setMinuteVentilation + (0.10 * setMinuteVentilation),
+      };
+
       updateReadingStateFunction({
-        peep: packet[26] - 30,
+        peep: peepParameter,
         measuredPressure: measuredPressure,
-        plateauPressure: getWordFloat(packet[16], packet[17], 90 / 65535, -30),
-        patientRate: packet[23],
-        tidalVolume: getWordFloat(packet[20], packet[21], 1, 0),
+        plateauPressure: plateauPressureParameter,
+        respiratoryRate: respiratoryRateParameter,
+        tidalVolume: tidalVolumeParameter,
         ieRatio: (packet[24] & 0x0f) + ':' + (packet[24] & 0xf0) / 16,
         vti: getWordFloat(packet[30], packet[31], 4000 / 65535, -2000),
         vte: getWordFloat(packet[32], packet[33], 4000 / 65535, -2000),
-        minuteVentilation: getWordFloat(packet[34], packet[35], 40 / 65535, 0),
+        minuteVentilation: minuteVentilationParameter,
         inspiratoryTime: 1,
         expiratoryTime: 5,
-        fiO2: packet[25],
+        fiO2: fiO2Parameter,
         flowRate: measuredFlowRate,
-        PIP: packet[40] - 30,
+        pip: pipParameter,
         mode: ventilationMode,
         graphPressure: pressureGraph,
         graphVolume: volumeGraph,
