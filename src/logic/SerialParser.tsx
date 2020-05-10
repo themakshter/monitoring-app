@@ -102,8 +102,7 @@ export const processSerialData = (
       // console.log('updateing');
       updateReadingStateFunction({
         peep: Data[26] - 30,
-        peakPressure: ((Data[10] + Data[11] * 256) * 90) / 65535 - 30,
-        // patientRate: getRandomValue(220),
+        measuredPressure: ((Data[10] + Data[11] * 256) * 90) / 65535 - 30,
         plateauPressure: getWordFloat(Data[16], Data[17], 90 / 65535, -30),
         patientRate: Data[23], //23
         tidalVolume: getWordFloat(Data[20], Data[21], 1, 0),
@@ -111,10 +110,9 @@ export const processSerialData = (
         vti: getWordFloat(Data[30], Data[31], 4000 / 65535, -2000),
         vte: getWordFloat(Data[32], Data[33], 4000 / 65535, -2000),
         minuteVentilation: getWordFloat(Data[34], Data[35], 40 / 65535, 0),
-        //ieRatio: FailedPacket + '/' + TotalPacket,
         inspiratoryTime: 1,
         expiratoryTime: 5,
-        oxygen: Data[25], //25
+        fiO2: Data[25], //25
         flow: 23,
         flowrate: 23,
         PIP: Data[40] - 30,

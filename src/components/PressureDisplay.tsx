@@ -4,12 +4,12 @@ import { BarChart, Grid, YAxis } from 'react-native-svg-charts';
 import MetricDisplay from './MetricDisplay';
 import Colors from '../constants/Colors';
 
-export default function PeepPressure(props: any) {
+export default function PressureDisplay({ measuredPressure, peep, pip }: any) {
   return (
     <View style={{ color: Colors.Borders, height: '100%' }}>
       {/* <Text style={{ color: "grey", alignSelf: "center" }}>Peak Pressure</Text> */}
       <MetricDisplay
-        value={props.PeakPressure}
+        value={measuredPressure}
         title={'Pressure'}
         unit={'cmH2O'}></MetricDisplay>
       <View style={{}}>
@@ -31,7 +31,7 @@ export default function PeepPressure(props: any) {
             style={styles.peepgauge}
             yMin={0}
             yMax={100}
-            data={[props.PeakPressure]}
+            data={[measuredPressure]}
             svg={{ fill: Colors.BarColor }}
             animate={true}
             showGrid={true}
@@ -49,12 +49,12 @@ export default function PeepPressure(props: any) {
           }}>
           <MetricDisplay
             style={styles.peep}
-            value={props.Pip}
+            value={pip}
             title={'PIP'}
             unit={'cmH20'}></MetricDisplay>
           <MetricDisplay
             style={styles.peep}
-            value={props.Peep}
+            value={peep}
             title={'PEEP'}
             unit={'cmH20'}></MetricDisplay>
         </View>

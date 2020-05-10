@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Platform, StyleSheet, View, Text } from 'react-native';
-import PeepPressure from '../components/PeepPressure';
+import PressureDisplay from '../components/PressureDisplay';
 import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
 import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
@@ -15,27 +15,16 @@ import Colors from '../constants/Colors';
 export default function HomeScreen(props: any) {
   const reading = useReading();
   const readingValues = reading.values;
-  // const [PeakPress, setPeakPressure] = useState(10);
-  // const [GraphPressure, setGraphPressure] = useState(new Array(2000).fill(0));
-  // const [GraphVolume, setGraphVolume] = useState(new Array(2000).fill(0));
-  // const [PatientRate, setPatientRate] = useState(0);
-  // const [ITime, setITime] = useState('1.0');
-  // const [VTe, setVTe] = useState(0);
-  // const [IERatio, setIERatio] = useState('1:2.0');
-  // const [Oxygen, setOxygen] = useState(21);
-  // const [PlateauPressure, setPlateauPressure] = useState(21);
-  const [Peep, setPeep] = useState(5);
   const ventilatorConfig = initalVentilatorConfiguration;
-  const patientRate: SetParameter = ventilatorConfig.respiratoryRate;
 
   // console.log('homescreen');
   return (
     <View style={styles.container}>
-      <View style={styles.peakpressure}>
-        <PeepPressure
-          PeakPressure={readingValues.peakPressure}
-          Peep={readingValues.peep}
-          Pip={readingValues.PIP}></PeepPressure>
+      <View style={styles.pressureDisplay}>
+        <PressureDisplay
+          measuredPressure={readingValues.measuredPressure}
+          peep={readingValues.peep}
+          pip={readingValues.PIP}></PressureDisplay>
       </View>
       {/* <View style={styles.valuesandgraphs}> */}
       <View style={styles.graphs}>
@@ -58,7 +47,7 @@ export default function HomeScreen(props: any) {
             numberOfTicks={4}
             fillColor={Colors.graphVolume}
             strokeColor={Colors.graphVolumeStrokeColor}
-            // style={{ maxheight: "50%" }}
+          // style={{ maxheight: "50%" }}
           ></Graphs>
         </View>
         <Text style={styles.graphTitle}>Flow Rate [lpm]</Text>
@@ -70,7 +59,7 @@ export default function HomeScreen(props: any) {
             numberOfTicks={4}
             fillColor={Colors.graphFlow}
             strokeColor={Colors.graphFlowStrokeColor}
-            // style={{ maxheight: "50%" }}
+          // style={{ maxheight: "50%" }}
           ></Graphs>
         </View>
       </View>
@@ -78,7 +67,7 @@ export default function HomeScreen(props: any) {
         <MetricDisplay
           style={styles.configuredvaluedisplay}
           title={'FiO2'}
-          value={readingValues.oxygen}
+          value={readingValues.fiO2}
           unit={'%'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
@@ -87,12 +76,12 @@ export default function HomeScreen(props: any) {
           unit={'BPM'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
-          title={'Tidal Vol'}
+          title={'Tidal Volume'}
           value={readingValues.tidalVolume}
           unit={'ml'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
-          title={'Plateau Press.'}
+          title={'Plateau Pressure'}
           value={readingValues.plateauPressure}
           unit={''}></MetricDisplay>
 
@@ -114,12 +103,12 @@ export default function HomeScreen(props: any) {
           unit={'ml'}></MetricDisplay>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
-          title={'Minute Vent'}
+          title={'Minute Ventilation'}
           value={readingValues.minuteVentilation}
           unit={'slm'}></MetricDisplay>
         <MetricDisplayString
           style={styles.configuredvaluedisplay}
-          title={'Mode'}
+          title={'Ventilation Mode'}
           value={readingValues.mode}
           unit={''}></MetricDisplayString>
       </View>
@@ -141,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.GeneralBackGround,
     padding: 2,
   },
-  peakpressure: {
+  pressureDisplay: {
     flex: 1,
     height: '100%',
     backgroundColor: Colors.GeneralBackGround,
