@@ -4,20 +4,32 @@ import DetailedAlarmMetricDisplay from '../components/DetailedAlarmMetricDisplay
 import { convertArrayToMatrix } from '../utils/helpers';
 import { Row } from '../components/Globals/Row';
 import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
-import SetParameter from 'src/interfaces/SetParameter';
+import SetParameter from '../interfaces/SetParameter';
+import { useReading } from '../logic/useReading';
 
 export default function AlarmsScreen() {
+  const reading = useReading();
+  const readingValues = reading.values;
   const [metrics, setMetrics] = useState<SetParameter[][] | null>(null);
 
   useEffect(() => {
-    const setParameters: SetParameter[] = Object.values(
-      initalVentilatorConfiguration,
-    ).filter((item: SetParameter) => item.name !== undefined);
+    var parameterAlarmComponentsToShow: SetParameter[] = [
+      readingValues.tidalVolume,
+      readingValues.plateauPressure,
+      readingValues.pip,
+      readingValues.peep,
+      readingValues.fiO2,
+      readingValues.respiratoryRate,
+      readingValues.minuteVentilation,
+    ];
 
     setMetrics(() => {
-      return convertArrayToMatrix<SetParameter>(setParameters, 4);
+      return convertArrayToMatrix<SetParameter>(
+        parameterAlarmComponentsToShow,
+        4,
+      );
     });
-  }, []);
+  }, [readingValues]);
 
   return (
     <View style={styles.gaugeContainer}>

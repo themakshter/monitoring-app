@@ -40,15 +40,15 @@ const MetricCard = ({
     <MetricContainer>
       <LimitsContainer>
         <LimitWrapper>
-          <LimitValue>{upperLimit.toFixed(1)}</LimitValue>
+          <LimitValue>{upperLimit.toFixed(0)}</LimitValue>
         </LimitWrapper>
         <LimitWrapper>
-          <LimitValue>{lowerLimit}</LimitValue>
+          <LimitValue>{lowerLimit.toFixed(0)}</LimitValue>
         </LimitWrapper>
       </LimitsContainer>
       <CurrentValueContainer>
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <PresetValue>{setValue}</PresetValue>
+          <PresetValue>{setValue.toFixed(0)}</PresetValue>
         </View>
         <ValueWrapper>
           <Value color={colour}>{value.toFixed(0)}</Value>

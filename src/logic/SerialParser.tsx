@@ -21,7 +21,7 @@ export const processSerialData = (
     if (interval > Constants.UpdateInterval) {
       interval = 0;
 
-      const setTidalVolme = getWordFloat(packet[20], packet[21], 1, 0);
+      const setTidalVolume = getWordFloat(packet[20], packet[21], 1, 0);
       const measuredTidalVolume = getWordFloat(
         packet[8],
         packet[9],
@@ -32,10 +32,10 @@ export const processSerialData = (
       const tidalVolumeParameter: SetParameter = {
         name: 'Tidal Volume',
         unit: 'ml',
-        setValue: setTidalVolme,
+        setValue: setTidalVolume,
         value: measuredTidalVolume,
-        lowerLimit: setTidalVolme - (0.15 * setTidalVolme),
-        upperLimit: setTidalVolme + (0.15 * setTidalVolme),
+        lowerLimit: Math.floor(setTidalVolume - (0.15 * setTidalVolume)),
+        upperLimit: Math.ceil(setTidalVolume + (0.15 * setTidalVolume)),
       };
 
       const measuredFlowRate = getWordFloat(
@@ -80,11 +80,11 @@ export const processSerialData = (
       const measuredPip = packet[40] - 30;
       const pipParameter: SetParameter = {
         name: 'PIP',
-        unit: 'cmH20',
+        unit: 'cmH2O',
         setValue: setInspiratoryPressure,
         value: measuredPip,
-        lowerLimit: setInspiratoryPressure + 5,
-        upperLimit: setInspiratoryPressure - 5,
+        lowerLimit: setInspiratoryPressure - 5,
+        upperLimit: setInspiratoryPressure + 5,
       };
 
       const measuredPlateauPressure = getWordFloat(
@@ -129,15 +129,15 @@ export const processSerialData = (
         upperLimit: setRespiratoryRate + 1,
       };
 
-      const setMinuteVentilation = setTidalVolme * setRespiratoryRate;
+      const setMinuteVentilation = (setTidalVolume / 1000) * setRespiratoryRate;
       const measuredMinuteVentilation = getWordFloat(packet[34], packet[35], 40 / 65535, 0);
       const minuteVentilationParameter: SetParameter = {
         name: 'Minute Ventilation',
         unit: 'lpm',
         setValue: setMinuteVentilation,
         value: measuredMinuteVentilation,
-        lowerLimit: setMinuteVentilation - (0.10 * setMinuteVentilation),
-        upperLimit: setMinuteVentilation + (0.10 * setMinuteVentilation),
+        lowerLimit: Math.floor(setMinuteVentilation - (0.10 * setMinuteVentilation)),
+        upperLimit: Math.ceil(setMinuteVentilation + (0.10 * setMinuteVentilation)),
       };
 
       updateReadingStateFunction({

@@ -14,11 +14,11 @@ export const Value = styled.Text<{
   color: string;
 }>`
   color: ${({ color }) => color};
-  font-size: 50px;
+  font-size: 40px;
 `;
 
 export const Unit = styled.Text`
-  margin-top: 30px;
+  margin-top: 20px;
   font-size: 20px;
 `;
 export const LimitsContainer = styled.View`
@@ -26,6 +26,7 @@ export const LimitsContainer = styled.View`
 `;
 
 export const ValueWrapper = styled.View`
+  justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
   flex: 1;
