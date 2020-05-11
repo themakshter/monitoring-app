@@ -99,8 +99,8 @@ export const processSerialData = (
         unit: 'cmH2O',
         setValue: setInspiratoryPressure,
         value: measuredPlateauPressure,
-        lowerLimit: setInspiratoryPressure - 1,
-        upperLimit: setInspiratoryPressure + 1,
+        lowerLimit: setInspiratoryPressure - 2,
+        upperLimit: setInspiratoryPressure + 2,
       };
 
       const ventilationMode = getVentilationMode(packet[29]);
