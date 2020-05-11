@@ -8,6 +8,7 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import { ProvideReading } from './logic/useReading';
 import FlashMessage from 'react-native-flash-message';
 import AlarmsBanner from './components/AlarmsBanner';
+import KeepAwake from 'react-native-keep-awake';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
         </NavigationContainer>
         <FlashMessage />
       </ProvideReading>
+      <KeepAwake />
     </View>
   );
 }
