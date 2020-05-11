@@ -34,8 +34,8 @@ export const processSerialData = (
         unit: 'ml',
         setValue: setTidalVolume,
         value: measuredTidalVolume,
-        lowerLimit: Math.floor(setTidalVolume - (0.15 * setTidalVolume)),
-        upperLimit: Math.ceil(setTidalVolume + (0.15 * setTidalVolume)),
+        lowerLimit: Math.floor(setTidalVolume - 0.15 * setTidalVolume),
+        upperLimit: Math.ceil(setTidalVolume + 0.15 * setTidalVolume),
       };
 
       const measuredFlowRate = getWordFloat(
@@ -130,14 +130,23 @@ export const processSerialData = (
       };
 
       const setMinuteVentilation = (setTidalVolume / 1000) * setRespiratoryRate;
-      const measuredMinuteVentilation = getWordFloat(packet[34], packet[35], 40 / 65535, 0);
+      const measuredMinuteVentilation = getWordFloat(
+        packet[34],
+        packet[35],
+        40 / 65535,
+        0,
+      );
       const minuteVentilationParameter: SetParameter = {
-        name: 'Minute Ventilation',
+        name: 'Minute Vent.',
         unit: 'lpm',
         setValue: setMinuteVentilation,
         value: measuredMinuteVentilation,
-        lowerLimit: Math.floor(setMinuteVentilation - (0.10 * setMinuteVentilation)),
-        upperLimit: Math.ceil(setMinuteVentilation + (0.10 * setMinuteVentilation)),
+        lowerLimit: Math.floor(
+          setMinuteVentilation - 0.1 * setMinuteVentilation,
+        ),
+        upperLimit: Math.ceil(
+          setMinuteVentilation + 0.1 * setMinuteVentilation,
+        ),
       };
 
       updateReadingStateFunction({

@@ -38,7 +38,7 @@ export default {
   vti: 100,
   vte: 400,
   minuteVentilation: {
-    name: 'Minute Ventilation',
+    name: 'Minute Vent.',
     unit: 'lpm',
     setValue: 10,
     value: 10,
@@ -69,4 +69,8 @@ export default {
   graphVolume: new Array(Constants.GraphLength).fill(200),
   graphFlow: new Array(Constants.GraphLength).fill(150),
   alarms: [],
+  pressureGraph: {
+    upperLimit: 80,
+    lowerLimit: 0,
+  },
 };

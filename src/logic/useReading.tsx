@@ -46,7 +46,7 @@ function useProvideReading() {
     // return () => dummyGenerator.stopGenerating();
     // }, []);
   }, [serialDataHandler.state.connected]);
-
+  // },[]);
   // Return the user object and auth methods
   return {
     values: reading,

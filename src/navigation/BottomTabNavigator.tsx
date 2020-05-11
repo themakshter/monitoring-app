@@ -13,8 +13,8 @@ const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Main';
 
 function LogoTitle(props: any) {
-  const screenName = getHeaderTitle(props.route.name);
-  console.log('title' + screenName);
+  const screenName = getHeaderTitle(props.route);
+  console.log('title' + JSON.stringify(props.route));
   const screenwidth = Dimensions.get('window').width - 30;
   return (
     <View
@@ -57,7 +57,6 @@ export default function BottomTabNavigator({
       backgroundColor: Colors.GeneralBackGround,
     },
   });
-  // console.log(JSON.stringify(route));
   return (
     <BottomTab.Navigator
       initialRouteName={INITIAL_ROUTE_NAME}
@@ -73,6 +72,7 @@ export default function BottomTabNavigator({
         name="Main"
         component={HomeScreen}
         options={{
+          title: 'Main',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-code-working" />
           ),
@@ -82,7 +82,7 @@ export default function BottomTabNavigator({
         name="Alarms"
         component={AlarmsScreen}
         options={{
-          // title: 'Alarms',
+          title: 'Alarms and Monitoring',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-alert" />
           ),
@@ -112,7 +112,7 @@ function getHeaderTitle(route: any) {
     case 'Parameters':
       return 'Parameters';
     case 'Alarms':
-      return 'Alarms';
+      return 'Alarms and Monitoring';
     case 'Monitoring':
       return 'Monitoring';
     case 'LungMechanics':
