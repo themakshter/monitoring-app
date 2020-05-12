@@ -57,17 +57,20 @@ export default function PressureDisplay({
             style={styles.peep}
             value={pip.value}
             title={pip.name}
-            unit={pip.unit}></MetricDisplay>
-          <MetricDisplay
-            style={styles.peep}
-            value={peep.value}
-            title={peep.name}
-            unit={peep.unit}></MetricDisplay>
+            unit={pip.unit}
+          />
           <MetricDisplay
             style={styles.peep}
             title={plateauPressure.name}
             value={plateauPressure.value}
-            unit={plateauPressure.unit}></MetricDisplay>
+            unit={plateauPressure.unit}
+          />
+          <MetricDisplay
+            style={styles.peep}
+            value={peep.value}
+            title={peep.name}
+            unit={peep.unit}
+          />
         </View>
       </View>
     </View>

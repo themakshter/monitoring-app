@@ -66,8 +66,8 @@ export default {
   },
   mode: 'VCV',
   graphPressure: new Array(Constants.GraphLength).fill(40),
-  graphVolume: new Array(Constants.GraphLength).fill(200),
-  graphFlow: new Array(Constants.GraphLength).fill(150),
+  graphVolume: new Array(Constants.GraphLength).fill(400),
+  graphFlow: new Array(Constants.GraphLength).fill(100),
   alarms: [],
   pressureGraph: {
     upperLimit: 80,

@@ -24,7 +24,7 @@ export default function MetricDisplay(props: any) {
       <Text
         style={{
           alignSelf: 'center',
-          fontSize: 30,
+          fontSize: 25,
           color: Colors.ValueColor,
         }}>
         {parseFloat(props.value).toFixed(0)}{' '}
@@ -56,7 +56,7 @@ export function MetricDisplayString(props: any) {
       <Text
         style={{
           alignSelf: 'center',
-          fontSize: 30,
+          fontSize: 25,
           color: Colors.ValueColor,
         }}>
         {props.value}{' '}
