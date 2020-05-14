@@ -6,7 +6,7 @@ import FontSize from '../../constants/FontSize';
 
 function updateAlarmsUI(alarms: string[]) {
   return Object.keys(ALARMS).map((warning) => {
-    let connectionStatus = alarms.includes(warning);
+    let connectionStatus = alarms.some((alarm) => alarm.includes(warning));
 
     return (
       <ConnectionContainer key={warning}>

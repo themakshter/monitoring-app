@@ -9,6 +9,31 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontSize from '../../constants/FontSize';
 
 export const ALARMS = {
+  'System Reset': {
+    status: 'System Running',
+    icon: (status: boolean) => {
+      switch (status) {
+        case true:
+          return (
+            <MaterialCommunityIcons
+              size={FontSize.iconSize}
+              name="replay"
+              color={'red'}
+            />
+          );
+        case false:
+          return (
+            <MaterialCommunityIcons
+              size={FontSize.iconSize}
+              name="play"
+              color={'green'}
+            />
+          );
+        default:
+          return null;
+      }
+    },
+  },
   'Circuit Integrity Failed': {
     status: 'Circuit Integrity Passing',
     icon: (status: boolean) => (

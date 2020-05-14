@@ -13,7 +13,7 @@ export default [
   'Oxygen Failure',
   'Low Tidal Volume',
   'High Tidal Volume',
-  'Ventilation Active at Startup',
+  'System Reset - Please Recheck FiO2, PEEP and Minute Ventilation Settings',
   'Low Minute Ventilation',
   'High Minute Ventilation',
   'Patient Vent Circuit Disconnected',
@@ -23,4 +23,5 @@ export default [
   'Flow Sensor Disconnected',
   'Pressure Sensor Disconnected',
   'Oxygen Sensor Disconnected',
+  'Low Respiratory Rate',
 ];
