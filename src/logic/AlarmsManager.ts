@@ -1,5 +1,6 @@
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import Sound from 'react-native-sound';
+import Layout from '../constants/Layout';
 
 Sound.setCategory('Playback');
 
@@ -31,16 +32,20 @@ function AlarmsManager() {
     const alarmsText = currentAlarms.join('\n');
     alarmSound.play();
     alarmSound.setNumberOfLoops(-1);
-
+    const widthForBanner = Layout.window.width * 0.9;
+    const textAlign = 'center';
     showMessage({
       message: 'Alarm(s) active',
       description: alarmsText,
       type: 'danger',
+      icon: 'danger',
       autoHide: false,
       hideOnPress: true,
       onPress: () => {
         alarmSound.stop();
       },
+      titleStyle: { textAlign: textAlign, width: widthForBanner, fontSize: 20 },
+      textStyle: { textAlign: textAlign, width: widthForBanner, fontSize: 16 },
     });
   }
 
