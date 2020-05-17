@@ -107,15 +107,17 @@ export const processSerialData = (
 
       let currentAlarms = getAlarmValues(packet);
 
-      const setFiO2 = packet[25];
+      const setFiO2lowerBound = packet[25];
+      const setFiO2upperBound = packet[44];
       const measuredFiO2 = getWordFloat(packet[18], packet[19], 100 / 65535, 0);
       const fiO2Parameter: SetParameter = {
         name: 'FiO2',
         unit: '%',
-        setValue: setFiO2,
+        setValue: setFiO2lowerBound,
+        setValueText: `${setFiO2lowerBound}-${setFiO2upperBound}`,
         value: measuredFiO2,
-        lowerLimit: setFiO2 - 10,
-        upperLimit: setFiO2 + 10,
+        lowerLimit: setFiO2lowerBound - 2,
+        upperLimit: setFiO2upperBound + 2,
       };
 
       const setRespiratoryRate = packet[23];

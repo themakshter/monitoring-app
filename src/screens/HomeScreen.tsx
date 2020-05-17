@@ -64,11 +64,11 @@ export default function HomeScreen(props: any) {
         </View>
       </View>
       <View style={styles.configuredvalues}>
-        <MetricDisplay
+        <MetricDisplayString
           style={styles.configuredvaluedisplay}
           title={readingValues.fiO2.name}
-          value={readingValues.fiO2.setValue}
-          unit={readingValues.fiO2.unit}></MetricDisplay>
+          value={readingValues.fiO2.setValueText}
+          unit={readingValues.fiO2.unit}></MetricDisplayString>
         <MetricDisplay
           style={styles.configuredvaluedisplay}
           title={readingValues.respiratoryRate.name}

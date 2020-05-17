@@ -53,6 +53,7 @@ export default {
     lowerLimit: 50,
     unit: '%',
     setValue: 75,
+    setValueText: '40-50',
     value: 75,
   },
   flowRate: 23,
