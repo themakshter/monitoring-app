@@ -16,7 +16,7 @@ export default function Graphs(props: any) {
             data={[props.yMin, props.yMax]}
             contentInset={{ top: 5, bottom: 5 }}
             svg={{
-              fill: Colors.GridLines,
+              fill: Colors.gridLines,
               fontSize: 10,
             }}
             numberOfTicks={props.numberOfTicks}
@@ -34,7 +34,7 @@ export default function Graphs(props: any) {
             // curve={shape.curveNatural}
             // showGrid={true}
             numberOfTicks={props.numberOfTicks}>
-            <Grid numberOfTicks={2} svg={{ stroke: Colors.GridLines }}></Grid>
+            <Grid numberOfTicks={2} svg={{ stroke: Colors.gridLines }}></Grid>
           </AreaChart>
         </View>
       </View>

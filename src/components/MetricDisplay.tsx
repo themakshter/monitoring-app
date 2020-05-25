@@ -18,14 +18,14 @@ export default function MetricDisplay(props: any) {
   // console.log('metric ' + props.title);
   return (
     <View>
-      <Text style={{ color: Colors.TextColor, alignSelf: 'center' }}>
+      <Text style={{ color: Colors.textColor, alignSelf: 'center' }}>
         {props.title}
       </Text>
       <Text
         style={{
           alignSelf: 'center',
           fontSize: 25,
-          color: Colors.ValueColor,
+          color: Colors.valueColor,
         }}>
         {parseFloat(props.value).toFixed(0)}{' '}
         <Text style={{ alignSelf: 'center', fontSize: 15 }}>{props.unit}</Text>
@@ -50,14 +50,14 @@ export function MetricDisplayString(props: any) {
   // console.log('metric ' + props.title);
   return (
     <View>
-      <Text style={{ color: Colors.TextColor, alignSelf: 'center' }}>
+      <Text style={{ color: Colors.textColor, alignSelf: 'center' }}>
         {props.title}
       </Text>
       <Text
         style={{
           alignSelf: 'center',
           fontSize: 25,
-          color: Colors.ValueColor,
+          color: Colors.valueColor,
         }}>
         {props.value}{' '}
         <Text style={{ alignSelf: 'center', fontSize: 15 }}>{props.unit}</Text>

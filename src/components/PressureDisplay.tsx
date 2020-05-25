@@ -12,7 +12,7 @@ export default function PressureDisplay({
   plateauPressure,
 }: any) {
   return (
-    <View style={{ color: Colors.Borders, height: '100%' }}>
+    <View style={{ color: Colors.borders, height: '100%' }}>
       {/* <Text style={{ color: "grey", alignSelf: "center" }}>Peak Pressure</Text> */}
       <MetricDisplay
         value={measuredPressure}
@@ -24,7 +24,7 @@ export default function PressureDisplay({
             data={[0, InitialReading.pressureGraph.upperLimit]}
             contentInset={{ top: 4, bottom: 3 }}
             svg={{
-              fill: Colors.TextColor,
+              fill: Colors.textColor,
               fontSize: 10,
             }}
             numberOfTicks={6}
@@ -38,11 +38,11 @@ export default function PressureDisplay({
             yMin={InitialReading.pressureGraph.lowerLimit}
             yMax={InitialReading.pressureGraph.upperLimit}
             data={[measuredPressure]}
-            svg={{ fill: Colors.BarColor }}
+            svg={{ fill: Colors.barColor }}
             animate={true}
             showGrid={true}
             numberOfTicks={6}>
-            <Grid svg={{ stroke: Colors.GridLines }}></Grid>
+            <Grid svg={{ stroke: Colors.gridLines }}></Grid>
           </BarChart>
           <View style={{ flex: 1 }}></View>
         </View>
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     // alignItems:
     flexGrow: 1,
     borderWidth: 2,
-    borderColor: Colors.GeneralBackGround,
-    borderBottomColor: Colors.Borders,
+    borderColor: Colors.generalBackGround,
+    borderBottomColor: Colors.borders,
     // alignItems: 'stretch',
     justifyContent: 'space-around',
   },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     borderWidth: 2,
-    borderColor: Colors.Borders,
+    borderColor: Colors.borders,
     // width: '30%',
     // flexGrow: 1,
     flex: 1,

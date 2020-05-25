@@ -26,7 +26,7 @@ function LogoTitle(props: any) {
       }}>
       <Text
         style={{
-          color: Colors.TextColor,
+          color: Colors.textColor,
           fontSize: 20,
           textAlignVertical: 'center',
           padding: 10,
@@ -52,19 +52,19 @@ export default function BottomTabNavigator({
   navigation.setOptions({
     headerTitle: (props: any) => <LogoTitle route={route} {...props} />,
     // headerTitle: <LogoTitle></LogoTitle>,
-    headerTintColor: Colors.TextColor,
+    headerTintColor: Colors.textColor,
     headerStyle: {
-      backgroundColor: Colors.GeneralBackGround,
+      backgroundColor: Colors.generalBackGround,
     },
   });
   return (
     <BottomTab.Navigator
       initialRouteName={INITIAL_ROUTE_NAME}
       tabBarOptions={{
-        activeBackgroundColor: Colors.GeneralBackGround,
-        inactiveBackgroundColor: Colors.GeneralBackGround,
-        activeTintColor: Colors.ActiveText,
-        inactiveTintColor: Colors.InactiveText,
+        activeBackgroundColor: Colors.generalBackGround,
+        inactiveBackgroundColor: Colors.generalBackGround,
+        activeTintColor: Colors.activeText,
+        inactiveTintColor: Colors.inactiveText,
         showLabel: true,
       }}
       screenOptions={{}}>
