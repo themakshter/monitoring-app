@@ -26,7 +26,7 @@ export const useReading = () => {
 // Provider hook that creates auth object and handles state
 function useProvideReading() {
   const [reading, setReading] = useState(InitialReading);
-  // const dummyGenerator = DummyDataGenerator(setReading, 20);
+  // const dummyGenerator = DummyDataGenerator(setReading, 50);
   const serialDataHandler = SerialDataHandler({ baudRate: 115200 }, setReading);
 
   // Subscribe to user on mount

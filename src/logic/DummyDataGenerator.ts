@@ -2,36 +2,31 @@ import { processSerialData } from './SerialParser';
 
 export default function dummyDataGenerator(
   updateReadingStateFunction: (value: any) => void,
-  intervalFrequency: number,
+  dataFrequency: number,
 ) {
   let intervalFunction: number;
+  const intervalFrequency = 1000 / dataFrequency;
   let data: string = '';
-  let Counter = 0;
+  let counter = 0;
 
   function generateDummyReadings() {
-    let Data = new Array(49);
-    if (Counter < data.length) {
+    let dataPacket = new Array(49);
+    if (counter < data.length) {
       for (let i = 0; i < 49; i++) {
-        Data[i] = data.substring(Counter, Counter + 1).charCodeAt(0);
-        Counter++;
+        dataPacket[i] = data.substring(counter, counter + 1).charCodeAt(0);
+        counter++;
       }
-
-      processSerialData(Data, updateReadingStateFunction);
+      processSerialData(dataPacket, updateReadingStateFunction);
     }
   }
 
   function startGenerating() {
     var RNFS = require('react-native-fs');
     RNFS.readFileAssets('sample_data.txt', 'ascii').then((result: any) => {
-      // console.log('GOT RESULT', result);
       data = result;
-      // console.log()
-      // stat the first file
     });
     intervalFunction = setInterval(() => {
       generateDummyReadings();
-      // const newReadings = generateDummyReadings();
-      // updateReadingStateFunction(newReadings);
     }, intervalFrequency);
   }
 

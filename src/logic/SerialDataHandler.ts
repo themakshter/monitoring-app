@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { DeviceEventEmitter } from 'react-native';
 import {
   RNSerialport,
@@ -6,7 +5,7 @@ import {
   actions,
   ReturnedDataTypes,
 } from 'react-native-serialport';
-import Constants from '../constants/Constants';
+import DataConfig from '../constants/DataConfig';
 import { processSerialData } from './SerialParser';
 export default function SerialDataHandler(
   serialParameters: any,
@@ -84,11 +83,11 @@ export default function SerialDataHandler(
         // console.log('length ' + SerialBuffer.length);
         if (
           data.payload.length >=
-          Constants.TotalPacketLength - SerialBuffer.length
+          DataConfig.totalPacketLength - SerialBuffer.length
         ) {
           RemainingData = data.payload.splice(
             0,
-            Constants.TotalPacketLength - SerialBuffer.length,
+            DataConfig.totalPacketLength - SerialBuffer.length,
           );
 
           SerialBuffer = SerialBuffer.concat(RemainingData);
@@ -105,11 +104,11 @@ export default function SerialDataHandler(
             data.payload[2] == 0x56 &&
             data.payload[3] == 0x50
           ) {
-            if (data.payload.length >= Constants.TotalPacketLength) {
+            if (data.payload.length >= DataConfig.totalPacketLength) {
               // console.log('len' + data.payload.length);
               RemainingData = data.payload.splice(
                 0,
-                Constants.TotalPacketLength,
+                DataConfig.totalPacketLength,
               );
               SerialBuffer = SerialBuffer.concat(RemainingData);
               processSerialData(SerialBuffer, updateReadingStateFunction);

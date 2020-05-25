@@ -1,11 +1,11 @@
-import Constants from '../constants/Constants';
+import DataConfig from '../constants/DataConfig';
 import Alarms from '../constants/Alarms';
 import VentilationModes from '../constants/VentilationModes';
 import SetParameter from '../interfaces/SetParameter';
 
-let pressureGraph = new Array(Constants.GraphLength).fill(0);
-let volumeGraph = new Array(Constants.GraphLength).fill(0);
-let flowRateGraph = new Array(Constants.GraphLength).fill(0);
+let pressureGraph = new Array(DataConfig.graphLength).fill(0);
+let volumeGraph = new Array(DataConfig.graphLength).fill(0);
+let flowRateGraph = new Array(DataConfig.graphLength).fill(0);
 let totalPackets = 0;
 let failedPackets = 0;
 let interval = 0;
@@ -18,7 +18,7 @@ export const processSerialData = (
   totalPackets++;
   if (processIntegrityCheck(packet)) {
     interval++;
-    if (interval > Constants.UpdateInterval) {
+    if (interval > DataConfig.updateInterval) {
       interval = 0;
 
       const setTidalVolume = getWordFloat(packet[20], packet[21], 1, 0);
@@ -55,7 +55,7 @@ export const processSerialData = (
       addValueToGraph(measuredPressure, pressureGraph, counterForGraphs);
 
       counterForGraphs++;
-      if (counterForGraphs >= Constants.GraphLength) {
+      if (counterForGraphs >= DataConfig.graphLength) {
         counterForGraphs = 0;
       }
 
@@ -181,7 +181,7 @@ export const processSerialData = (
 };
 
 function processIntegrityCheck(packet: any): boolean {
-  if (packet.length > Constants.TotalPacketLength) {
+  if (packet.length > DataConfig.totalPacketLength) {
     return false;
   }
   let crc = 0;
@@ -213,13 +213,13 @@ function addValueToGraph(
   graph: number[],
   counter: number,
 ): void {
-  graph[counter++ % Constants.GraphLength] = value;
-  if (counter >= Constants.GraphLength) {
+  graph[counter++ % DataConfig.graphLength] = value;
+  if (counter >= DataConfig.graphLength) {
     counter = 0;
   }
-  graph[counter % Constants.GraphLength] = 0;
-  graph[(counter + 1) % Constants.GraphLength] = 0;
-  graph[(counter + 2) % Constants.GraphLength] = 0;
+  graph[counter % DataConfig.graphLength] = 0;
+  graph[(counter + 1) % DataConfig.graphLength] = 0;
+  graph[(counter + 2) % DataConfig.graphLength] = 0;
 }
 
 function getAlarmValues(serialData: Array<number>): Array<string> {

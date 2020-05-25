@@ -1,4 +1,4 @@
-import Constants from './Constants';
+import DataConfig from './DataConfig';
 
 export default {
   peep: {
@@ -66,9 +66,9 @@ export default {
     upperLimit: 0,
   },
   mode: 'VCV',
-  graphPressure: new Array(Constants.GraphLength).fill(40),
-  graphVolume: new Array(Constants.GraphLength).fill(400),
-  graphFlow: new Array(Constants.GraphLength).fill(100),
+  graphPressure: new Array(DataConfig.graphLength).fill(40),
+  graphVolume: new Array(DataConfig.graphLength).fill(400),
+  graphFlow: new Array(DataConfig.graphLength).fill(100),
   alarms: [],
   pressureGraph: {
     upperLimit: 80,
