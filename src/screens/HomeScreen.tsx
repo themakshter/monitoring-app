@@ -54,7 +54,7 @@ export default function HomeScreen(props: any) {
         <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
           <Graphs
             data={readingValues.graphFlow}
-            yMin={-100}
+            yMin={-110}
             yMax={100}
             numberOfTicks={4}
             fillColor={Colors.graphFlow}

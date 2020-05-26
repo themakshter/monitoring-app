@@ -9,8 +9,6 @@ export default function Graphs(props: any) {
     <View style={{ color: 'grey:' }}>
       <View>
         <View style={styles.graphwithaxis}>
-          {/* <View style={{ flex: 3 }}> */}
-
           {/* </View> */}
           <YAxis
             data={[props.yMin, props.yMax]}
@@ -29,12 +27,12 @@ export default function Graphs(props: any) {
             yMin={props.yMin}
             yMax={props.yMax}
             data={props.data}
-            svg={{ fill: props.fillColor, stroke: props.strokeColor }}
+            svg={{ fill: props.fillColor, stroke: props.strokeColor, strokeWidth: 3 }}
             // animate={true}
             // curve={shape.curveNatural}
             // showGrid={true}
             numberOfTicks={props.numberOfTicks}>
-            <Grid numberOfTicks={2} svg={{ stroke: Colors.gridLines }}></Grid>
+            <Grid numberOfTicks={2} svg={{ stroke: Colors.generalBackGround, fill: 'none' }}></Grid>
           </AreaChart>
         </View>
       </View>
