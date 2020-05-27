@@ -66,9 +66,9 @@ export default {
     upperLimit: 0,
   },
   mode: 'VCV',
-  graphPressure: new Array(DataConfig.graphLength).fill(40),
-  graphVolume: new Array(DataConfig.graphLength).fill(400),
-  graphFlow: new Array(DataConfig.graphLength).fill(100),
+  graphPressure: new Array(DataConfig.graphLength).fill(null),
+  graphVolume: new Array(DataConfig.graphLength).fill(null),
+  graphFlow: new Array(DataConfig.graphLength).fill(null),
   alarms: [],
   pressureGraph: {
     upperLimit: 80,

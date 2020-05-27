@@ -3,9 +3,9 @@ import Alarms from '../constants/Alarms';
 import VentilationModes from '../constants/VentilationModes';
 import SetParameter from '../interfaces/SetParameter';
 
-let pressureGraph = new Array(DataConfig.graphLength).fill(0);
-let volumeGraph = new Array(DataConfig.graphLength).fill(0);
-let flowRateGraph = new Array(DataConfig.graphLength).fill(0);
+let pressureGraph = new Array(DataConfig.graphLength).fill(null);
+let volumeGraph = new Array(DataConfig.graphLength).fill(null);
+let flowRateGraph = new Array(DataConfig.graphLength).fill(null);
 let totalPackets = 0;
 let failedPackets = 0;
 let interval = 0;
@@ -217,9 +217,19 @@ function addValueToGraph(
   if (counter >= DataConfig.graphLength) {
     counter = 0;
   }
-  graph[counter % DataConfig.graphLength] = 0;
-  graph[(counter + 1) % DataConfig.graphLength] = 0;
-  graph[(counter + 2) % DataConfig.graphLength] = 0;
+
+  addGapToGraph(graph, counter);
+}
+
+function addGapToGraph(graph: number[], currentValueIndex: number): void {
+  const numberOfNullValues = Math.floor(DataConfig.graphLength * 0.02); // 2 % of values should be null
+  for (
+    let i = currentValueIndex;
+    i < currentValueIndex + numberOfNullValues;
+    i++
+  ) {
+    graph[i % DataConfig.graphLength] = null;
+  }
 }
 
 function getAlarmValues(serialData: Array<number>): Array<string> {
