@@ -6,7 +6,7 @@ import { RotationGestureHandler } from 'react-native-gesture-handler';
 
 export default function Graphs(props: any) {
   return (
-    <View style={{ color: 'grey:' }}>
+    <View style={{ color: Colors.graphBarColor }}>
       <View>
         <View style={styles.graphwithaxis}>
           {/* </View> */}

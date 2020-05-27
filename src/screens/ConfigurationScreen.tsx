@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import OptionButton from '../components/OptionButton';
+import Colors from '../constants/Colors';
 
 export default function LinksScreen() {
   return (
@@ -21,7 +22,7 @@ export default function LinksScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor: Colors.generalBackGround,
   },
   contentContainer: {
     paddingTop: 15,

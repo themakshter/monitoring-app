@@ -39,7 +39,7 @@ const MetricCard = ({
       case 'alarm':
         return Colors.errorText;
       default:
-        return 'grey';
+        return Colors.valueColor;
     }
   }
 

@@ -2,6 +2,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+import Colors from '../constants/Colors';
 
 export default function OptionButton({ icon, label, onPress, isLastOption }) {
   return (
@@ -10,9 +11,9 @@ export default function OptionButton({ icon, label, onPress, isLastOption }) {
       onPress={onPress}>
       <View style={{ flexDirection: 'row' }}>
         <View style={styles.optionIconContainer}>
-          <Icon name={icon} size={22} color="rgba(0,0,0,0.35)" />
+          <Icon name={icon} size={22} color={Colors.tabIconDefault} />
         </View>
-        <View style={styles.optionTextContainer}>
+        <View >
           <Text style={styles.optionText}>{label}</Text>
         </View>
       </View>
@@ -25,12 +26,12 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   option: {
-    backgroundColor: '#fdfdfd',
+    backgroundColor: Colors.generalBackGround,
     paddingHorizontal: 15,
     paddingVertical: 15,
     borderWidth: StyleSheet.hairlineWidth,
     borderBottomWidth: 0,
-    borderColor: '#ededed',
+    borderColor: Colors.borders,
   },
   lastOption: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -39,5 +40,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
     marginTop: 1,
+    color: Colors.textColor
   },
 });

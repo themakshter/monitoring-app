@@ -7,7 +7,7 @@ import initalVentilatorConfiguration from '../constants/InitialVentilatorConfigu
 import SetParameter from '../interfaces/SetParameter';
 import { useReading } from '../logic/useReading';
 import { ConnectionsHeader } from '../components/ConnectionsHeader';
-
+import Colors from "../constants/Colors";
 export default function AlarmsScreen() {
   const reading = useReading();
   const readingValues = reading.values;
@@ -36,6 +36,7 @@ export default function AlarmsScreen() {
     <View
       style={{
         flex: 1,
+        backgroundColor: Colors.generalBackGround
       }}>
       <ConnectionsHeader />
       <View style={styles.gaugeContainer}>

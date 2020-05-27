@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Colors from '../../constants/Colors';
 
 export const MetricContainer = styled.View`
   flex-direction: row;
@@ -19,7 +20,9 @@ export const Value = styled.Text<{
 
 export const Unit = styled.Text`
   margin-top: 20px;
+  margin-left: 5px;
   font-size: 20px;
+  color: ${ Colors.textColor };
 `;
 export const LimitsContainer = styled.View`
   flex: 1;
@@ -40,10 +43,11 @@ export const LimitWrapper = styled.View`
 export const LimitValue = styled.Text`
   text-align: center;
   font-size: 30px;
-  color: red;
+  color: ${Colors.warningText};
 `;
 
 export const PresetValue = styled.Text`
   text-align: center;
   font-size: 30px;
+  color: ${Colors.valueColor};
 `;

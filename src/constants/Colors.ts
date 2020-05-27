@@ -24,4 +24,8 @@ export default {
   graphFlowStrokeColor: 'rgba(254,206,171,1)',
   graphPressure: 'rgba(255,132,124,0.1)',
   graphPressureStrokeColor: 'rgba(255,132,124,1)',
+  alarmsHeaderBackground: '#354650',
+  connectionLableColor: '#ffffff',
+  graphBarColor: 'grey',
+  rootViewColor: '#fff'
 };

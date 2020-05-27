@@ -9,6 +9,7 @@ import { ProvideReading } from './logic/useReading';
 import FlashMessage from 'react-native-flash-message';
 import AlarmsBanner from './components/AlarmsBanner';
 import KeepAwake from 'react-native-keep-awake';
+import Colors from './constants/Colors';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.rootViewColor,
   },
 });
