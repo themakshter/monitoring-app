@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext, createContext } from 'react';
 import DummyDataGenerator from './DummyDataGenerator';
 import SerialDataHandler from './SerialDataHandler';
 import InitialReading from '../constants/InitialReading';
+import DataConfig from '../constants/DataConfig';
 
 const readingContext = createContext<any>(null);
 
@@ -26,7 +27,7 @@ export const useReading = () => {
 // Provider hook that creates auth object and handles state
 function useProvideReading() {
   const [reading, setReading] = useState(InitialReading);
-  // const dummyGenerator = DummyDataGenerator(setReading, 50);
+  // const dummyGenerator = DummyDataGenerator(setReading, DataConfig.dataFrequency);
   const serialDataHandler = SerialDataHandler({ baudRate: 115200 }, setReading);
 
   // Subscribe to user on mount

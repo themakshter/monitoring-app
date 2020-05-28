@@ -18,46 +18,46 @@ export const processSerialData = (
   totalPackets++;
   if (processIntegrityCheck(packet)) {
     interval++;
-    if (interval > DataConfig.updateInterval) {
+
+    const setTidalVolume = getWordFloat(packet[20], packet[21], 1, 0);
+    const measuredTidalVolume = getWordFloat(
+      packet[8],
+      packet[9],
+      4000 / 65535,
+      -2000,
+    );
+    addValueToGraph(measuredTidalVolume, volumeGraph, counterForGraphs);
+    const tidalVolumeParameter: SetParameter = {
+      name: 'Tidal Volume',
+      unit: 'ml',
+      setValue: setTidalVolume,
+      value: measuredTidalVolume,
+      lowerLimit: Math.floor(setTidalVolume - 0.15 * setTidalVolume),
+      upperLimit: Math.ceil(setTidalVolume + 0.15 * setTidalVolume),
+    };
+
+    const measuredFlowRate = getWordFloat(
+      packet[12],
+      packet[13],
+      400 / 65535,
+      -200,
+    );
+    addValueToGraph(measuredFlowRate, flowRateGraph, counterForGraphs);
+
+    const measuredPressure = getWordFloat(
+      packet[10],
+      packet[11],
+      90 / 65535,
+      -30,
+    );
+    addValueToGraph(measuredPressure, pressureGraph, counterForGraphs);
+
+    counterForGraphs++;
+    if (counterForGraphs >= DataConfig.graphLength) {
+      counterForGraphs = 0;
+    }
+    if (interval > DataConfig.screenUpdateInterval) {
       interval = 0;
-
-      const setTidalVolume = getWordFloat(packet[20], packet[21], 1, 0);
-      const measuredTidalVolume = getWordFloat(
-        packet[8],
-        packet[9],
-        4000 / 65535,
-        -2000,
-      );
-      addValueToGraph(measuredTidalVolume, volumeGraph, counterForGraphs);
-      const tidalVolumeParameter: SetParameter = {
-        name: 'Tidal Volume',
-        unit: 'ml',
-        setValue: setTidalVolume,
-        value: measuredTidalVolume,
-        lowerLimit: Math.floor(setTidalVolume - 0.15 * setTidalVolume),
-        upperLimit: Math.ceil(setTidalVolume + 0.15 * setTidalVolume),
-      };
-
-      const measuredFlowRate = getWordFloat(
-        packet[12],
-        packet[13],
-        400 / 65535,
-        -200,
-      );
-      addValueToGraph(measuredFlowRate, flowRateGraph, counterForGraphs);
-
-      const measuredPressure = getWordFloat(
-        packet[10],
-        packet[11],
-        90 / 65535,
-        -30,
-      );
-      addValueToGraph(measuredPressure, pressureGraph, counterForGraphs);
-
-      counterForGraphs++;
-      if (counterForGraphs >= DataConfig.graphLength) {
-        counterForGraphs = 0;
-      }
 
       const setPeep = packet[26] - 30;
       const measuredPeep = getWordFloat(
