@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, ViewPropTypes } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { AreaChart, Grid, YAxis } from 'react-native-svg-charts';
 import Colors from '../constants/Colors';
-import { RotationGestureHandler } from 'react-native-gesture-handler';
+import Markers from './Marker';
 
 export default function Graphs(props: any) {
+
   return (
     <View style={{ color: Colors.graphBarColor }}>
       <View>
@@ -22,17 +23,14 @@ export default function Graphs(props: any) {
             style={{ flex: 2 }}
           />
           <AreaChart
-            // contentInset={contentInset}
             style={styles.graph}
             yMin={props.yMin}
             yMax={props.yMax}
             data={props.data}
             svg={{ fill: props.fillColor, stroke: props.strokeColor, strokeWidth: 3 }}
-            // animate={true}
-            // curve={shape.curveNatural}
-            // showGrid={true}
             numberOfTicks={props.numberOfTicks}>
             <Grid numberOfTicks={2} svg={{ stroke: Colors.generalBackGround, fill: 'none' }}></Grid>
+            <Markers markerIndices={props.markers} markerHeight={(props.yMax - props.yMin) * 0.1} />
           </AreaChart>
         </View>
       </View>

@@ -2,6 +2,7 @@ import DataConfig from '../constants/DataConfig';
 import Alarms from '../constants/Alarms';
 import VentilationModes from '../constants/VentilationModes';
 import SetParameter from '../interfaces/SetParameter';
+import { BreathingPhase } from '../enums/BreathingPhase';
 
 let pressureGraph = new Array(DataConfig.graphLength).fill(null);
 let volumeGraph = new Array(DataConfig.graphLength).fill(null);
@@ -10,6 +11,8 @@ let totalPackets = 0;
 let failedPackets = 0;
 let interval = 0;
 let counterForGraphs = 0;
+let breathMarkers: number[] = [];
+let previousBreath: BreathingPhase = BreathingPhase.Wait;
 
 export const processSerialData = (
   packet: any,
@@ -51,6 +54,19 @@ export const processSerialData = (
       -30,
     );
     addValueToGraph(measuredPressure, pressureGraph, counterForGraphs);
+
+    const breathingPhase = getBreathingPhase(packet[29]);
+    if (
+      breathingPhase === BreathingPhase.Inspiratory &&
+      previousBreath !== BreathingPhase.Inspiratory
+    ) {
+      breathMarkers.push(counterForGraphs);
+    } else {
+      breathMarkers = breathMarkers.filter(
+        (value) => value !== counterForGraphs,
+      );
+    }
+    previousBreath = breathingPhase;
 
     counterForGraphs++;
     if (counterForGraphs >= DataConfig.graphLength) {
@@ -172,6 +188,8 @@ export const processSerialData = (
         graphFlow: flowRateGraph,
         packetIntegrityRatio: `${failedPackets} / ${totalPackets}`,
         alarms: currentAlarms,
+        breathingPhase: breathingPhase,
+        breathMarkers: breathMarkers,
       });
       totalPackets++;
     }
@@ -264,4 +282,8 @@ function getVentilationMode(valueToParse: number): string {
   // so we shift the bits to the end to get the actual value
   const ventilationModeIndex = (valueToParse & 0x1c) >> 2;
   return VentilationModes[ventilationModeIndex];
+}
+
+function getBreathingPhase(valueToParse: number): BreathingPhase {
+  return valueToParse & 3;
 }

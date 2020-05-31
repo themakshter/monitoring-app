@@ -1,4 +1,5 @@
 import DataConfig from './DataConfig';
+import { BreathingPhase } from '../enums/BreathingPhase';
 
 export default {
   peep: {
@@ -74,4 +75,6 @@ export default {
     upperLimit: 80,
     lowerLimit: 0,
   },
+  breathingPhase: BreathingPhase.Hold,
+  breathMarkers: [],
 };
