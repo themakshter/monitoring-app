@@ -13,7 +13,7 @@ export default [
   'Oxygen Failure',
   'Low Tidal Volume',
   'High Tidal Volume',
-  'System Reset - Please Recheck FiO2, PEEP and Minute Ventilation Settings',
+  'System Reset - Please Recheck FiO2/PEEP/Minute Ventilation Settings',
   'Low Minute Ventilation',
   'High Minute Ventilation',
   'Patient Vent Circuit Disconnected',

@@ -46,8 +46,6 @@ export default {
     lowerLimit: 9,
     upperLimit: 11,
   },
-  inspiratoryTime: 3,
-  expiratoryTime: 5,
   fiO2: {
     name: 'FiO2',
     upperLimit: 100,
