@@ -23,30 +23,30 @@ export default function dataLogger() {
   function getDataHeaders() {
     return [
       'Timestamp',
-      'Measured Pressure',
-      getSetParameterHeader('Peep'),
-      getSetParameterHeader('PIP'),
-      getSetParameterHeader('Plateau Pressure'),
-      getSetParameterHeader('Patient Rate'),
-      getSetParameterHeader('Tidal Volume'),
+      'Measured Pressure (cmH2O)',
+      getSetParameterHeader('Peep', 'cmH2O'),
+      getSetParameterHeader('PIP', 'cmH2O'),
+      getSetParameterHeader('Plateau Pressure', 'cmH2O'),
+      getSetParameterHeader('Patient Rate', 'BPM'),
+      getSetParameterHeader('Tidal Volume', 'ml'),
       'I/E Ratio',
-      'VTi',
-      'VTe',
-      getSetParameterHeader('Minute Ventilation'),
-      getSetParameterHeader('Fi O2'),
-      'Flow Rate',
+      'VTi (ml)',
+      'VTe (ml)',
+      getSetParameterHeader('Minute Ventilation', 'lpm'),
+      getSetParameterHeader('FiO2', '%'),
+      'Flow Rate (lpm)',
       'Ventilation Mode',
       'Breathing Phase',
       getAlarmHeaders(),
     ].join(',');
   }
 
-  function getSetParameterHeader(parameterName: string) {
+  function getSetParameterHeader(name: string, unit: string) {
     return [
-      `${parameterName} Set Value`,
-      `${parameterName} Measured Value`,
-      `${parameterName} Lower Limit`,
-      `${parameterName} Upper Limit`,
+      `${name} Set Value (${unit})`,
+      `${name} Measured Value (${unit})`,
+      `${name} Lower Limit (${unit})`,
+      `${name} Upper Limit (${unit})`,
     ].join(',');
   }
 
