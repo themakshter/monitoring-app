@@ -9,9 +9,9 @@ import { useReading } from '../logic/useReading';
 import { MetricDisplayString } from '../components/MetricDisplay';
 import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
 import SetParameter from 'src/interfaces/SetParameter';
-
-// import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Colors from '../constants/Colors';
+import TidalVolumeMetricDisplay from '../components/TidalVolumeMetricDisplay';
+
 export default function HomeScreen(props: any) {
   const reading = useReading();
   const readingValues = reading.values;
@@ -78,11 +78,11 @@ export default function HomeScreen(props: any) {
           title={'I:E Ratio'}
           value={readingValues.ieRatio}
           unit={''}></MetricDisplayString>
-        <MetricDisplay
+        <TidalVolumeMetricDisplay
           style={styles.configuredvaluedisplay}
-          title={readingValues.tidalVolume.name}
-          value={readingValues.tidalVolume.setValue}
-          unit={readingValues.tidalVolume.unit}></MetricDisplay>
+          parameter={readingValues.tidalVolume}
+          ventilationMode={readingValues.mode}
+        />
         <MetricDisplay
           style={styles.configuredvaluedisplay}
           title={'VTi'}

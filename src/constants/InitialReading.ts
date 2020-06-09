@@ -64,7 +64,7 @@ export default {
     lowerLimit: 100,
     upperLimit: 0,
   },
-  mode: 'VCV',
+  mode: 'PCV',
   graphPressure: new Array(DataConfig.graphLength).fill(null),
   graphVolume: new Array(DataConfig.graphLength).fill(null),
   graphFlow: new Array(DataConfig.graphLength).fill(null),

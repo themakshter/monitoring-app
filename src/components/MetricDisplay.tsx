@@ -27,7 +27,7 @@ export default function MetricDisplay(props: any) {
           fontSize: 25,
           color: Colors.valueColor,
         }}>
-        {parseFloat(props.value).toFixed(0)}{' '}
+        {props.value != null ? parseFloat(props.value).toFixed(0) : '-'}{' '}
         <Text style={{ alignSelf: 'center', fontSize: 15 }}>{props.unit}</Text>
       </Text>
     </View>
