@@ -42,7 +42,10 @@ function AlarmsManager() {
       autoHide: false,
       hideOnPress: false,
       onPress: () => {
-        alarmSound.stop();
+        // TODO: Create complex alarms object to check priority value instead
+        if (!currentAlarms.includes('High Peak Pressure')) {
+          alarmSound.stop();
+        }
       },
       titleStyle: { textAlign: textAlign, width: widthForBanner, fontSize: 20 },
       textStyle: { textAlign: textAlign, width: widthForBanner, fontSize: 16 },
