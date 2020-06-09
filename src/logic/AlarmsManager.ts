@@ -38,9 +38,9 @@ function AlarmsManager() {
       message: 'Alarm(s) active',
       description: alarmsText,
       type: 'danger',
-      icon: 'danger',
+      icon: 'warning',
       autoHide: false,
-      hideOnPress: true,
+      hideOnPress: false,
       onPress: () => {
         alarmSound.stop();
       },
