@@ -14,23 +14,32 @@ function AlarmsManager() {
       return;
     }
     if (changeInAlarms(newAlarms)) {
+      const isDecreaseInSameAlarms: boolean = decreaseInSameAlarms(newAlarms);
       currentAlarms = newAlarms;
-      handleCurrentAlarms(currentAlarms);
+      handleCurrentAlarms(currentAlarms, isDecreaseInSameAlarms);
     }
   }
 
-  function handleCurrentAlarms(alarms: Array<string>): void {
+  function handleCurrentAlarms(
+    alarms: Array<string>,
+    isDecreaseInSameAlarms: boolean,
+  ): void {
     if (alarms.length === 0) {
       hideMessage();
       alarmSound.stop();
     } else {
-      displayAlarmsBanner();
+      const shouldPlaySound: boolean =
+        !isDecreaseInSameAlarms || highPriorityAlarmsRaised();
+      console.log(shouldPlaySound);
+      displayAlarmsBanner(shouldPlaySound);
     }
   }
 
-  function displayAlarmsBanner(): void {
+  function displayAlarmsBanner(shouldPlaySound: boolean): void {
     const alarmsText = currentAlarms.join('\n');
-    alarmSound.play();
+    if (shouldPlaySound) {
+      alarmSound.play();
+    }
     alarmSound.setNumberOfLoops(-1);
     const widthForBanner = Layout.window.width * 0.9;
     const textAlign = 'center';
@@ -43,7 +52,7 @@ function AlarmsManager() {
       hideOnPress: false,
       onPress: () => {
         // TODO: Create complex alarms object to check priority value instead
-        if (!currentAlarms.includes('High Peak Pressure')) {
+        if (!highPriorityAlarmsRaised()) {
           alarmSound.stop();
         }
       },
@@ -60,6 +69,16 @@ function AlarmsManager() {
         return value === newAlarms[index];
       });
     }
+  }
+
+  function decreaseInSameAlarms(newAlarms: string[]): boolean {
+    return newAlarms.every((alarm) => {
+      return currentAlarms.includes(alarm);
+    });
+  }
+
+  function highPriorityAlarmsRaised(): boolean {
+    return currentAlarms.includes('High Peak Pressure');
   }
 
   return {
