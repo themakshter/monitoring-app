@@ -232,7 +232,10 @@ function addValueToGraph(
   addGapToGraph(graph, counter);
 }
 
-function addGapToGraph(graph: number[], currentValueIndex: number): void {
+function addGapToGraph(
+  graph: Array<null | number>,
+  currentValueIndex: number,
+): void {
   const numberOfNullValues = Math.floor(DataConfig.graphLength * 0.02); // 2 % of values should be null
   for (
     let i = currentValueIndex;

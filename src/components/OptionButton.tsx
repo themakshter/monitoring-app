@@ -4,7 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Colors from '../constants/Colors';
 
-export default function OptionButton({ icon, label, onPress, isLastOption }) {
+export default function OptionButton({
+  icon,
+  label,
+  onPress,
+  isLastOption,
+}: any) {
   return (
     <RectButton
       style={[styles.option, isLastOption && styles.lastOption]}
@@ -13,7 +18,7 @@ export default function OptionButton({ icon, label, onPress, isLastOption }) {
         <View style={styles.optionIconContainer}>
           <Icon name={icon} size={22} color={Colors.tabIconDefault} />
         </View>
-        <View >
+        <View>
           <Text style={styles.optionText}>{label}</Text>
         </View>
       </View>
@@ -40,6 +45,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
     marginTop: 1,
-    color: Colors.textColor
+    color: Colors.textColor,
   },
 });

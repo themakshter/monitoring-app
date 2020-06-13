@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
-import Colors from "../../constants/Colors";
+import Colors from '../../constants/Colors';
 export const ParameterCard = styled.View`
   border-width: 1px;
-  border-color: ${ Colors.borders };
+  border-color: ${Colors.borders};
   margin-left: 20px;
   width: 22%;
   height: 200px;
@@ -16,12 +16,12 @@ export const ParameterHeader = styled.View`
   padding: 10px 30px;
   flex-direction: row;
   justify-content: center;
-  border-color: ${ Colors.borders };
+  border-color: ${Colors.borders};
 `;
 
 export const ParameterHeaderText = styled.Text`
   font-size: 25px;
-  color: ${ Colors.textColor }
+  color: ${Colors.textColor};
 `;
 
 export const MetricView = styled.View`

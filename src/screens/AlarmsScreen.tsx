@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import DetailedAlarmMetricDisplay from '../components/DetailedAlarmMetricDisplay';
 import { convertArrayToMatrix } from '../utils/helpers';
 import { Row } from '../components/Globals/Row';
-import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
 import SetParameter from '../interfaces/SetParameter';
 import { useReading } from '../logic/useReading';
 import { ConnectionsHeader } from '../components/ConnectionsHeader';
-import Colors from "../constants/Colors";
+import Colors from '../constants/Colors';
 export default function AlarmsScreen() {
   const reading = useReading();
   const readingValues = reading.values;
@@ -36,11 +35,10 @@ export default function AlarmsScreen() {
     <View
       style={{
         flex: 1,
-        backgroundColor: Colors.generalBackGround
+        backgroundColor: Colors.generalBackGround,
       }}>
       <ConnectionsHeader />
       <View style={styles.gaugeContainer}>
-        {/* <ScrollView> */}
         {metrics &&
           metrics?.map((row, index) => {
             return (
@@ -61,7 +59,6 @@ export default function AlarmsScreen() {
               </Row>
             );
           })}
-        {/* </ScrollView> */}
       </View>
     </View>
   );

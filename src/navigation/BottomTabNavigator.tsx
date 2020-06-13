@@ -15,14 +15,14 @@ const INITIAL_ROUTE_NAME = 'Main';
 function LogoTitle(props: any) {
   const screenName = getHeaderTitle(props.route);
   console.log('title' + JSON.stringify(props.route));
-  const screenwidth = Dimensions.get('window').width - 30;
+  const screenWidth = Dimensions.get('window').width - 30;
   return (
     <View
       style={{
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: screenwidth,
+        width: screenWidth,
       }}>
       <Text
         style={{
@@ -41,11 +41,7 @@ function LogoTitle(props: any) {
   );
 }
 
-export default function BottomTabNavigator({
-  navigation,
-  route,
-  initialParams,
-}) {
+export default function BottomTabNavigator({ navigation, route }: any) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html

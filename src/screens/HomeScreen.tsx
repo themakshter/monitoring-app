@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Platform, StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import PressureDisplay from '../components/PressureDisplay';
 import Graphs from '../components/Graphs';
 import MetricDisplay from '../components/MetricDisplay';
-import AlarmMetricDisplay from '../components/AlarmMetricDisplay';
 import { useReading } from '../logic/useReading';
 import { MetricDisplayString } from '../components/MetricDisplay';
-import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
-import SetParameter from 'src/interfaces/SetParameter';
 import Colors from '../constants/Colors';
 import TidalVolumeMetricDisplay from '../components/TidalVolumeMetricDisplay';
 
-export default function HomeScreen(props: any) {
+export default function HomeScreen() {
   const reading = useReading();
   const readingValues = reading.values;
-  const ventilatorConfig = initalVentilatorConfiguration;
 
   return (
     <View style={styles.container}>
@@ -24,9 +19,9 @@ export default function HomeScreen(props: any) {
           measuredPressure={readingValues.measuredPressure}
           peep={readingValues.peep}
           pip={readingValues.pip}
-          plateauPressure={readingValues.plateauPressure}></PressureDisplay>
+          plateauPressure={readingValues.plateauPressure}
+        />
       </View>
-      {/* <View style={styles.valuesandgraphs}> */}
       <View style={styles.graphs}>
         <Text style={styles.graphTitle}>Pressure [cmH20]</Text>
         <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
@@ -36,7 +31,8 @@ export default function HomeScreen(props: any) {
             yMax={60}
             numberOfTicks={4}
             fillColor={Colors.graphPressure}
-            strokeColor={Colors.graphPressureStrokeColor}></Graphs>
+            strokeColor={Colors.graphPressureStrokeColor}
+          />
         </View>
         <Text style={styles.graphTitle}>Tidal Volume [ml]</Text>
         <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
@@ -47,7 +43,7 @@ export default function HomeScreen(props: any) {
             numberOfTicks={4}
             fillColor={Colors.graphVolume}
             strokeColor={Colors.graphVolumeStrokeColor}
-          ></Graphs>
+          />
         </View>
         <Text style={styles.graphTitle}>Flow Rate [lpm]</Text>
         <View style={{ flex: 1, paddingTop: 0, paddingBottom: 0 }}>
@@ -59,52 +55,58 @@ export default function HomeScreen(props: any) {
             fillColor={Colors.graphFlow}
             strokeColor={Colors.graphFlowStrokeColor}
             markers={readingValues.breathMarkers}
-          ></Graphs>
+          />
         </View>
       </View>
-      <View style={styles.configuredvalues}>
+      <View style={styles.configuredValues}>
         <MetricDisplay
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={readingValues.fiO2.name}
           value={readingValues.fiO2.value}
-          unit={readingValues.fiO2.unit}></MetricDisplay>
+          unit={readingValues.fiO2.unit}
+        />
         <MetricDisplay
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={readingValues.respiratoryRate.name}
           value={readingValues.respiratoryRate.value}
-          unit={readingValues.respiratoryRate.unit}></MetricDisplay>
+          unit={readingValues.respiratoryRate.unit}
+        />
         <MetricDisplayString
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={'I:E Ratio'}
           value={readingValues.ieRatio}
-          unit={''}></MetricDisplayString>
+          unit={''}
+        />
         <TidalVolumeMetricDisplay
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           parameter={readingValues.tidalVolume}
           ventilationMode={readingValues.mode}
         />
         <MetricDisplay
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={'VTi'}
           value={readingValues.vti}
-          unit={'ml'}></MetricDisplay>
+          unit={'ml'}
+        />
         <MetricDisplay
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={'VTe'}
           value={readingValues.vte}
-          unit={'ml'}></MetricDisplay>
+          unit={'ml'}
+        />
         <MetricDisplay
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={readingValues.minuteVentilation.name}
           value={readingValues.minuteVentilation.value}
-          unit={readingValues.minuteVentilation.unit}></MetricDisplay>
+          unit={readingValues.minuteVentilation.unit}
+        />
         <MetricDisplayString
-          style={styles.configuredvaluedisplay}
+          style={styles.configuredValueDisplay}
           title={'Ventilation Mode'}
           value={readingValues.mode}
-          unit={''}></MetricDisplayString>
+          unit={''}
+        />
       </View>
-      {/* </View> */}
     </View>
   );
 }
@@ -135,14 +137,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.borders,
     margin: 1,
   },
-  valuesandgraphs: {
-    flex: 10,
-    // height: '100%',
-    backgroundColor: Colors.generalBackGround,
-    // padding: 2,
-    flexDirection: 'row',
-  },
-  configuredvalues: {
+  configuredValues: {
     borderWidth: 2,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -154,9 +149,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     margin: 1,
     height: '100%',
-    // width: "100%",
   },
-  configuredvaluedisplay: {
+  configuredValueDisplay: {
     flex: 0.2,
   },
   graphTitle: {
@@ -175,39 +169,5 @@ const styles = StyleSheet.create({
     borderColor: Colors.borders,
     height: '100%',
     margin: 1,
-    // justifyContent: "space-around",
-    // flexGrow: 1,
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
   },
 });

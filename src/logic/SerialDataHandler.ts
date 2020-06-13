@@ -13,12 +13,9 @@ export default function SerialDataHandler(
 ) {
   let SerialBuffer = new Array(0);
 
-  // let intervalFunction: number;
-
-  // let serialParameters: any;
   //to get values from two bytes
   let state = {
-    servisStarted: false,
+    serviceStarted: false,
     connected: false,
     usbAttached: false,
     output: '',
@@ -31,34 +28,26 @@ export default function SerialDataHandler(
   };
 
   function onServiceStarted(response: any) {
-    state.servisStarted = true;
-    // setState(state);
-    // console.warn('on service start');
+    state.serviceStarted = true;
     if (response.deviceAttached) {
       onDeviceAttached();
     }
   }
   function onServiceStopped() {
-    state.servisStarted = false;
-    // setState(state);
+    state.serviceStarted = false;
   }
   function onDeviceAttached() {
     console.warn('Device attached');
     state.usbAttached = true;
-    // setState(state);
   }
   function onDeviceDetached() {
     state.usbAttached = false;
-    // setState(state);
   }
   function onConnected() {
-    // console.warn('connected');
     state.connected = true;
-    // setState(state);
   }
   function onDisconnected() {
     state.connected = false;
-    // setState(state);
   }
   function onError(error: any) {
     console.error(error);
@@ -69,18 +58,18 @@ export default function SerialDataHandler(
 
     // var RNFS = require('react-native-fs');
 
-    // // create a path you want to write to
-    // // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
-    // // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
+    // create a path you want to write to
+    // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
+    // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
     // var path = RNFS.DocumentDirectoryPath + '/logs.txt';
 
     // // write the file
     // RNFS.writeFile(path, data.payload, 'ascii').catch((err) => {
     //   console.log(err.message);
     // });
+
     if (state.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
       if (SerialBuffer.length > 0) {
-        // console.log('length ' + SerialBuffer.length);
         if (
           data.payload.length >=
           DataConfig.totalPacketLength - SerialBuffer.length
@@ -105,7 +94,6 @@ export default function SerialDataHandler(
             data.payload[3] == 0x50
           ) {
             if (data.payload.length >= DataConfig.totalPacketLength) {
-              // console.log('len' + data.payload.length);
               RemainingData = data.payload.splice(
                 0,
                 DataConfig.totalPacketLength,
@@ -114,13 +102,10 @@ export default function SerialDataHandler(
               processSerialData(SerialBuffer, updateReadingStateFunction);
               SerialBuffer = [];
             } else {
-              // console.log('concat partial data' + data.payload.length);
-              // RemainingData = data.payload.splice();
               SerialBuffer = SerialBuffer.concat(RemainingData);
               data.payload = [];
             }
           } else {
-            // console.log('no head');
             data.payload.splice(0, 1);
           }
         }
@@ -160,7 +145,6 @@ export default function SerialDataHandler(
     DeviceEventEmitter.removeAllListeners();
     const isOpen = RNSerialport.isOpen();
     if (isOpen) {
-      // Alert.alert('isOpen', isOpen);
       RNSerialport.disconnect();
     }
     RNSerialport.stopUsbService();

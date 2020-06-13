@@ -27,5 +27,5 @@ export default {
   alarmsHeaderBackground: '#354650',
   connectionLableColor: '#ffffff',
   graphBarColor: 'grey',
-  rootViewColor: '#fff'
+  rootViewColor: '#fff',
 };

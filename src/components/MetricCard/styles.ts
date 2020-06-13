@@ -22,7 +22,7 @@ export const Unit = styled.Text`
   margin-top: 20px;
   margin-left: 5px;
   font-size: 20px;
-  color: ${ Colors.textColor };
+  color: ${Colors.textColor};
 `;
 export const LimitsContainer = styled.View`
   flex: 1;

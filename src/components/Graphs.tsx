@@ -5,12 +5,10 @@ import Colors from '../constants/Colors';
 import Markers from './Marker';
 
 export default function Graphs(props: any) {
-
   return (
-    <View style={{ color: Colors.graphBarColor }}>
+    <View>
       <View>
-        <View style={styles.graphwithaxis}>
-          {/* </View> */}
+        <View style={styles.graphWithAxis}>
           <YAxis
             data={[props.yMin, props.yMax]}
             contentInset={{ top: 5, bottom: 5 }}
@@ -27,32 +25,30 @@ export default function Graphs(props: any) {
             yMin={props.yMin}
             yMax={props.yMax}
             data={props.data}
-            svg={{ fill: props.fillColor, stroke: props.strokeColor, strokeWidth: 3 }}
+            svg={{
+              fill: props.fillColor,
+              stroke: props.strokeColor,
+              strokeWidth: 3,
+            }}
             numberOfTicks={props.numberOfTicks}>
-            <Grid numberOfTicks={2} svg={{ stroke: Colors.generalBackGround, fill: 'none' }}></Grid>
-            <Markers markerIndices={props.markers} markerHeight={(props.yMax - props.yMin) * 0.1} />
+            <Grid svg={{ stroke: Colors.generalBackGround, fill: 'none' }} />
+            <Markers
+              markerIndices={props.markers}
+              markerHeight={(props.yMax - props.yMin) * 0.1}
+            />
           </AreaChart>
         </View>
       </View>
     </View>
-
-    // <Ionicons
-    //   name={props.name}
-    //   size={30}
-    //   style={{ marginBottom: -3 }}
-    //   color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-    // />
   );
 }
 const styles = StyleSheet.create({
-  graphwithaxis: {
+  graphWithAxis: {
     flexDirection: 'row',
     flexGrow: 1,
     height: '100%',
   },
   graph: {
-    // paddingRight: ,
-    // width: '89%',
     flex: 80,
   },
 });
