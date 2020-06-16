@@ -35,7 +35,7 @@ export default {
     lowerLimit: 300,
     upperLimit: 700,
   },
-  ieRatio: '1:2',
+  ieRatio: '1.0 : 2.0',
   vti: 100,
   vte: 400,
   minuteVentilation: {

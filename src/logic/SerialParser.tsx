@@ -157,6 +157,11 @@ export const processSerialData = (
       lowerLimit: Math.floor(setMinuteVentilation - 0.1 * setMinuteVentilation),
       upperLimit: Math.ceil(setMinuteVentilation + 0.1 * setMinuteVentilation),
     };
+
+    const ieInhaleSetPoint = (packet[24] & 0x0f).toFixed(1);
+    const ieExhaleSetPoint = ((packet[24] & 0xf0) / 16).toFixed(1);
+    const ieRatio = `${ieInhaleSetPoint} : ${ieExhaleSetPoint}`;
+
     const reading: any = {
       measuredPressure: measuredPressure,
       peep: peepParameter,
@@ -164,7 +169,7 @@ export const processSerialData = (
       plateauPressure: plateauPressureParameter,
       respiratoryRate: respiratoryRateParameter,
       tidalVolume: tidalVolumeParameter,
-      ieRatio: (packet[24] & 0x0f) + ':' + (packet[24] & 0xf0) / 16,
+      ieRatio: ieRatio,
       vti: getWordFloat(packet[30], packet[31], 4000 / 65535, -2000),
       vte: getWordFloat(packet[32], packet[33], 4000 / 65535, -2000),
       minuteVentilation: minuteVentilationParameter,
