@@ -88,7 +88,7 @@ export const processSerialData = (
 
     const setInspiratoryPressure = packet[22] - 30;
 
-    const measuredPip = packet[40] - 30;
+    const measuredPip = getWordFloat(packet[45], packet[46], 90 / 65535, -30);
     const pipParameter: SetParameter = {
       name: 'PIP',
       unit: 'cmH2O',
