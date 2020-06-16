@@ -6,7 +6,7 @@ Sound.setCategory('Playback');
 
 function AlarmsManager() {
   let currentAlarms: Array<string> = [];
-  let alarmSound = new Sound('alarm.mp3');
+  let alarmSound = new Sound('ventilator_alarm.mp3');
 
   function onNewReading(reading: any) {
     const newAlarms: any = reading.alarms;
