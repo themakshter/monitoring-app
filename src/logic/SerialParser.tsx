@@ -158,9 +158,9 @@ export const processSerialData = (
       upperLimit: Math.ceil(setMinuteVentilation + 0.1 * setMinuteVentilation),
     };
 
-    const ieInhaleSetPoint = (packet[24] & 0x0f).toFixed(1);
-    const ieExhaleSetPoint = ((packet[24] & 0xf0) / 16).toFixed(1);
-    const ieRatio = `${ieInhaleSetPoint} : ${ieExhaleSetPoint}`;
+    const ieInhaledValue = '1.0';
+    const ieExhaleValue = packet[40] * (3 / 255);
+    const ieRatio = `${ieInhaledValue} : ${ieExhaleValue.toFixed(1)}`;
 
     const reading: any = {
       measuredPressure: measuredPressure,
