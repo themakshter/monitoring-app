@@ -15,13 +15,14 @@ export const Value = styled.Text<{
   color: string;
 }>`
   color: ${({ color }) => color};
-  font-size: 40px;
+  font-size: 35px;
+  margin-top: 5px;
 `;
 
 export const Unit = styled.Text`
-  margin-top: 20px;
+  margin-top: 25px;
   margin-left: 5px;
-  font-size: 20px;
+  font-size: 15px;
   color: ${Colors.textColor};
 `;
 export const LimitsContainer = styled.View`
@@ -42,12 +43,12 @@ export const LimitWrapper = styled.View`
 
 export const LimitValue = styled.Text`
   text-align: center;
-  font-size: 30px;
+  font-size: 25px;
   color: ${Colors.warningText};
 `;
 
 export const PresetValue = styled.Text`
   text-align: center;
-  font-size: 30px;
+  font-size: 25px;
   color: ${Colors.valueColor};
 `;
