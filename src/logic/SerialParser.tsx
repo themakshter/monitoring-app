@@ -3,18 +3,9 @@ import Alarms from '../constants/Alarms';
 import VentilationModes from '../constants/VentilationModes';
 import SetParameter from '../interfaces/SetParameter';
 import { BreathingPhase } from '../enums/BreathingPhase';
-import DataLogger from './DataLogger';
 
-let pressureGraph = new Array(DataConfig.graphLength).fill(null);
-let volumeGraph = new Array(DataConfig.graphLength).fill(null);
-let flowRateGraph = new Array(DataConfig.graphLength).fill(null);
 let totalPackets = 0;
 let failedPackets = 0;
-let interval = 0;
-let counterForGraphs = 0;
-let breathMarkers: number[] = [];
-let previousBreath: BreathingPhase = BreathingPhase.Wait;
-const dataLogger = DataLogger();
 
 export const processSerialData = (
   packet: any,
@@ -22,8 +13,6 @@ export const processSerialData = (
 ) => {
   totalPackets++;
   if (processIntegrityCheck(packet)) {
-    interval++;
-
     const setTidalVolume = getWordFloat(packet[20], packet[21], 1, 0);
     const measuredTidalVolume = getWordFloat(
       packet[8],
@@ -31,7 +20,7 @@ export const processSerialData = (
       4000 / 65535,
       -2000,
     );
-    addValueToGraph(measuredTidalVolume, volumeGraph, counterForGraphs);
+
     const tidalVolumeParameter: SetParameter = {
       name: 'Tidal Volume',
       unit: 'ml',
@@ -47,7 +36,6 @@ export const processSerialData = (
       400 / 65535,
       -200,
     );
-    addValueToGraph(measuredFlowRate, flowRateGraph, counterForGraphs);
 
     const measuredPressure = getWordFloat(
       packet[10],
@@ -55,25 +43,8 @@ export const processSerialData = (
       90 / 65535,
       -30,
     );
-    addValueToGraph(measuredPressure, pressureGraph, counterForGraphs);
 
     const breathingPhase = getBreathingPhase(packet[29]);
-    if (
-      breathingPhase === BreathingPhase.Inspiratory &&
-      previousBreath !== BreathingPhase.Inspiratory
-    ) {
-      breathMarkers.push(counterForGraphs);
-    } else {
-      breathMarkers = breathMarkers.filter(
-        (value) => value !== counterForGraphs,
-      );
-    }
-    previousBreath = breathingPhase;
-
-    counterForGraphs++;
-    if (counterForGraphs >= DataConfig.graphLength) {
-      counterForGraphs = 0;
-    }
 
     const setPeep = packet[26] - 30;
     const measuredPeep = getWordFloat(packet[14], packet[15], 40 / 65535, -10);
@@ -176,21 +147,13 @@ export const processSerialData = (
       fiO2: fiO2Parameter,
       flowRate: measuredFlowRate,
       mode: ventilationMode,
-      graphPressure: pressureGraph,
-      graphVolume: volumeGraph,
-      graphFlow: flowRateGraph,
       packetIntegrityRatio: `${failedPackets} / ${totalPackets}`,
       alarms: currentAlarms,
       breathingPhase: breathingPhase,
-      breathMarkers: breathMarkers,
     };
-    dataLogger.onDataReading(reading);
 
     totalPackets++;
-    if (interval > DataConfig.screenUpdateInterval) {
-      interval = 0;
-      updateReadingStateFunction(reading);
-    }
+    updateReadingStateFunction(reading);
   } else {
     failedPackets++;
   }
@@ -222,33 +185,6 @@ function getWordFloat(
   offset: number,
 ): number {
   return (ByteL + ByteH * 256) * multiplier + offset;
-}
-
-function addValueToGraph(
-  value: number,
-  graph: number[],
-  counter: number,
-): void {
-  graph[counter++ % DataConfig.graphLength] = value;
-  if (counter >= DataConfig.graphLength) {
-    counter = 0;
-  }
-
-  addGapToGraph(graph, counter);
-}
-
-function addGapToGraph(
-  graph: Array<null | number>,
-  currentValueIndex: number,
-): void {
-  const numberOfNullValues = Math.floor(DataConfig.graphLength * 0.02); // 2 % of values should be null
-  for (
-    let i = currentValueIndex;
-    i < currentValueIndex + numberOfNullValues;
-    i++
-  ) {
-    graph[i % DataConfig.graphLength] = null;
-  }
 }
 
 function getAlarmValues(serialData: Array<number>): Array<string> {
