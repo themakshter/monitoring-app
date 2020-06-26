@@ -7,12 +7,10 @@ import {
 } from 'react-native-serialport';
 import DataConfig from '../constants/DataConfig';
 import { processSerialData } from './SerialParser';
-import SerialDataRetriever from '../interfaces/SerialDataRetriever';
-
 export default function SerialDataHandler(
   serialParameters: any,
-  onNewPacket: (value: any) => void,
-): SerialDataRetriever {
+  updateReadingStateFunction: (value: any) => void,
+) {
   let SerialBuffer = new Array(0);
 
   //to get values from two bytes
@@ -82,7 +80,7 @@ export default function SerialDataHandler(
           );
 
           SerialBuffer = SerialBuffer.concat(RemainingData);
-          onNewPacket(SerialBuffer);
+          processSerialData(SerialBuffer, updateReadingStateFunction);
           SerialBuffer = [];
         } else {
           SerialBuffer = SerialBuffer.concat(data.payload);
@@ -101,7 +99,7 @@ export default function SerialDataHandler(
                 DataConfig.totalPacketLength,
               );
               SerialBuffer = SerialBuffer.concat(RemainingData);
-              processSerialData(SerialBuffer, onNewPacket);
+              processSerialData(SerialBuffer, updateReadingStateFunction);
               SerialBuffer = [];
             } else {
               SerialBuffer = SerialBuffer.concat(RemainingData);
@@ -153,7 +151,8 @@ export default function SerialDataHandler(
   }
 
   return {
-    start: startUsbListener,
-    stop: stopUsbListener,
+    startUsbListener,
+    stopUsbListener,
+    state,
   };
 }

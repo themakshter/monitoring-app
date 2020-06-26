@@ -6,7 +6,6 @@ import { BreathingPhase } from '../enums/BreathingPhase';
 
 // TODO: Add serial data packets also
 export default function dataLogger() {
-  console.log("creating data logger");
   const nowTimeStamp: string = new Date().toISOString().replace(/\.|:/g, '-');
   const logDirectory: string = `${RNFS.ExternalDirectoryPath}/sessions`;
   const logFile: string = `${nowTimeStamp}.csv`;
