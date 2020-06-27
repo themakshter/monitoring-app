@@ -11,7 +11,7 @@ export default function LinksScreen() {
       contentContainerStyle={styles.contentContainer}>
       <OptionButton
         icon="md-school"
-        label="Configurations"
+        label="Testing Configurations With Debug"
         isLastOption={() => {}}
         onPress={() => {}}
       />
