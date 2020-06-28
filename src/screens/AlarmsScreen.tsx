@@ -7,6 +7,8 @@ import SetParameter from '../interfaces/SetParameter';
 import { useReading } from '../logic/useReading';
 import { ConnectionsHeader } from '../components/ConnectionsHeader';
 import Colors from '../constants/Colors';
+import { log } from '../logic/AppLogger';
+
 export default function AlarmsScreen() {
   const reading = useReading();
   const readingValues = reading.values;
@@ -44,7 +46,7 @@ export default function AlarmsScreen() {
             return (
               <Row key={row[index]?.name || ''}>
                 {row.map((metricToDisplay) => {
-                  console.log(metricToDisplay);
+                  log.debug(metricToDisplay);
                   // check if type is SetParameter
                   if (metricToDisplay.name) {
                     return (

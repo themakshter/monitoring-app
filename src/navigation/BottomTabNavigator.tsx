@@ -9,12 +9,14 @@ import AlarmsScreen from '../screens/AlarmsScreen';
 // import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Colors from '../constants/Colors';
 import { Dimensions } from 'react-native';
+import { log } from '../logic/AppLogger';
+
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Main';
 
 function LogoTitle(props: any) {
   const screenName = getHeaderTitle(props.route);
-  console.log('title' + JSON.stringify(props.route));
+  log.debug('title' + JSON.stringify(props.route));
   const screenWidth = Dimensions.get('window').width - 30;
   return (
     <View

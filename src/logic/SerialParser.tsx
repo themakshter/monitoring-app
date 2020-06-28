@@ -4,6 +4,7 @@ import VentilationModes from '../constants/VentilationModes';
 import SetParameter from '../interfaces/SetParameter';
 import { BreathingPhase } from '../enums/BreathingPhase';
 import DataLogger from './DataLogger';
+import { log } from './AppLogger';
 
 let pressureGraph = new Array(DataConfig.graphLength).fill(null);
 let volumeGraph = new Array(DataConfig.graphLength).fill(null);
@@ -210,7 +211,7 @@ function processIntegrityCheck(packet: any): boolean {
     for (let i = 0; i < packet.length; i++) {
       data = data + ' ' + parseInt(packet[i]);
     }
-    console.log('crc failed ' + data);
+    log.error('crc failed ' + data);
   }
   return false;
 }

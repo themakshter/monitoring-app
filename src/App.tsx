@@ -10,11 +10,12 @@ import FlashMessage from 'react-native-flash-message';
 import AlarmsBanner from './components/AlarmsBanner';
 import KeepAwake from 'react-native-keep-awake';
 import Colors from './constants/Colors';
+import { log } from './logic/AppLogger';
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  console.log('app');
+  log.info('app');
   return (
     <View style={styles.container}>
       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}

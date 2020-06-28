@@ -3,6 +3,7 @@ import Alarms from '../constants/Alarms';
 import SetParameter from '../interfaces/SetParameter';
 import DataConfig from '../constants/DataConfig';
 import { BreathingPhase } from '../enums/BreathingPhase';
+import { log } from './AppLogger';
 
 // TODO: Add serial data packets also
 export default function dataLogger() {
@@ -64,11 +65,11 @@ export default function dataLogger() {
     folderCreationPromise.then(() => {
       RNFS.write(`${logDirectory}/${logFile}`, readingsToAdd + '\n')
         .then(() => {
-          console.log(`written to ${logFile}`);
+          log.info(`written to ${logFile}`);
           readingsCsv = readingsCsv.slice(numberOfReadingsAdded);
         })
         .catch((err) => {
-          console.log(err.message);
+          log.error(err.message);
         });
     });
   }

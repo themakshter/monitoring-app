@@ -7,6 +7,7 @@ import {
 } from 'react-native-serialport';
 import DataConfig from '../constants/DataConfig';
 import { processSerialData } from './SerialParser';
+import { log } from './AppLogger';
 export default function SerialDataHandler(
   serialParameters: any,
   updateReadingStateFunction: (value: any) => void,
@@ -56,7 +57,7 @@ export default function SerialDataHandler(
   function onReadData(data: any) {
     let RemainingData = 0;
 
-    // var RNFS = require('react-native-fs');
+        // var RNFS = require('react-native-fs');
 
     // create a path you want to write to
     // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
@@ -139,8 +140,9 @@ export default function SerialDataHandler(
     RNSerialport.setInterface(parseInt(state.interface, 10));
     RNSerialport.setAutoConnect(true);
     RNSerialport.startUsbService();
-    // console.log('started usb service');
+    log.info('started usb service');
   }
+
   async function stopUsbListener() {
     DeviceEventEmitter.removeAllListeners();
     const isOpen = RNSerialport.isOpen();

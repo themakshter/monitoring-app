@@ -1,4 +1,5 @@
 import { processSerialData } from './SerialParser';
+import { log } from './AppLogger';
 
 export default function dummyDataGenerator(
   updateReadingStateFunction: (value: any) => void,
@@ -21,6 +22,7 @@ export default function dummyDataGenerator(
   }
 
   function startGenerating() {
+    log.info('starting generator');
     var RNFS = require('react-native-fs');
     RNFS.readFileAssets('sample_data.txt', 'ascii').then((result: any) => {
       data = result;
