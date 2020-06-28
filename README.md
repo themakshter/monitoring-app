@@ -1,5 +1,7 @@
 # ventilator-app
 
+![Test](https://github.com/OpenVentPk/ventilator-app/workflows/Test/badge.svg)
+
 Application written in React Native to allow connecting to a ventilator via cable and show information about the ventilation. Our current focus is only on the Android version for now.
 
 ## Features

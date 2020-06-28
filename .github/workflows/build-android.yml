@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build Android Debug APK
 
 on:
   pull_request:
@@ -6,18 +6,7 @@ on:
       - master
 
 jobs:
-  install-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          yarn install
-      - name: Run tests
-        run: |
-          yarn test
   build-android:
-    needs: install-and-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
