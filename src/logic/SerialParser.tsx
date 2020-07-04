@@ -1,10 +1,10 @@
 import DataConfig from '../constants/DataConfig';
-import Alarms from '../constants/Alarms';
 import VentilationModes from '../constants/VentilationModes';
 import SetParameter from '../interfaces/SetParameter';
 import { BreathingPhase } from '../enums/BreathingPhase';
 import DataLogger from './DataLogger';
 import { log } from './AppLogger';
+import { getAlarmValues } from '../utils/SerialParsingHelpers';
 
 let pressureGraph = new Array(DataConfig.graphLength).fill(null);
 let volumeGraph = new Array(DataConfig.graphLength).fill(null);
@@ -252,31 +252,7 @@ function addGapToGraph(
   }
 }
 
-function getAlarmValues(serialData: Array<number>): Array<string> {
-  let alarms: Array<string> = [];
-  var bits = 8;
-  var alarmIndices = [27, 41, 42];
-  for (
-    let alarmIndex = 0;
-    alarmIndex < bits * alarmIndices.length;
-    alarmIndex++
-  ) {
-    let alarmIndexToCheck = Math.floor(alarmIndex / bits);
-    let valueByteToCheckIndex = alarmIndices[alarmIndexToCheck];
-    let valueToCheck = serialData[valueByteToCheckIndex];
-    let bitIndexToCheck = alarmIndex % bits;
-    let isAlarmActive = getValueOfBit(valueToCheck, bitIndexToCheck);
-    if (isAlarmActive) {
-      alarms.push(Alarms[alarmIndex]);
-    }
-  }
-  return alarms;
-}
 
-function getValueOfBit(valueToParse: number, bitIndex: number) {
-  const bitIndexNumberForFindingValue = [1, 2, 4, 8, 16, 32, 64, 128];
-  return valueToParse & bitIndexNumberForFindingValue[bitIndex];
-}
 
 function getVentilationMode(valueToParse: number): string {
   // 0x1C is 00011100 so we find the values contain in bits 2-4

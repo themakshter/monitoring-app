@@ -24,4 +24,5 @@ export default [
   'Pressure Sensor Disconnected',
   'Oxygen Sensor Disconnected',
   'Low Respiratory Rate',
+  'Safe Mode',
 ];
