@@ -3,7 +3,7 @@ name: Create Android Release APK
 # Trigger the workflow on pull request activity
 on:
   release:
-    types: [published, created, edited]
+    types: [published]
 
 jobs:
   build-android:
@@ -22,7 +22,7 @@ jobs:
           RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
         run: |
           echo "$RELEASE_KEYSTORE" > release.keystore.asc
-          gpg -d --passphrase "$RELEASE_KEYSTORE_PASSPHRASE" -- batch release.keystore.asc > ./android/app/release.keystore
+          gpg -d --passphrase "$RELEASE_KEYSTORE_PASSPHRASE" --batch release.keystore.asc > ./android/app/release.keystore
       - name: Grant permissions to gradlew
         run: |
           cd android && chmod +x ./gradlew
