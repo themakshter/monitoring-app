@@ -2,7 +2,7 @@ name: Create Android Release APK
 
 on:
   release:
-    - types: [published]
+    types: [published]
 
 jobs:
   build-android:
