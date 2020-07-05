@@ -1,6 +1,5 @@
 name: Create Android Release APK
 
-# Trigger the workflow on pull request activity
 on:
   release:
     types: [published]
@@ -10,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Display commit message
-        run: |
-          git log --oneline -n 1 HEAD
       - name: Install dependencies
         run: |
           yarn install
@@ -49,7 +45,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./android/app/build/outputs/apk/release/OpenVentPk-ventilator-app-${{ github.event.release.tag_name }}-release.apk
           asset_name: OpenVentPk-ventilator-app-${{ github.event.release.tag_name }}-release.apk
           asset_content_type: application/vnd.android.package-archive
