@@ -1,0 +1,39 @@
+name: Create Android Release APK
+
+on:
+  release:
+    - types: [published]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Display commit message
+        run: |
+          git log --online -n 1 HEAD
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Restore Release JKS
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          RELEASE_KEYSTORE_PASSPHRASE: ${{ secrets.RELEASE_KEYSTORE_PASSPHRASE }}
+        run: |
+          echo "$RELEASE_KEYSTORE" > release.keystore.asc
+          gpg -d --passphrase "$RELEASE_KEYSTORE_PASSPHRASE" -- batch release.keystore.asc > ./android/app/release.keystore
+      - name: Grant permissions to gradlew
+        run: |
+          cd android && chmod +x ./gradlew
+      - name: Generate Android Release APK
+        env:
+          KEY_ALIAS: ${{ secrets.UPLOAD_STORE_KEY_ALIAS }}
+          STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          cd android && ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_FILE="release.keystore" -PMYAPP_UPLOAD_KEY_ALIAS="$KEY_ALIAS" -PMYAPP_UPLOAD_STORE_PASSWORD="$STORE_PASSWORD" -PMYAPP_UPLOAD_KEY_PASSWORD="$KEY_PASSWORD"
+      - name: Upload release build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: android/app/build/outputs/apk/release/
