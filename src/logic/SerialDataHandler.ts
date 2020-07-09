@@ -93,7 +93,6 @@ function SerialDataHandler() {
     // var RNFS = require('react-native-fs');
 
     // create a path you want to write to
-    // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
     // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
     // var path = RNFS.DocumentDirectoryPath + '/logs.txt';
 

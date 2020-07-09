@@ -19,7 +19,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
       <ProvideReading>
         <AlarmsBanner />
         <NavigationContainer>
