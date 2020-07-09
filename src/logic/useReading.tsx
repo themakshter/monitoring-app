@@ -4,6 +4,7 @@ import DummyDataGenerator from './DummyDataGenerator';
 import SerialDataHandler from './SerialDataHandler';
 import InitialReading from '../constants/InitialReading';
 import DataConfig from '../constants/DataConfig';
+import { log } from './AppLogger';
 
 const readingContext = createContext<any>(null);
 
@@ -28,25 +29,23 @@ export const useReading = () => {
 function useProvideReading() {
   const [reading, setReading] = useState(InitialReading);
   // const dummyGenerator = DummyDataGenerator(setReading, DataConfig.dataFrequency);
-  const serialDataHandler = SerialDataHandler({ baudRate: 115200 }, setReading);
 
   // Subscribe to user on mount
   // Because this sets state in the callback it will cause any ...
   // ... component that utilizes this hook to re-render with the ...
   // ... latest auth object.
   useEffect(() => {
-    serialDataHandler.startUsbListener();
-    console.log('starting generator');
+    log.info('Starting SerialDataHandler');
+    SerialDataHandler.startUsbListener(setReading);
+    // console.log('starting generator');
     // dummyGenerator.startGenerating();
     // Cleanup subscription on unmount
     return () => {
-      async function stopUSBListener() {
-        await serialDataHandler.stopUsbListener();
-      }
+      SerialDataHandler.stopUsbListener();
     };
     // return () => dummyGenerator.stopGenerating();
     // }, []);
-  }, [serialDataHandler.state.connected]);
+  }, []);
   // },[]);
   // Return the user object and auth methods
   return {

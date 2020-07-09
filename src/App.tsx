@@ -15,7 +15,8 @@ import { log } from './logic/AppLogger';
 const Stack = createStackNavigator();
 
 export default function App() {
-  log.info('app');
+  log.info('Starting app');
+
   return (
     <View style={styles.container}>
       {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
