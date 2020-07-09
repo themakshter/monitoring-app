@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.openventpkventilatorapp"
+        applicationId "com.openventpk.ventilatorapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 111
