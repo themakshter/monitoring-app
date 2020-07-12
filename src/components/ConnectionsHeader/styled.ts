@@ -23,7 +23,7 @@ export const ConnectionContainer = styled.View`
 export const ConnectionLabel = styled.Text<{
   fontSize: string;
 }>`
-  color: ${Colors.connectionLableColor};
+  color: ${Colors.connectionLabelColor};
   text-align: center;
   width: 80%;
   font-size: ${({ fontSize }) => fontSize};

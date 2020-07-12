@@ -1,21 +1,43 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { default as React, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import OptionButton from '../components/OptionButton';
 import Colors from '../constants/Colors';
+import VentSwitch from '../components/VentSwitch';
+import ConfigSelect from '../components/ConfigSelect';
+import configs from '../constants/Configurables';
+import ToggleUpdate from '../components/UpdateButton';
+import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
 
 export default function LinksScreen() {
+  const [canUpdate, setCanUpdate] = useState(false);
+  const [ventConfigs, setVentConfigs] = useState({...initalVentilatorConfiguration});
+  const [isVentilating, setIsVentilating] = useState(false);
+
+  const handleState = (key: string, value: string | boolean) => {
+    setVentConfigs((prevState: any) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}>
-      <OptionButton
-        icon="md-school"
-        label="Configurations"
-        isLastOption={() => {}}
-        onPress={() => {}}
-      />
-    </ScrollView>
+    <View style={styles.container}>
+      <ToggleUpdate canUpdate={canUpdate} setCanUpdate={setCanUpdate} />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        {Object.keys(configs).map((config) => (
+          <ConfigSelect
+            key={config}
+            label={config}
+            selectedValue={ventConfigs[config]}
+            isEditable={canUpdate}
+            settingsHandler={handleState}
+            unit={configs[config].unit}
+            pickerItems={configs[config].options}
+          />
+        ))}
+      </ScrollView>
+      <VentSwitch switchHandler={setIsVentilating} isVentilating={isVentilating} />
+    </View>
   );
 }
 
@@ -26,5 +48,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 15,
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 });

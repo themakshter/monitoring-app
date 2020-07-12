@@ -25,7 +25,9 @@ export default {
   graphPressure: 'rgba(255,132,124,0.1)',
   graphPressureStrokeColor: 'rgba(255,132,124,1)',
   alarmsHeaderBackground: '#354650',
-  connectionLableColor: '#ffffff',
+  connectionLabelColor: '#ffffff',
   graphBarColor: 'grey',
   rootViewColor: '#fff',
+  startVentilationButtonColor: 'green',
+  stopVentilationButton: '#e71837'
 };
