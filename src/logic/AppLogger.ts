@@ -3,17 +3,19 @@ import { logger, configLoggerType } from 'react-native-logs';
 import { rnFsFileAsync } from 'react-native-logs/dist/transports/rnFsFileAsync';
 import { ansiColorConsoleSync } from 'react-native-logs/dist/transports/ansiColorConsoleSync';
 import * as RNFS from 'react-native-fs';
+import { getTimestampedFilename } from '../utils/FileUtils';
+import AppConfig from '../constants/AppConfig';
 
 console.log('starting global logger');
-const nowTimeStamp: string = new Date().toISOString().replace(/\.|:/g, '-');
-const logDirectory: string = `${RNFS.ExternalDirectoryPath}/app-logs`;
+
+const logDirectory: string = `${AppConfig.internalAppDirectoryPath}/app-logs`;
 RNFS.mkdir(logDirectory);
 
 const config: configLoggerType = {
   transport: (msg, level, options) => {
     ansiColorConsoleSync(msg, level, options);
     rnFsFileAsync(msg, level, {
-      loggerName: `app-log-${nowTimeStamp}`,
+      loggerName: getTimestampedFilename(),
       loggerPath: `${logDirectory}`,
     });
   },

@@ -4,13 +4,12 @@ import SetParameter from '../interfaces/SetParameter';
 import DataConfig from '../constants/DataConfig';
 import { BreathingPhase } from '../enums/BreathingPhase';
 import { log } from './AppLogger';
+import { getTimestampedFilename, createDirectory } from '../utils/FileUtils';
 
 // TODO: Add serial data packets also
 export default function dataLogger() {
-  const nowTimeStamp: string = new Date().toISOString().replace(/\.|:/g, '-');
-  const logDirectory: string = `${RNFS.ExternalDirectoryPath}/sessions`;
-  const logFile: string = `${nowTimeStamp}.csv`;
-  const folderCreationPromise = RNFS.mkdir(logDirectory);
+  const logFile: string = getTimestampedFilename('', '.csv');
+  const logDirectoryCreationPromise = createDirectory('sessions');
   let readingsCsv: string[] = [getDataHeaders()];
   const logFrequency: number =
     (DataConfig.graphLength / DataConfig.dataFrequency) * 1000; // log every time the graph clears
@@ -62,10 +61,11 @@ export default function dataLogger() {
 
   function writeToLogFile(numberOfReadingsAdded: number) {
     const readingsToAdd: string = readingsCsv.join('\n');
-    folderCreationPromise.then(() => {
-      RNFS.write(`${logDirectory}/${logFile}`, readingsToAdd + '\n')
+    logDirectoryCreationPromise.then((logDirectoryPath) => {
+      const logFilePath: string = `${logDirectoryPath}/${logFile}`;
+      RNFS.write(logFilePath, readingsToAdd + '\n')
         .then(() => {
-          log.info(`written to ${logFile}`);
+          log.info(`written to ${logFilePath}`);
           readingsCsv = readingsCsv.slice(numberOfReadingsAdded);
         })
         .catch((err) => {
