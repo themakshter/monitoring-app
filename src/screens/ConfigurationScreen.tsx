@@ -6,11 +6,13 @@ import VentSwitch from '../components/VentSwitch';
 import ConfigSelect from '../components/ConfigSelect';
 import configs from '../constants/Configurables';
 import ToggleUpdate from '../components/UpdateButton';
-import initalVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
+import initialVentilatorConfiguration from '../constants/InitialVentilatorConfiguration';
 
 export default function LinksScreen() {
   const [canUpdate, setCanUpdate] = useState(false);
-  const [ventConfigs, setVentConfigs] = useState({...initalVentilatorConfiguration});
+  const [ventConfigs, setVentConfigs] = useState({
+    ...initialVentilatorConfiguration,
+  });
   const [isVentilating, setIsVentilating] = useState(false);
 
   const handleState = (key: string, value: string | boolean) => {
@@ -27,7 +29,8 @@ export default function LinksScreen() {
         {Object.keys(configs).map((config) => (
           <ConfigSelect
             key={config}
-            label={config}
+            configKey={config}
+            label={configs[config].label}
             selectedValue={ventConfigs[config]}
             isEditable={canUpdate}
             settingsHandler={handleState}
@@ -36,7 +39,10 @@ export default function LinksScreen() {
           />
         ))}
       </ScrollView>
-      <VentSwitch switchHandler={setIsVentilating} isVentilating={isVentilating} />
+      <VentSwitch
+        switchHandler={setIsVentilating}
+        isVentilating={isVentilating}
+      />
     </View>
   );
 }

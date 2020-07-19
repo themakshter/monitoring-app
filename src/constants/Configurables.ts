@@ -1,31 +1,41 @@
+import VentilationModes from './VentilationModes';
+
 export default {
-  'Ventilation Mode': {
-    options: ['PCV', 'VCV', 'AC-PCV', 'AC-VCV', 'CPAP'],
+  ventilationMode: {
+    label: 'Ventilation Mode',
+    options: VentilationModes,
   },
-  'I:E Ratio': {
-    options: ['1:1', '1:2']
+  ieRatio: {
+    label: 'I:E Ratio',
+    options: ['1:1', '1:2'],
   },
-  'Respiratory Rate': {
+  respiratoryRate: {
+    label: 'Respiratory Rate',
     unit: 'bpm',
-    options: [12, 16, 20]
+    options: [12, 16, 20],
   },
-  'Tidal Volume	': {
+  tidalVolume: {
+    label: 'Tidal Volume',
     unit: 'ml',
-    options: [200, 350, 450]
+    options: [200, 350, 450],
   },
-  'Pressure': {
+  pressure: {
+    label: 'Ventilation Mode',
     unit: 'cmH2O',
-    options: [15, 20, 25]
+    options: [15, 20, 25],
   },
-  'Flow Trigger': {
+  flowTrigger: {
+    label: 'Flow Trigger',
     unit: 'lpm',
-    options: [1, 3, 5]
+    options: [1, 3, 5],
   },
-  'PEEP': {
+  peep: {
+    label: 'PEEP',
     unit: 'cmH20',
-    options: [0, 5, 10, 15]
+    options: [0, 5, 10, 15],
   },
-  'FiO2': {
+  fiO2: {
+    label: 'FiO2',
     unit: '%',
     options: [
       '20 - 30',
@@ -35,7 +45,7 @@ export default {
       '60 - 70',
       '70 - 80',
       '80 - 90',
-      '90 - 100'	
-    ]
-  }
+      '90 - 100',
+    ],
+  },
 };

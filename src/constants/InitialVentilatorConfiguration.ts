@@ -1,12 +1,12 @@
-const initalVentilatorConfiguration = {
-  'Ventilation Mode': 'PCV',
-  'I:E Ratio': '1:1',
-  'Respiratory Rate': 12,
-  'Tidal Volume': 200,
-  'Pressure': 15,
-  'Flow Trigger': 1,
-  'PEEP': 0,
-  'FiO2': '20 - 30',
-}
+const initialVentilatorConfiguration = {
+  ventilationMode: 'PCV',
+  ieRatio: '1:1',
+  respiratoryRate: 12,
+  tidalVolume: 200,
+  pressure: 15,
+  flowTrigger: 1,
+  peep: 0,
+  fiO2: '20 - 30',
+};
 
-export default initalVentilatorConfiguration;
+export default initialVentilatorConfiguration;

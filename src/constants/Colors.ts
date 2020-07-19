@@ -29,5 +29,5 @@ export default {
   graphBarColor: 'grey',
   rootViewColor: '#fff',
   startVentilationButtonColor: 'green',
-  stopVentilationButton: '#e71837'
+  stopVentilationButton: '#e71837',
 };

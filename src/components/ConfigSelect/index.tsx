@@ -9,6 +9,7 @@ import {
 } from '../Globals/ConfigMetric';
 
 interface ConfigSelectProps {
+  configKey: string;
   label: string;
   unit: string | undefined;
   pickerItems: Array<{
@@ -20,6 +21,7 @@ interface ConfigSelectProps {
 }
 
 const ConfigSelect = ({
+  configKey,
   label,
   unit,
   pickerItems,
@@ -37,7 +39,7 @@ const ConfigSelect = ({
           enabled={isEditable}
           selectedValue={selectedValue}
           style={{ height: 50, width: 150 }}
-          onValueChange={(itemValue) => settingsHandler(label, itemValue)}>
+          onValueChange={(itemValue) => settingsHandler(configKey, itemValue)}>
           {pickerItems.map((value) => (
             <Picker.Item
               key={`${value}`}
