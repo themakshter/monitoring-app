@@ -87,63 +87,73 @@ function SerialDataHandler() {
   }
 
   function onReadData(data: any) {
-    log.info(`Received payload: ${JSON.stringify(data.payload)}`);
-    let RemainingData = 0;
+    let { payload } = data;
+    log.info(`Received payload: ${JSON.stringify(payload)}`);
 
-    // var RNFS = require('react-native-fs');
-
-    // create a path you want to write to
-    // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-    // var path = RNFS.DocumentDirectoryPath + '/logs.txt';
-
-    // // write the file
-    // RNFS.writeFile(path, data.payload, 'ascii').catch((err) => {
-    //   console.log(err.message);
-    // });
-
-    if (config.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
+    while (payload.length < 0) {
+      // we keep extracting data from our payload until it is empty
       if (SerialBuffer.length > 0) {
+        // if our SerialBuffer contains values, that means we were in the
+        // middle of filling it up, so we need to keep adding values from
+        // the payload until it equals the packet length before sending it
+        // off for parsing
         if (
-          data.payload.length >=
+          payload.length >=
           DataConfig.totalPacketLength - SerialBuffer.length
         ) {
-          RemainingData = data.payload.splice(
-            0,
-            DataConfig.totalPacketLength - SerialBuffer.length,
+          // if our packet contains more values than we need to fill our buffer,
+          // we will extract the number of values we need to fill our buffer,
+          // send it off for parsing and empty it afterwards. Then, our while
+          // loop should restart
+          SerialBuffer = SerialBuffer.concat(
+            payload.splice(
+              0,
+              DataConfig.totalPacketLength - SerialBuffer.length,
+            ),
           );
-
-          SerialBuffer = SerialBuffer.concat(RemainingData);
           processSerialData(SerialBuffer, updateReadingStateFunction);
           SerialBuffer = [];
         } else {
-          SerialBuffer = SerialBuffer.concat(data.payload);
+          // our payload did not have enough to fill our serial buffer,
+          // so we just fill it up with all the values in the payload,
+          // and set it to empty so we can exit out of our while loop
+          // and read the next set of data sent our way
+          SerialBuffer = SerialBuffer.concat(payload);
+          payload = [];
         }
       } else {
-        while (data.payload.length > 0) {
-          if (
-            data.payload[0] == 0x24 &&
-            data.payload[1] == 0x4f &&
-            data.payload[2] == 0x56 &&
-            data.payload[3] == 0x50
-          ) {
-            if (data.payload.length >= DataConfig.totalPacketLength) {
-              RemainingData = data.payload.splice(
-                0,
-                DataConfig.totalPacketLength,
-              );
-              SerialBuffer = SerialBuffer.concat(RemainingData);
-              processSerialData(SerialBuffer, updateReadingStateFunction);
-              SerialBuffer = [];
-            } else {
-              SerialBuffer = SerialBuffer.concat(RemainingData);
-              data.payload = [];
-            }
-          } else {
-            log.info(
-              'Did not find the header values - moving up one value in payload index',
+        // we did not have anything in our serial, so we need to check
+        // where our data packet will start from, so we can fill in our
+        // serial buffer with the values from there onwards
+        if (
+          payload[0] == 0x24 &&
+          payload[1] == 0x4f &&
+          payload[2] == 0x56 &&
+          payload[3] == 0x50
+        ) {
+          if (payload.length >= DataConfig.totalPacketLength) {
+            // Our payload contains more values than we need to fill
+            // our packet for parsing, so we extract the amount needed
+            // to fill our serial buffer and send it off for parsing
+            // loop will restart where we will start creating the next
+            // suitable packet
+            SerialBuffer = SerialBuffer.concat(
+              payload.splice(0, DataConfig.totalPacketLength),
             );
-            data.payload.splice(0, 1);
+            processSerialData(SerialBuffer, updateReadingStateFunction);
+            SerialBuffer = [];
+          } else {
+            // Our packet did not contain enough to fill our buffer, so we fill
+            // whatever we can, and then empty our packet to ready ourselves for
+            // next data read
+            SerialBuffer = SerialBuffer.concat(payload);
+            payload = [];
           }
+        } else {
+          log.info(
+            'Did not find the header values - moving up one value in payload index',
+          );
+          payload.splice(0, 1);
         }
       }
     }
