@@ -15,24 +15,19 @@ const logDirectory: string = `${AppConfig.internalAppDirectoryPath}/app-logs`;
 RNFS.mkdir(logDirectory);
 
 const config: configLoggerType = {
+  severity: __DEV__ ? 'debug' : 'info',
   transport: (props) => {
     consoleTransport(props);
     fileAsyncTransport(props);
   },
   transportOptions: {
     FS: RNFS,
-    logDirectory: `${logDirectory}`,
-    fileName: getTimestampedFilename(),
+    filePath: logDirectory,
+    fileName: `${getTimestampedFilename()}.txt`,
   },
   dateFormat: 'utc',
 };
 
 var log = logger.createLogger(config);
-
-if (__DEV__) {
-  log.setSeverity('debug');
-} else {
-  log.setSeverity('info');
-}
 
 export { log };
