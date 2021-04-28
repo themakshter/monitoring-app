@@ -1,7 +1,10 @@
 //config.js
-import { logger, configLoggerType } from 'react-native-logs';
-import { rnFsFileAsync } from 'react-native-logs/dist/transports/rnFsFileAsync';
-import { ansiColorConsoleSync } from 'react-native-logs/dist/transports/ansiColorConsoleSync';
+import {
+  logger,
+  configLoggerType,
+  consoleTransport,
+  fileAsyncTransport,
+} from 'react-native-logs';
 import * as RNFS from 'react-native-fs';
 import { getTimestampedFilename } from '../utils/FileUtils';
 import AppConfig from '../constants/AppConfig';
@@ -12,13 +15,16 @@ const logDirectory: string = `${AppConfig.internalAppDirectoryPath}/app-logs`;
 RNFS.mkdir(logDirectory);
 
 const config: configLoggerType = {
-  transport: (msg, level, options) => {
-    ansiColorConsoleSync(msg, level, options);
-    rnFsFileAsync(msg, level, {
-      loggerName: getTimestampedFilename(),
-      loggerPath: `${logDirectory}`,
-    });
+  transport: (props) => {
+    consoleTransport(props);
+    fileAsyncTransport(props);
   },
+  transportOptions: {
+    FS: RNFS,
+    logDirectory: `${logDirectory}`,
+    fileName: getTimestampedFilename(),
+  },
+  dateFormat: 'utc',
 };
 
 var log = logger.createLogger(config);

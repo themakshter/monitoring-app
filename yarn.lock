@@ -5419,10 +5419,10 @@ react-native-keep-awake@4.0.0:
   resolved "https://registry.yarnpkg.com/react-native-keep-awake/-/react-native-keep-awake-4.0.0.tgz#d89fdc3fb60b3cffa979ef37dc5816196df998a2"
   integrity sha512-0Fotox+eLXQooeibVs3P60yASYUWjtRw9MZNmbuHt5UZQrgUrAKsE4jm7gTr4tPU1m1RkwGzcgUFpcOkh/ec7g==
 
-react-native-logs@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-logs/-/react-native-logs-2.2.1.tgz#ede856bae603957d6796e805e130a288e11b749d"
-  integrity sha512-yWS2sPy3ZksYBt9C6Ga7YkBWOFT3E/onLluyci42iv29MWcQim0i59vUmZgIFgg2NwC04IQi04xfK5GiSZvyrQ==
+react-native-logs@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-logs/-/react-native-logs-3.0.3.tgz#10bc6a24010dad2bcf9b3b7eacc27f6a3796ed01"
+  integrity sha512-Fnkoe9f1taxY8MiONGdPVaQPDml01i7oSYY+pxk/2fthJv24Z/Tlw22p8dgkuJ3SiwBHc71WlzQ4asKR5FPKbw==
 
 react-native-reanimated@1.8.0:
   version "1.8.0"

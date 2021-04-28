@@ -58,7 +58,7 @@ function SerialDataHandler() {
     RNSerialport.getDeviceList()
       .then((devices: Devices) => {
         state.deviceList = devices;
-        log.info(`Devices: ${devices}`);
+        log.info(`Devices: ${JSON.stringify(devices)}`);
       })
       .catch((error: IOnError) => {
         log.error(
@@ -87,7 +87,7 @@ function SerialDataHandler() {
   }
 
   function onReadData(data: any) {
-    log.info(`Received data: ${data}`);
+    log.info(`Received payload: ${JSON.stringify(data.payload)}`);
     let RemainingData = 0;
 
     // var RNFS = require('react-native-fs');
@@ -139,6 +139,9 @@ function SerialDataHandler() {
               data.payload = [];
             }
           } else {
+            log.info(
+              'Did not find the header values - moving up one value in payload index',
+            );
             data.payload.splice(0, 1);
           }
         }
