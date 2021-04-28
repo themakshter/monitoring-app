@@ -133,8 +133,8 @@ android {
         applicationId "com.openventpk.ventilatorapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 121
-        versionName "0.12.1"
+        versionCode 122
+        versionName "0.12.2"
         archivesBaseName = "OpenVentPk-ventilator-app-$versionName"
     }
     splits {
