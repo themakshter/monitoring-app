@@ -5,12 +5,13 @@ import VentilationModes from '../constants/VentilationModes';
 import { BreathingPhase } from '../enums/BreathingPhase';
 
 export function parseDataPacket(packet: number[]): PacketReading {
-  const setTidalVolume = getWordFloat(packet[20], packet[21], 1, 0);
-  const measuredTidalVolume = getWordFloat(
-    packet[8],
-    packet[9],
-    4000 / 65535,
-    -2000,
+  const setTidalVolume = toFixedNumber(
+    getWordFloat(packet[20], packet[21], 1, 0),
+    2,
+  );
+  const measuredTidalVolume = toFixedNumber(
+    getWordFloat(packet[8], packet[9], 4000 / 65535, -2000),
+    2,
   );
 
   const tidalVolumeParameter: SetParameter = {
@@ -22,23 +23,22 @@ export function parseDataPacket(packet: number[]): PacketReading {
     upperLimit: Math.ceil(setTidalVolume + 0.15 * setTidalVolume),
   };
 
-  const measuredFlowRate = getWordFloat(
-    packet[12],
-    packet[13],
-    400 / 65535,
-    -200,
+  const measuredFlowRate = toFixedNumber(
+    getWordFloat(packet[12], packet[13], 400 / 65535, -200),
+    2,
   );
 
-  const measuredPressure = getWordFloat(
-    packet[10],
-    packet[11],
-    90 / 65535,
-    -30,
+  const measuredPressure = toFixedNumber(
+    getWordFloat(packet[10], packet[11], 90 / 65535, -30),
+    2,
   );
   const breathingPhase = getBreathingPhase(packet[29]);
 
   const setPeep = packet[26] - 30;
-  const measuredPeep = getWordFloat(packet[14], packet[15], 40 / 65535, -10);
+  const measuredPeep = toFixedNumber(
+    getWordFloat(packet[14], packet[15], 40 / 65535, -10),
+    2,
+  );
   const peepParameter: SetParameter = {
     name: 'PEEP',
     unit: 'cmH2O',
@@ -50,7 +50,10 @@ export function parseDataPacket(packet: number[]): PacketReading {
 
   const setInspiratoryPressure = packet[22] - 30;
 
-  const measuredPip = getWordFloat(packet[45], packet[46], 90 / 65535, -30);
+  const measuredPip = toFixedNumber(
+    getWordFloat(packet[45], packet[46], 90 / 65535, -30),
+    2,
+  );
   const pipParameter: SetParameter = {
     name: 'PIP',
     unit: 'cmH2O',
@@ -60,11 +63,9 @@ export function parseDataPacket(packet: number[]): PacketReading {
     upperLimit: setInspiratoryPressure + 5,
   };
 
-  const measuredPlateauPressure = getWordFloat(
-    packet[16],
-    packet[17],
-    90 / 65535,
-    -30,
+  const measuredPlateauPressure = toFixedNumber(
+    getWordFloat(packet[16], packet[17], 90 / 65535, -30),
+    2,
   );
 
   const plateauPressureParameter: SetParameter = {
@@ -82,7 +83,10 @@ export function parseDataPacket(packet: number[]): PacketReading {
 
   const setFiO2lowerBound = packet[25];
   const setFiO2upperBound = packet[44];
-  const measuredFiO2 = getWordFloat(packet[18], packet[19], 100 / 65535, 0);
+  const measuredFiO2 = toFixedNumber(
+    getWordFloat(packet[18], packet[19], 100 / 65535, 0),
+    2,
+  );
   const fiO2Parameter: SetParameter = {
     name: 'FiO2',
     unit: '%',
@@ -104,12 +108,13 @@ export function parseDataPacket(packet: number[]): PacketReading {
     upperLimit: setRespiratoryRate + 1,
   };
 
-  const setMinuteVentilation = (setTidalVolume / 1000) * setRespiratoryRate;
-  const measuredMinuteVentilation = getWordFloat(
-    packet[34],
-    packet[35],
-    40 / 65535,
-    0,
+  const setMinuteVentilation = toFixedNumber(
+    (setTidalVolume / 1000) * setRespiratoryRate,
+    2,
+  );
+  const measuredMinuteVentilation = toFixedNumber(
+    getWordFloat(packet[34], packet[35], 40 / 65535, 0),
+    2,
   );
   const minuteVentilationParameter: SetParameter = {
     name: 'Minute Vent.',
@@ -132,8 +137,14 @@ export function parseDataPacket(packet: number[]): PacketReading {
     respiratoryRate: respiratoryRateParameter,
     tidalVolume: tidalVolumeParameter,
     ieRatio: ieRatio,
-    vti: getWordFloat(packet[30], packet[31], 4000 / 65535, -2000),
-    vte: getWordFloat(packet[32], packet[33], 4000 / 65535, -2000),
+    vti: toFixedNumber(
+      getWordFloat(packet[30], packet[31], 4000 / 65535, -2000),
+      2,
+    ),
+    vte: toFixedNumber(
+      getWordFloat(packet[32], packet[33], 4000 / 65535, -2000),
+      2,
+    ),
     minuteVentilation: minuteVentilationParameter,
     fiO2: fiO2Parameter,
     flowRate: measuredFlowRate,
@@ -164,4 +175,13 @@ function getVentilationMode(valueToParse: number): string {
 
 function getBreathingPhase(valueToParse: number): BreathingPhase {
   return valueToParse & 3;
+}
+
+function toFixedNumber(
+  value: number,
+  digits: number,
+  base: number = 10,
+): number {
+  const pow = Math.pow(base || 10, digits);
+  return Math.round(value * pow) / pow;
 }
