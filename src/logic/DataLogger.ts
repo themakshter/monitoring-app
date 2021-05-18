@@ -5,6 +5,7 @@ import DataConfig from '../constants/DataConfig';
 import { BreathingPhase } from '../enums/BreathingPhase';
 import { log } from './AppLogger';
 import { getTimestampedFilename, createDirectory } from '../utils/FileUtils';
+import { PacketReading } from '../interfaces/PacketReading';
 
 // TODO: Add serial data packets also
 export default function dataLogger() {
@@ -54,7 +55,7 @@ export default function dataLogger() {
     return Alarms.join(',');
   }
 
-  function onDataReading(reading: any) {
+  function onDataReading(reading: PacketReading) {
     const readingInCsv = getCsvFormat(reading);
     readingsCsv.push(readingInCsv);
   }
@@ -74,7 +75,7 @@ export default function dataLogger() {
     });
   }
 
-  function getCsvFormat(reading: any): string {
+  function getCsvFormat(reading: PacketReading): string {
     const {
       peep,
       measuredPressure,
