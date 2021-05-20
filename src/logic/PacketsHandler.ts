@@ -1,6 +1,5 @@
 import DataConfig from '../constants/DataConfig';
 import { processSerialData } from './SerialParser';
-import { log } from './AppLogger';
 
 function PacketsHandler() {
   let SerialBuffer = new Array(0);
@@ -43,9 +42,6 @@ function PacketsHandler() {
             packet = [];
           }
         } else {
-          log.info(
-            'Did not find the header values - moving up one value in payload index',
-          );
           packet.splice(0, 1);
         }
       }

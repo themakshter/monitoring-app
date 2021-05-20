@@ -11,8 +11,7 @@ import {
 
 import { log } from './AppLogger';
 import SerialDataHandlerState from '../interfaces/SerialDataHandlerState';
-import PacketsHandler from './PacketHandler';
-import PacketHandler from './PacketHandler';
+import PacketsHandler from './PacketsHandler';
 
 function SerialDataHandler() {
   //to get values from two bytes
@@ -93,7 +92,7 @@ function SerialDataHandler() {
   }
 
   function startUsbListener(parsedReadingsCallback: (value: any) => void) {
-    PacketHandler.setCallbackFunction(parsedReadingsCallback);
+    PacketsHandler.setCallbackFunction(parsedReadingsCallback);
     addListeners();
     RNSerialport.setReturnedDataType(config.returnedDataType);
     RNSerialport.setAutoConnectBaudRate(config.baudRate);
