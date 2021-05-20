@@ -8,15 +8,13 @@ import {
   IOnError,
   Devices,
 } from 'react-native-serialport';
-import DataConfig from '../constants/DataConfig';
-import { processSerialData } from './SerialParser';
+
 import { log } from './AppLogger';
 import SerialDataHandlerState from '../interfaces/SerialDataHandlerState';
+import PacketsHandler from './PacketHandler';
+import PacketHandler from './PacketHandler';
 
 function SerialDataHandler() {
-  let SerialBuffer = new Array(0);
-  let updateReadingStateFunction: (value: any) => void;
-
   //to get values from two bytes
   let state: SerialDataHandlerState = {
     serviceStarted: false,
@@ -88,69 +86,14 @@ function SerialDataHandler() {
 
   function onReadData(data: any) {
     log.info(`Received payload: ${JSON.stringify(data.payload)}`);
-    let RemainingData = 0;
-
-    // var RNFS = require('react-native-fs');
-
-    // create a path you want to write to
-    // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-    // var path = RNFS.DocumentDirectoryPath + '/logs.txt';
-
-    // // write the file
-    // RNFS.writeFile(path, data.payload, 'ascii').catch((err) => {
-    //   console.log(err.message);
-    // });
 
     if (config.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
-      if (SerialBuffer.length > 0) {
-        if (
-          data.payload.length >=
-          DataConfig.totalPacketLength - SerialBuffer.length
-        ) {
-          RemainingData = data.payload.splice(
-            0,
-            DataConfig.totalPacketLength - SerialBuffer.length,
-          );
-
-          SerialBuffer = SerialBuffer.concat(RemainingData);
-          processSerialData(SerialBuffer, updateReadingStateFunction);
-          SerialBuffer = [];
-        } else {
-          SerialBuffer = SerialBuffer.concat(data.payload);
-        }
-      } else {
-        while (data.payload.length > 0) {
-          if (
-            data.payload[0] == 0x24 &&
-            data.payload[1] == 0x4f &&
-            data.payload[2] == 0x56 &&
-            data.payload[3] == 0x50
-          ) {
-            if (data.payload.length >= DataConfig.totalPacketLength) {
-              RemainingData = data.payload.splice(
-                0,
-                DataConfig.totalPacketLength,
-              );
-              SerialBuffer = SerialBuffer.concat(RemainingData);
-              processSerialData(SerialBuffer, updateReadingStateFunction);
-              SerialBuffer = [];
-            } else {
-              SerialBuffer = SerialBuffer.concat(RemainingData);
-              data.payload = [];
-            }
-          } else {
-            log.info(
-              'Did not find the header values - moving up one value in payload index',
-            );
-            data.payload.splice(0, 1);
-          }
-        }
-      }
+      PacketsHandler.handleDataPacket(data.payload);
     }
   }
 
   function startUsbListener(parsedReadingsCallback: (value: any) => void) {
-    updateReadingStateFunction = parsedReadingsCallback;
+    PacketHandler.setCallbackFunction(parsedReadingsCallback);
     addListeners();
     RNSerialport.setReturnedDataType(config.returnedDataType);
     RNSerialport.setAutoConnectBaudRate(config.baudRate);
