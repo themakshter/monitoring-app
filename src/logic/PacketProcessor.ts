@@ -1,6 +1,6 @@
 import DataConfig from '../constants/DataConfig';
 
-function PacketsHandler() {
+function PacketProcessor() {
   let SerialBuffer = new Array(0);
   let updateReadingStateFunction: (value: any) => void;
   let serialProcessingFunction: (
@@ -21,7 +21,7 @@ function PacketsHandler() {
     serialProcessingFunction = processFunction;
   }
 
-  function handleDataPacket(packet: number[]) {
+  function processDataPacket(packet: number[]) {
     let RemainingData;
     if (SerialBuffer.length > 0) {
       if (packet.length >= DataConfig.totalPacketLength - SerialBuffer.length) {
@@ -62,8 +62,8 @@ function PacketsHandler() {
   return {
     setCallbackFunction,
     setProcessFunction,
-    handleDataPacket,
+    handleDataPacket: processDataPacket,
   };
 }
 
-export default PacketsHandler();
+export default PacketProcessor();

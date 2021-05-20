@@ -12,7 +12,7 @@ import {
 import { log } from './AppLogger';
 import SerialDataHandlerState from '../interfaces/SerialDataHandlerState';
 import { processSerialData } from './SerialParser';
-import PacketsHandler from './PacketsHandler';
+import PacketProcessor from './PacketProcessor';
 
 function SerialDataHandler() {
   //to get values from two bytes
@@ -88,13 +88,13 @@ function SerialDataHandler() {
     log.info(`Received payload: ${JSON.stringify(data.payload)}`);
 
     if (config.returnedDataType === definitions.RETURNED_DATA_TYPES.INTARRAY) {
-      PacketsHandler.handleDataPacket(data.payload);
+      PacketProcessor.handleDataPacket(data.payload);
     }
   }
 
   function startUsbListener(parsedReadingsCallback: (value: any) => void) {
-    PacketsHandler.setCallbackFunction(parsedReadingsCallback);
-    PacketsHandler.setProcessFunction(processSerialData);
+    PacketProcessor.setCallbackFunction(parsedReadingsCallback);
+    PacketProcessor.setProcessFunction(processSerialData);
     addListeners();
     RNSerialport.setReturnedDataType(config.returnedDataType);
     RNSerialport.setAutoConnectBaudRate(config.baudRate);

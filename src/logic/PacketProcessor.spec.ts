@@ -1,6 +1,6 @@
-import PacketsHandler from './PacketsHandler';
+import PacketProcessor from './PacketProcessor';
 
-test('verify correct packet handling', () => {
+test('verify correct packet processing ch340g', () => {
   const actualPacketReadings: number[][] = [];
 
   const appendActualReadings = (packet: number[]) => {
@@ -25,10 +25,10 @@ test('verify correct packet handling', () => {
 
   const expectedPackets = JSON.parse(JSON.stringify(testPackets));
 
-  PacketsHandler.setCallbackFunction(appendActualReadings);
-  PacketsHandler.setProcessFunction(dummyProcessFunction);
+  PacketProcessor.setCallbackFunction(appendActualReadings);
+  PacketProcessor.setProcessFunction(dummyProcessFunction);
   for (let testPacket of testPackets) {
-    PacketsHandler.handleDataPacket(testPacket);
+    PacketProcessor.handleDataPacket(testPacket);
   }
 
   expect(actualPacketReadings).toStrictEqual(expectedPackets);
