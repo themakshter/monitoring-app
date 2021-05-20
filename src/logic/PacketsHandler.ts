@@ -1,12 +1,24 @@
 import DataConfig from '../constants/DataConfig';
-import { processSerialData } from './SerialParser';
 
 function PacketsHandler() {
   let SerialBuffer = new Array(0);
   let updateReadingStateFunction: (value: any) => void;
+  let serialProcessingFunction: (
+    packet: number[],
+    callbackFunction: (value: any) => void,
+  ) => void;
 
   function setCallbackFunction(callback: (value: any) => void): void {
     updateReadingStateFunction = callback;
+  }
+
+  function setProcessFunction(
+    processFunction: (
+      packet: number[],
+      callbackFunction: (value: any) => void,
+    ) => void,
+  ): void {
+    serialProcessingFunction = processFunction;
   }
 
   function handleDataPacket(packet: number[]) {
@@ -19,7 +31,7 @@ function PacketsHandler() {
         );
 
         SerialBuffer = SerialBuffer.concat(RemainingData);
-        processSerialData(SerialBuffer, updateReadingStateFunction);
+        serialProcessingFunction(SerialBuffer, updateReadingStateFunction);
         SerialBuffer = [];
       } else {
         SerialBuffer = SerialBuffer.concat(packet);
@@ -35,7 +47,7 @@ function PacketsHandler() {
           if (packet.length >= DataConfig.totalPacketLength) {
             RemainingData = packet.splice(0, DataConfig.totalPacketLength);
             SerialBuffer = SerialBuffer.concat(RemainingData);
-            processSerialData(SerialBuffer, updateReadingStateFunction);
+            serialProcessingFunction(SerialBuffer, updateReadingStateFunction);
             SerialBuffer = [];
           } else {
             SerialBuffer = SerialBuffer.concat(RemainingData);
@@ -49,6 +61,7 @@ function PacketsHandler() {
   }
   return {
     setCallbackFunction,
+    setProcessFunction,
     handleDataPacket,
   };
 }
